@@ -11,7 +11,7 @@ def login(request):
         password = request.POST.get('password', None)
         print(username)
         print(password)
-        return redirect('home')
+        return render(request,'login_system/home.html')
     return render(request,'login_system/login.html')
 
 def home(request):
