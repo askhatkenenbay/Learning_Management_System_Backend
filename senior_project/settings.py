@@ -25,7 +25,7 @@ SECRET_KEY = '$@l04x*37j^*a_w@f0m30x$*b@0@d!345*cqy(e3mlx6g3_c97'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['seds.school','www.seds.school']
 
 
 # Application definition
@@ -76,16 +76,16 @@ WSGI_APPLICATION = 'senior_project.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.mysql',
-#         'NAME': 'LMSdb',
-#         'USER': 'admin',
-#         'PASSWORD': 'Qjuehnghj1',
-#         'PORT': 3306,
-#         'HOST': 'lms.cbqhsdnvih9y.eu-west-2.rds.amazonaws.com',
-#     }
-# }
+DATABASES = {
+     'default': {
+         'ENGINE': 'django.db.backends.mysql',
+         'NAME': 'LMSdb',
+         'USER': 'admin',
+         'PASSWORD': 'Qjuehnghj1',
+         'PORT': 3306,
+         'HOST': 'lms.cbqhsdnvih9y.eu-west-2.rds.amazonaws.com',
+     }
+}
 
 
 
@@ -140,6 +140,6 @@ EMAIL_HOST_PASSWORD = ''
 DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
 AWS_STORAGE_BUCKET_NAME = 'storagelms'
 AWS_S3_REGION_NAME = 'eu-north-1'
-AWS_ACCESS_KEY_ID = ''
-AWS_SECRET_ACCESS_KEY = ''
+AWS_ACCESS_KEY_ID = 'AKIA2JC6UHOVK7FYL7CV'
+AWS_SECRET_ACCESS_KEY = '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'
 AWS_S3_FILE_OVERWRITE = False
