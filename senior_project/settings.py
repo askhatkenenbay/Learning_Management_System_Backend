@@ -32,6 +32,7 @@ ALLOWED_HOSTS = ['3.137.207.252','seds.school','www.seds.school']
 
 INSTALLED_APPS = [
     'login_system.apps.LoginSystemConfig',
+    'alldata.apps.AlldataConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -76,10 +77,15 @@ WSGI_APPLICATION = 'senior_project.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'LMSdb',
+        'USER': 'admin',
+        'PASSWORD': 'Qjuehnghj1',
+        'PORT': 3306,
+        'HOST': 'lms.cbqhsdnvih9y.eu-west-2.rds.amazonaws.com',
     }
 }
+
 
 
 # Password validation
