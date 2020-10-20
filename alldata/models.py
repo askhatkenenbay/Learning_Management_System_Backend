@@ -2,6 +2,7 @@ from django.db import models
 
 class School(models.Model):
     name = models.CharField(primary_key=True, max_length=45)
+    full_name = models.CharField(max_length=100)
 
     class Meta:
         db_table = 'school'
@@ -26,9 +27,9 @@ class User(models.Model):
     email = models.CharField(max_length=45)
     password = models.CharField(max_length=45)
     phone_number = models.CharField(max_length=45, blank=True, null=True)
-    profile_photo = models.CharField(max_length=45)
-    gender = models.CharField(max_length=45)
-    role = models.CharField(max_length=45)
+    profile_photo = models.CharField(max_length=250)
+    gender = models.CharField(max_length=45, choices=[('male', 'male'), ('female', 'female')])
+    role = models.CharField(max_length=45, choices=[('student', 'student'),('instructor','instructor'),('admin','admin')])
 
     class Meta:
         db_table = 'user'
@@ -48,9 +49,9 @@ class Instructor(models.Model):
 class Student(models.Model):
     studentid = models.AutoField(db_column='studentID', primary_key=True)  # Field name made lowercase.
     user_userid = models.ForeignKey('User', on_delete=models.CASCADE, db_column='user_userID')  # Field name made lowercase.
-    level = models.CharField(max_length=45)
-    year_of_study = models.IntegerField()
-    academic_status = models.CharField(max_length=45)
+    level = models.CharField(max_length=45, choices=[('Foundation', 'Foundation'),('Undegraduate','Undegraduate'),('Graduate','Graduate'), ('Phd','Phd')])
+    year_of_study = models.IntegerField(choices=[('0', '0'),('1','1'),('2','2'),('3','3'), ('4','4')])
+    academic_status = models.CharField(max_length=45, choices=[('Good', 'Good'),('Probation','Probation')])
     schedule_approve = models.BooleanField(default=False)
     schedule_lock = models.BooleanField(default=False)
 
@@ -61,10 +62,11 @@ class Student(models.Model):
 
 class Course(models.Model):
     courseid = models.AutoField(db_column='courseID', primary_key=True)  # Field name made lowercase.
+    course_code = models.CharField(max_length=45)
     title = models.CharField(max_length=45)
     credits = models.IntegerField()
-    level = models.IntegerField()
-    description = models.CharField(max_length=45)
+    level = models.CharField(max_length=45, choices=[('Foundation', 'Foundation'),('Undegraduate','Undegraduate'),('Graduate','Graduate'), ('Phd','Phd')])
+    description = models.CharField(max_length=250)
     department_name = models.ForeignKey('Department', on_delete=models.CASCADE, db_column='department_name')
 
     class Meta:
@@ -74,18 +76,19 @@ class Course(models.Model):
 
 class Priority(models.Model):
     course_courseid = models.ForeignKey(Course, on_delete=models.CASCADE, db_column='course_courseID')  # Field name made lowercase.
-    type = models.CharField(max_length=45)
-    year = models.IntegerField()
+    type = models.IntegerField(choices=[('1','1'),('2','2'),('3','3')])
+    year = models.IntegerField(choices=[('0', '0'),('1','1'),('2','2'),('3','3'), ('4','4')])
 
     class Meta:
         db_table = 'priority'
         unique_together = (('course_courseid', 'type'),)
+        verbose_name = 'Priority for Course'
 
 
 class Requisite(models.Model):
     course_courseid = models.ForeignKey(Course, on_delete=models.CASCADE, db_column='course_courseID')  # Field name made lowercase.
     req_course_courseid = models.ForeignKey(Course, on_delete=models.CASCADE, db_column='req_course_courseID', related_name='requisite_course')  # Field name made lowercase.
-    type = models.CharField(max_length=45)
+    type = models.CharField(max_length=45, choices=[('pre-requisite', 'pre-requisite'),('co-requisite','co-requisite'),('anti-requisite','anti-requisite')])
     is_optional = models.BooleanField(default=False)
 
     class Meta:
@@ -95,13 +98,14 @@ class Requisite(models.Model):
 
 class Registrationdate(models.Model):
     registrationid = models.AutoField(db_column='registrationID', primary_key=True)  # Field name made lowercase.
-    priority = models.IntegerField()
-    year = models.IntegerField()
+    priority = models.IntegerField(choices=[('1','1'),('2','2'),('3','3')])
+    year = models.IntegerField(choices=[('0', '0'),('1','1'),('2','2'),('3','3'), ('4','4')])
     open_time = models.DateTimeField()
     close_time = models.DateTimeField()
 
     class Meta:
         db_table = 'registrationDate'
+        verbose_name = 'Registration Date'
 
 
 class Coursesection(models.Model):
@@ -110,7 +114,8 @@ class Coursesection(models.Model):
     num_type = models.CharField(max_length=45)
     start_time = models.TimeField()
     end_time = models.TimeField()
-    semester = models.CharField(max_length=45)
+    semester = models.CharField(max_length=45, choices=[('Fall', 'Fall'),('Spring','Spring'),('Summer','Summer')])
+    year = models.IntegerField()
     capacity = models.IntegerField()
     room = models.CharField(max_length=45)
     total_points = models.IntegerField()
@@ -118,14 +123,16 @@ class Coursesection(models.Model):
     class Meta:
         db_table = 'courseSection'
         unique_together = (('sectionid', 'course_courseid'),)
+        verbose_name = 'Course Section'
 
 
 class Sectionday(models.Model):
     coursesection_sectionid = models.ForeignKey(Coursesection, on_delete=models.CASCADE, db_column='courseSection_sectionID')  # Field name made lowercase.
-    day = models.CharField(max_length=45)
+    day = models.CharField(max_length=45, choices=[('M', 'Monday'),('T','Tuesday'),('W','Wednesday'), ('R','Thursday'),('F','Friday'),('S','Saturday')])
 
     class Meta:
         db_table = 'sectionDay'
+        verbose_name = 'Section Day'
 
 
 class Advice(models.Model):
@@ -135,52 +142,57 @@ class Advice(models.Model):
     class Meta:
         db_table = 'advice'
         unique_together = (('instructor_instructorid', 'student_studentid'),)
+        verbose_name = 'Student Advisor'
 
 
 class CourseInstructor(models.Model):
     instructor_instructorid = models.ForeignKey('Instructor', on_delete=models.CASCADE, db_column='instructor_instructorID')  # Field name made lowercase.
-    course_courseid = models.ForeignKey(Course, on_delete=models.CASCADE, db_column='course_courseID')  # Field name made lowercase.
+    coursesection_sectionid = models.ForeignKey(Coursesection, on_delete=models.CASCADE, db_column='courseSection_sectionID')   # Field name made lowercase.
 
     class Meta:
         db_table = 'course_instructor'
-        unique_together = (('instructor_instructorid', 'course_courseid'),)
+        unique_together = (('instructor_instructorid', 'coursesection_sectionid'),)
+        verbose_name = 'Course Instructor'
 
 
 class StudentEnrollment(models.Model):
     student_studentid = models.ForeignKey(Student, on_delete=models.CASCADE, db_column='student_studentID')  # Field name made lowercase.
-    course_courseid = models.ForeignKey(Course, on_delete=models.CASCADE, db_column='course_courseID')  # Field name made lowercase.
+    coursesection_sectionid = models.ForeignKey(Coursesection, on_delete=models.CASCADE, db_column='courseSection_sectionID')   # Field name made lowercase.
 
     class Meta:
         db_table = 'student_enrollment'
-        unique_together = (('student_studentid', 'course_courseid'),)
+        unique_together = (('student_studentid', 'coursesection_sectionid'),)
+        verbose_name = 'Student Enrollment'
 
 
 class CourseGrades(models.Model):
     student_studentid = models.ForeignKey('Student', on_delete=models.CASCADE, db_column='student_studentID')  # Field name made lowercase.
-    course_courseid = models.ForeignKey(Course, on_delete=models.CASCADE, db_column='course_courseID')  # Field name made lowercase.
-    midterm_grade = models.CharField(max_length=45, blank=True, null=True)
+    coursesection_sectionid = models.ForeignKey(Coursesection, on_delete=models.CASCADE, db_column='courseSection_sectionID')   # Field name made lowercase.
+    midterm_grade = models.CharField(max_length=45, blank=True, null=True, choices=[('S','S'),('NS','NS')])
     final_grade = models.CharField(max_length=45, blank=True, null=True)
 
     class Meta:
         db_table = 'course_grades'
-        unique_together = (('student_studentid', 'course_courseid'),)
+        unique_together = (('student_studentid', 'coursesection_sectionid'),)
+        verbose_name = 'Student Grade'
 
 
 class Coursepagemodule(models.Model):
     moduleid = models.AutoField(db_column='moduleID', primary_key=True)  # Field name made lowercase.
     coursesection_sectionid = models.ForeignKey('Coursesection', on_delete=models.CASCADE, db_column='courseSection_sectionID')  # Field name made lowercase.
-    title = models.CharField(max_length=45)
+    title = models.CharField(max_length=100)
     order = models.IntegerField()
 
     class Meta:
         db_table = 'coursePageModule'
         unique_together = (('moduleid', 'coursesection_sectionid'),)
+        verbose_name = 'Course Page Module'
 
 
 class Announcement(models.Model):
     announcementid = models.AutoField(db_column='announcementID', primary_key=True)  # Field name made lowercase.
-    coursesection_sectionid = models.ForeignKey('Coursesection', on_delete=models.CASCADE, db_column='courseSection_sectionID')  # Field name made lowercase.    
-    text = models.CharField(max_length=45)
+    coursesection_sectionid = models.ForeignKey('Coursesection', on_delete=models.CASCADE, db_column='courseSection_sectionID')  # Field name made lowercase.
+    text = models.CharField(max_length=250)
     date = models.DateTimeField()
 
     class Meta:
@@ -200,7 +212,7 @@ class AnnouncementNotification(models.Model):
 
 class Discussion(models.Model):
     discussionid = models.AutoField(db_column='discussionID', primary_key=True)  # Field name made lowercase.
-    coursepagemodule_moduleid = models.ForeignKey(Coursepagemodule, on_delete=models.CASCADE, db_column='coursePageModule_moduleID')  # Field name made lowercase.    
+    coursepagemodule_moduleid = models.ForeignKey(Coursepagemodule, on_delete=models.CASCADE, db_column='coursePageModule_moduleID')  # Field name made lowercase.
     title = models.CharField(max_length=45)
 
     class Meta:
@@ -211,7 +223,7 @@ class Discussion(models.Model):
 class Post(models.Model):
     user_userid = models.ForeignKey('User', on_delete=models.CASCADE, db_column='user_userID')  # Field name made lowercase.
     discussion_discussionid = models.ForeignKey(Discussion, on_delete=models.CASCADE, db_column='discussion_discussionID')  # Field name made lowercase.
-    text = models.CharField(max_length=45)
+    text = models.CharField(max_length=250)
     date = models.DateTimeField()
 
     class Meta:
@@ -223,7 +235,7 @@ class Assignment(models.Model):
     assignmentid = models.AutoField(db_column='assignmentID', primary_key=True)  # Field name made lowercase.
     coursepagemodule_moduleid = models.ForeignKey('Coursepagemodule',  on_delete=models.CASCADE, db_column='coursePageModule_moduleID')  # Field name made lowercase.
     name = models.CharField(max_length=45)
-    description = models.CharField(max_length=45)
+    description = models.CharField(max_length=250)
     start_date = models.DateTimeField()
     due_date = models.DateTimeField()
     max_point = models.IntegerField()
@@ -238,7 +250,7 @@ class Assignmentsubmission(models.Model):
     student_studentid = models.ForeignKey('Student', on_delete=models.CASCADE, db_column='student_studentID')  # Field name made lowercase.
     date = models.DateField(unique=True, blank=True, null=True)
     points = models.IntegerField()
-    feedback = models.CharField(max_length=45, blank=True, null=True)
+    feedback = models.CharField(max_length=250, blank=True, null=True)
 
     class Meta:
         db_table = 'assignmentSubmission'
@@ -249,11 +261,11 @@ class Quiz(models.Model):
     quizid = models.AutoField(db_column='quizID', primary_key=True)  # Field name made lowercase.
     coursepagemodule_moduleid = models.ForeignKey(Coursepagemodule, on_delete=models.CASCADE, db_column='coursePageModule_moduleID')  # Field name made lowercase.
     name = models.CharField(max_length=45)
-    description = models.CharField(max_length=45)
+    description = models.CharField(max_length=250)
     open_time = models.TimeField()
     close_time = models.TimeField()
-    time_limit = models.TimeField()
-    max_poit = models.IntegerField()
+    time_limit = models.IntegerField()
+    max_point = models.IntegerField()
 
     class Meta:
         db_table = 'quiz'
@@ -263,7 +275,7 @@ class Quiz(models.Model):
 class Quizquestion(models.Model):
     questionid = models.AutoField(db_column='questionID', primary_key=True)  # Field name made lowercase.
     quiz_quizid = models.ForeignKey(Quiz, on_delete=models.CASCADE, db_column='quiz_quizID')  # Field name made lowercase.
-    text = models.CharField(max_length=45)
+    text = models.CharField(max_length=250)
     is_open = models.BooleanField(default=False)
     points = models.IntegerField()
 
@@ -296,9 +308,9 @@ class Quizsubmission(models.Model):
 
 class File(models.Model):
     fileid = models.AutoField(db_column='fileID', primary_key=True)  # Field name made lowercase.
-    placeid = models.CharField(db_column='placeID', max_length=45)  # Field name made lowercase.
-    type = models.CharField(max_length=45)
-    url = models.CharField(max_length=45)
+    placeid = models.IntegerField(db_column='placeID')  # Field name made lowercase.
+    placeName = models.CharField(max_length=45, choices=[('assignment','assignment'), ('submission', 'submission'), ('course', 'course')]) #to identify where from
+    url = models.CharField(max_length=250)
 
     class Meta:
         db_table = 'file'
