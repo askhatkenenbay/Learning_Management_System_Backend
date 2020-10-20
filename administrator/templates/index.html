@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+{% load static %}
+
+<head>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+  <title>Admin Page</title>
+
+  <!-- Bootstrap core CSS -->
+  <link href="{% static 'administrator/vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+  <link href="{% static 'administrator/css/bootstrap.css' %}" rel="stylesheet">
+
+  <!-- Custom styles for this template -->
+  <link href="{% static 'administrator/css/admin.css' %}" rel="stylesheet">
+
+</head>
+
+<body>
+
+  <!-- Navigation -->
+  <nav class="navbar navbar-expand-lg navbar-dark bg-info fixed-top">
+    <div class="container">
+      <a class="navbar-brand" href="#">Learning Management System</a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarResponsive">
+        <ul class="navbar-nav ml-auto">
+          <li class="nav-item active">
+            <a class="nav-link" href="#">Home
+              <span class="sr-only">(current)</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="http://www.seds.school/admin/alldata/student/">Students</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="http://www.seds.school/admin/alldata/instructor/">Instructors</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="http://www.seds.school/admin/alldata/course/">Courses</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <br>
+  <br>
+  <h2 class='text-center text-info'>Control Pannel</h2>
+
+  <!-- Page Content -->
+  <div class="container bg-info rounded shadow-lg">
+      <br>
+
+    <div class="row">
+      <!-- /.col-lg-3 -->
+
+      <div class="col">
+
+        <div class="row">
+        	<div class="modal fade" id="chooseUser" tabindex="-1" role="dialog" aria-labelledby="chooseUserCenterTitle" aria-hidden="true">
+			  <div class="modal-dialog modal-dialog-centered" role="document">
+			    <div class="modal-content">
+			      <div class="modal-header">
+			        <h5 class="modal-title text-info" id="chooseUserLongTitle">Choose a User</h5>
+			        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+			          <span aria-hidden="true">&times;</span>
+			        </button>
+			      </div>
+			      <div class="modal-body text-center">
+			       	<button type="button" class="btn btn-success"><a href="http://www.seds.school/admin/alldata/student/add/" class='text-white'>Student</a></button>
+			        <button type="button" class="btn btn-success"><a href="http://www.seds.school/admin/alldata/add/" class='text-white'>Instructor</a></button>
+			      </div>
+			      <div class="modal-footer">
+			        <a href="#" class='text-info' data-dismiss="modal" aria-label="Close">cancel</a>
+			      </div>
+			    </div>
+			  </div>
+			</div>
+
+          <div class="col-lg-4 col-md-6 mb-4">
+            <div class="card h-80 bg-secondary">
+              <a href="#chooseUser" data-toggle="modal"><img class="card-img-top" src="{% static 'administrator/media/image.jpg' %}" alt=""></a>
+              <div class="card-body">
+                <h4 class="card-title text-center">
+                  <a href="#chooseUser" data-toggle="modal" class='text-white'>Add New User</a>
+                </h4>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-lg-4 col-md-6 mb-4">
+            <div class="card h-80 bg-secondary">
+              <a href="http://www.seds.school/admin/alldata/course/add/"><img class="card-img-top" src="{% static 'administrator/media/image.jpg' %}" alt=""></a>
+              <div class="card-body">
+                <h4 class="card-title text-center">
+                  <a href="http://www.seds.school/admin/alldata/course/add/" class='text-white'>Add New Course</a>
+                </h4>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-lg-4 col-md-6 mb-4">
+            <div class="card h-80 bg-secondary">
+              <a href="http://www.seds.school/admin/alldata/registrationdate/"><img class="card-img-top" src="{% static 'administrator/media/image.jpg' %}" alt=""></a>
+              <div class="card-body">
+                <h4 class="card-title text-center">
+                  <a href="http://www.seds.school/admin/alldata/registrationdate/" class='text-white'>Manage Registration</a>
+                </h4>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- /.row -->
+      </div>
+      <!-- /.col-lg-9 -->
+    </div>
+    <!-- /.row -->
+
+
+    <div class="row">
+      <!-- /.col-lg-3 -->
+      <div class="col">
+
+        <div class="row">
+
+          <div class="col-lg-4 col-md-6 mb-4">
+            <div class="card h-80 bg-secondary">
+              <a href="http://www.seds.school/admin/alldata/course/"><img class="card-img-top" src="{% static 'administrator/media/image.jpg' %}" alt=""></a>
+              <div class="card-body">
+                <h4 class="card-title text-center">
+                  <a href="http://www.seds.school/admin/alldata/course/" class='text-white'>All Courses</a>
+                </h4>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-lg-4 col-md-6 mb-4">
+            <div class="card h-80 bg-secondary">
+              <a href="http://www.seds.school/admin/alldata/student/"><img class="card-img-top" src="{% static 'administrator/media/image.jpg' %}" alt=""></a>
+              <div class="card-body">
+                <h4 class="card-title text-center">
+                  <a href="http://www.seds.school/admin/alldata/student/" class='text-white'>All Students</a>
+                </h4>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-lg-4 col-md-6 mb-4">
+            <div class="card h-80 bg-secondary">
+              <a href="http://www.seds.school/admin/alldata/instructor/"><img class="card-img-top" src="{% static 'administrator/media/image.jpg' %}" alt=""></a>
+              <div class="card-body">
+                <h4 class="card-title text-center">
+                  <a href="http://www.seds.school/admin/alldata/instructor/" class='text-white'>All Instructors</a>
+                </h4>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- /.row -->
+      </div>
+      <!-- /.col-lg-9 -->
+    </div>
+    <!-- /.row -->
+  </div>
+  <!-- /.container -->
+  
+
+  <br>
+  <br>
+  <!-- Footer -->
+  <footer class="py-5 bg-info">
+    <div class="container text-center">
+      <a href="https://nu.edu.kz/" target="_blank" class="text-white">2020 Nazarbayev University</a>
+    </div>
+    <!-- /.container -->
+  </footer>
+
+  <!-- Bootstrap core JavaScript -->
+  <script src="{% static 'administrator/vendor/jquery/jquery.min.js' %}"></script>
+  <script src="{% static 'administrator/vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+
+
+</body>
+
+</html>
