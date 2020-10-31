@@ -65,7 +65,7 @@ a:hover { text-decoration: underline }
     <!-- Navigation -->
     <nav class="navbar navbar-expand-lg navbar-dark bg-info fixed-top">
         <div class="container">
-          <a class="navbar-brand" href="#">Psychological Counseling Center</a>
+          <a class="navbar-brand" href="{% url 'home' %}">Psychological Counseling Center</a>
           <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
           </button>
@@ -77,10 +77,10 @@ a:hover { text-decoration: underline }
                 </a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="#">Games</a>
+                <a class="nav-link" href="{% url 'chal_list' %}">Challenges</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="#">Self analysis</a>
+                <a class="nav-link" href="#">Self Assessment</a>
               </li>
               <li class="nav-item">
                 <a class="nav-link" href="{% url 'art' %}">Articles</a>
