@@ -24,7 +24,7 @@ urlpatterns = [
     path('challenges/', include('challenges.urls')),
     path('', include('login_system.urls')),
     path('challenges/', include('challenges.urls')),
-    path('self-analysis', include('quiz.urls')),
+    path('self-analysis/', include('quiz.urls')),
 ]
 
 if settings.DEBUG:
