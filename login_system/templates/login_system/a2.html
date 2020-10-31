@@ -1,0 +1,366 @@
+{% load static %}
+<head>
+  <link rel="icon" href="/media/nu_logo.jpg">
+ <!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-155182390-3"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-155182390-3');
+</script>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+  <title>NU PCC</title>
+
+  <!-- Bootstrap core CSS -->
+  
+  <link href="{% static 'login_system/vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+  
+  <!-- Custom styles for this template -->
+  <link href="{% static 'login_system/css/shop-homepage.css' %}" rel="stylesheet">
+
+  <style>
+      h1 { color: #111; font-family: 'Open Sans Condensed', sans-serif; font-size: 32px; font-weight: 700; line-height: 64px; margin: 0 0 0; padding: 20px 300px; text-align: center; text-transform: uppercase; }
+
+h2 { color: #111; font-family: 'Open Sans Condensed', sans-serif; font-size: 48px; font-weight: 700; line-height: 48px; margin: 0 0 24px; padding-left: 150px;padding-right: 150px; text-align: center; text-transform: uppercase; }
+h4 {padding-left: 150px;padding-right: 150px;font-size: 30px; letter-spacing: -1px;color: chocolate; text-transform: uppercase; text-shadow: 1px 1px 0 #000, margin: 10px 0 24px; text-align: center; line-height: 50px;}
+p { color: #111; font-family: 'Open Sans', sans-serif; font-size: 16px; line-height: 28px; margin: 0 0 10px;padding-left: 450px;padding-right: 450px;padding-bottom: 2px; }
+
+a { color: #990000; text-decoration: none; }
+
+a:hover { text-decoration: underline }
+
+.date { color: #111; display: block; font-family: 'Open Sans', sans-serif; font-size: 16px; position: relative; text-align: center; z-index: 1; }
+
+.date:before { border-top: 1px solid #111; content: ""; position: absolute; top: 12px; left: 0; width: 100%; z-index: -1; }
+
+.author { color: #111; display: block; font-family: 'Open Sans', sans-serif; font-size: 16px; padding-bottom: 38px; position: relative; text-align: center; z-index: 1; }
+
+.author:before { border-top: 1px solid #111; content: ""; position: absolute; top: 12px; left: 0; width: 100%; z-index: -1; }
+
+.date span,
+
+.author span { background: #fdfdfd; padding: 0 10px; text-transform: uppercase; }
+
+.line { border-top: 1px solid #111; display: block; margin-top: 60px; padding-top: 50px; position: relative; }
+
+.read-more { -moz-border-radius: 50%; -moz-transition: all 0.2s ease-in-out; -webkit-border-radius: 50%; -webkit-transition: all 0.2s ease-in-out; background: #111; border-radius: 50%; border: 10px solid #fdfdfd; color: #fff; display: block; font-family: 'Open Sans', sans-serif; font-size: 14px; height: 80px; line-height: 80px; margin: -40px 0 0 -40px; position: absolute; bottom: 0px; left: 50%; text-align: center; text-transform: uppercase; width: 80px; }
+
+.read-more:hover { background: #990000; text-decoration: none; }
+
+
+  </style>
+</head>
+
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-info fixed-top">
+        <div class="container">
+          <a class="navbar-brand" href="#">Psychological Counseling Center</a>
+          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarResponsive">
+            <ul class="navbar-nav ml-auto">
+              <li class="nav-item active">
+                <a class="nav-link" href="{% url 'home' %}">Dashboard
+                  <span class="sr-only">(current)</span>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#">Games</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#">Self analysis</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="{% url 'art' %}">Articles</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </nav>
+    
+
+				
+      <h1>As a teen, Faria Sana often highlighted books with markers. “The colors were supposed to tell me different things.” Later, she recalls, “I had no idea what those highlighted texts were supposed to mean.”</h1>
+
+
+
+      <p>She also took lots of notes as she read. But often she was “just copying words or changing the words around.” That work didn’t help much either, she says now. In effect, “it was just to practice my handwriting skills.”</p>
+      
+      
+      
+      <p>“No one ever taught me how to study,” Sana says. College got harder, so she worked to find better study skills. She’s now a psychologist at Athabasca University in Alberta, Canada. There she studies how students can learn better.</p>
+      
+      
+      
+      <p>Having good study skills is always helpful. But it’s even more important now during the COVID-19 pandemic. Many students worry about family or friends who may get sick, Sana notes. Others feel more general <a href="https://www.sciencenewsforstudents.org/article/how-to-deal-as-covid-19-imposes-social-distancing">stress</a>. Beyond that, students in many countries are facing different formats for learning. Some schools are holding in-person classes again, with rules for <a href="https://www.sciencenewsforstudents.org/article/covid-19-when-will-it-be-safe-to-go-out-again">spacing</a> and <a href="https://www.sciencenewsforstudents.org/article/science-homemade-coronavirus-masks-recipe">masks</a>. Others schools have staggered classes, with students at school part-time. Still others have all <a href="https://www.sciencenewsforstudents.org/article/learning-change-covid-19-social-distancing">online classes</a>, at least for a while.</p>
+      
+      
+      
+      <p>These conditions can distract from your lessons. Plus, students are likely to have to do more without a teacher or parent looking over their shoulders. They will have to manage their time and study more on their own. Yet many students never learned those skills. To them, Sana says, it may be like telling students to learn to swim by “just swimming.”</h1>
+      
+      
+      
+      <p>The good news: Science can help.</p>
+      
+      
+      
+      <p>For more than 100 years, psychologists have done research on which study habits work best. Some tips help for almost every subject. For example, don’t just cram! And test yourself, instead of just rereading the material. Other tactics work best for certain types of classes. This includes things like using graphs or mixing up what you study. Here are 10 tips to tweak your study habits.</p>
+      
+      
+      
+      <h4>1. Space out your studying</h4>
+      
+      
+      
+      <p>Nate Kornell “definitely did cram” before big tests when he was a student. He’s a psychologist at Williams College in Williamstown, Mass. He still thinks it’s a good idea to study the day before a big test. But research shows it’s a bad idea to cram all your studying into that day. Instead, space out those study sessions.</p>
+      
+      
+      
+      <p>In one 2009 experiment, college students studied vocabulary words with flash cards. Some students studied all the words in spaced-apart sessions throughout four days. Others studied smaller batches of the words in crammed, or massed, sessions, each over a single day. Both groups spent the same amount of time overall. But testing showed that <a href="https://web.williams.edu/Psychology/Faculty/Kornell/Publications/Kornell.2009b.pdf">the first group learned the words better</a>.</p>
+      
+      
+      
+      <p>Kornell compares our memory to water in a bucket that has a small leak. Try to refill the bucket while it’s still full, and you can’t add much more water. Allow time between study sessions, and some of the material may drip out of your memory. But then you’ll be able to relearn it and learn more in your next study session. And you’ll remember it better, next time, he notes.</p>
+      
+      
+      
+      <h4>2. Practice, practice, practice!</h4>
+      
+      
+      
+      <p>Musicians practice their instruments. Athletes practice sports skills. The same should go for learning.</p>
+      
+      
+      
+      <p>“If you want to be able to remember information, the best thing you can do is practice,” says Katherine Rawson. She’s a psychologist at Kent State University in Ohio. In one 2013 study, students took practice tests over several weeks. On the final test, they <a href="https://link.springer.com/article/10.1007/s10648-013-9240-4">scored more than a full letter grade better</a>, on average, than did students who studied the way they normally had.</p>
+      
+      
+      
+      <p>In a study done a few years earlier, college students read material and then took recall tests. Some took just one test. Others took several tests with short breaks of several minutes in between. The second group <a href="https://link.springer.com/article/10.3758/MC.38.1.116">recalled the material better a week later</a>.</p>
+      
+      
+      
+      <h4>3. Don’t just reread books and notes</h4>
+      
+      
+      
+      <p>As a teen, Cynthia Nebel studied by reading her textbooks, worksheets and notebooks. “Over and over and over again,” recalls this psychologist at Vanderbilt University in Nashville, Tenn. Now, she adds, “we know that’s one of the most common bad study skills that students have.”</p>
+      
+      
+      
+      <p>In one 2009 study, some college students read a text twice. Others read a text just once. Both groups took a test right after the reading. <a href="https://www.sciencedirect.com/science/article/abs/pii/S0361476X08000477">Test results differed little between these groups</a>, Aimee Callender and Mark McDaniel found. She is now at Wheaton College in Illinois. He works at Washington University in St. Louis, Mo.</p>
+      
+      
+      
+      <p>Too often, when students reread material, it’s superficial, says McDaniel, who also co-wrote the 2014 book, <a href="https://www.hup.harvard.edu/catalog.php?isbn=9780674729018"><em>Make It Stick: The Science of Successful Learning</em></a>. Rereading is like looking at the answer to a puzzle, rather than doing it yourself, he says. It looks like it makes sense. But until you try it yourself, you don’t really know if you understand it.</p>
+      
+      
+      
+      <p>One of McDaniel’s coauthors of <em>Make it Stick </em>is Henry Roediger. He, too, works at Washington University. In one 2010 study, Roediger and two other colleagues compared test results of students who reread material to two other groups. One group wrote questions about the material. The other group answered questions from someone else. <a href="https://content.apa.org/record/2010-19027-007">Those who answered the questions did best</a>. Those who just reread the material did worst.</p>
+      
+      
+      
+      <h4>4. Test yourself</h4>
+      
+      
+      
+      <p>That 2010 study backs up one of Nebel’s preferred study habits. Before big tests, her mom quizzed her on the material. “Now I know that was retrieval practice,” she says. “It’s one of the best ways you can study.” As Nebel got older, she quizzed herself. For example, she might cover up the definitions in her notebook. Then she tried to recall what each term meant.</p>
+      
+      
+      
+      
+      
+      
+      
+      <p>Such retrieval practice can help nearly everyone, Rawson and others showed in an August 2020 study in <em>Learning and Instruction.</em> This research included college students with an attention problem known as ADHD. It stands for Attention Deficit Hyperactivity Disorder. Overall, retrieval <a href="https://www.sciencedirect.com/science/article/abs/pii/S0959475219305092">helped students with ADHD and those without the disorder equally well</a>.&nbsp;</p>
+      
+      
+      
+      <p>“Create a deck of flash cards every time you learn new information,” Sana suggests. “Put questions on one side and the answers on the other side.” Friends can even quiz each other on the phone, she says.</p>
+      
+      
+      
+      <p>“Try to quiz yourself the way the teacher asks questions,” Nebel adds.</p>
+      
+      
+      
+      <p>But really grill yourself and your friends, she says. And here’s why. She was part of a team that asked students to write one quiz question for each class period. Students would then answer a question from another classmate. Preliminary data show that students did worse on tests afterward than when the daily quiz questions came from the teacher. Nebel’s team is still analyzing the data. She suspects the students’ questions may have been too simple.</p>
+      
+      
+      
+      <p>Teachers often dig deeper, she notes. They don’t just ask for definitions. Often, teachers ask students to compare and contrast ideas. That takes some critical thinking.</p>
+      
+      
+      
+      <h4>5. Mistakes are okay — as long as you learn from them</h4>
+      
+      
+      
+      <p>It’s crucial to test your memory. But <a href="https://www.tandfonline.com/doi/abs/10.1080/09658211.2016.1170152?journalCode=pmem20">it doesn’t really matter how many seconds you spend on each try</a>. That finding comes from a 2016 study by Kornell and others. But it’s important to go the next step, Kornell adds: Check to see if you were right. Then focus on what you got <a href="https://www.sciencenewsforstudents.org/article/noticing-mistakes-boosts-learning">wrong</a>.</p>
+      
+      
+      
+      <aside class="wp-block-sciencenews-inline-related-post alignleft"><h4><a href="https://www.sciencenewsforstudents.org/?p=175735">A secret of science: Mistakes boost understanding</a></h4></aside>
+      
+      
+      
+      <p>“If you don’t find out what the answer is, you’re kind of wasting your time,” he says. On the flip side, checking the answers can make your study time more efficient. You can then focus on where you need the most help.</p>
+      
+      
+      
+      <p>In fact, making mistakes can be a good thing, argues Stuart Firestein. A Columbia University biologist in New York City, he actually wrote the book on it. It’s called <a href="https://global.oup.com/academic/product/failure-9780199390106?cc=us&amp;lang=en&amp;"><em>Failure: Why Science is So Successful</em></a>. Mistakes, he argues, are actually a primary key to learning.</p>
+      
+      
+      
+      <h4>6. Mix it up</h4>
+      
+      
+      
+      <p>In many cases, it helps to mix up your self-testing. Don’t just focus on one thing. Drill yourself on different concepts. Psychologists call this interleaving.</p>
+      
+      
+      
+      
+      
+      
+      
+      <p>Actually, your tests usually will have questions mixed up, too. More importantly, interleaving can help you learn better. If you practice one concept over and over “your attention decreases because you know what’s coming up next,” Sana explains. Mix up your practice, and you now space the concepts apart. You can also see how concepts differ, form trends or fit together in some other way.</p>
+      
+      
+      
+      <p>Suppose, for instance, you’re learning about the volume of different shapes in math. You could do lots of problems on the volume of a wedge. Then you could answer more batches of questions, with each set dealing with just one shape. Or, you could figure out the volume of a cone, followed by a wedge. Next you might find the volume for a half-cone or a spheroid. Then you can mix them up some more. You might even mix in some practice on addition or division.</p>
+      
+      
+      
+      <p>Rawson and others had groups of college students try each of those approaches. <a href="https://link.springer.com/article/10.3758%2Fs13421-019-00918-4">Those who interleaved their practice questions did better</a> than the group that did single-batch practice, the researchers reported last year in <em>Memory &amp; Cognition</em>.</p>
+      
+      
+      
+      <p>A year earlier, Sana and others <a href="https://www.sciencedirect.com/science/article/abs/pii/S2211368117302437">showed that interleaving can help students with both strong and weak working memory</a>. Working memory lets you remember where you are in an activity, such as following a recipe.</p>
+      
+      
+      
+      <h4>7. Use pictures</h4>
+      
+      
+      
+      <p>Pay attention to diagrams and graphs in your class materials, says Nebel. “Those pictures can really boost your memory of this material. And if there aren’t pictures, creating them can be really, really useful.”</p>
+      
+      
+      
+      <div style="padding-left: 400px;padding-right: 300px;" class="wp-block-image"><figure class="alignright size-large"><img loading="lazy" src="https://www.sciencenewsforstudents.org/wp-content/uploads/2020/09/680_science_better_learning_neuron.jpg" alt=" a diagram of a neuron" class="wp-image-3091124" width="680" height="348"><figcaption><span class="caption wp-caption-3091124">Pay attention to drawings, graphics, chart and other visual aids. Psychologist Mark McDaniel at Washington University in St. Louis, Mo., says a diagram of a nerve cell helped when he studied neuroscience in college.</span><span class="credit wp-credit-3091124">colematt/iStock/Getty Images Plus</span></figcaption></figure></div>
+      
+      
+      
+      <p>“I think these visual representations help you create more complete mental models,” McDaniel says. He and Dung Bui, then also at Washington University, had students listen to a lecture on car brakes and pumps. One group got diagrams and was told to add notes as needed to the diagrams. Another group got an outline for writing notes. The third group just took notes. The outlines helped students if they were otherwise good at building mental models of what they were reading. But in these tests, they found, <a href="https://www.sciencedirect.com/science/article/abs/pii/S2211368115000200#bbib0160">visual aids helped students across the board</a>.</p>
+      
+      
+      
+      <p>Even goofy pictures might help. Nikol Rummel is a psychologist at Ruhr University Bochum in Germany. In one study back in 2003, she and others gave cartoon drawings to college students along with information about five scientists who studied intelligence. For example, the text about Alfred Binet came with a drawing of a race car driver. The driver wore a bonnet to protect his brain. <a href="https://psycnet.apa.org/doiLanding?doi=10.1037%2F0022-0663.95.2.327">Students who saw the drawings did better on a test</a> than did those who got only the text information.</p>
+      
+      
+      
+      <h4>8. Find examples</h4>
+      
+      
+      
+      <p>Abstract concepts can be hard to understand. It tends to be far easier to form a mental image if you have a concrete example of something, Nebel says.</p>
+      
+      
+      
+      <p>For instance, sour foods usually taste that way because they contain an <a href="https://www.sciencenewsforstudents.org/article/scientists-say-acid">acid</a>. On its own, that concept might be hard to remember. But if you think about a lemon or vinegar, it’s easier to understand and remember that acids and sour go together. And the examples might help you to identify other foods’ taste as being due to acids.</p>
+      
+      
+      
+      <p>Indeed, it helps to have at least two examples if you want to apply information to new situations. Nebel and others reviewed studies on this in July 2019. Their <em>Journal of Food Science Education</em> report describes <a href="https://onlinelibrary.wiley.com/doi/10.1111/1541-4329.12158">how students can improve their study skills</a>.</p>
+      
+      
+      
+      <h4>9. Dig deeper</h4>
+      
+      
+      
+      <p>It’s hard to remember a string of facts and figures if you don’t push further. Ask why things are a certain way. How did they come about? Why do they matter? Psychologists call this elaboration. It’s taking class material and “asking a lot of how and why questions about it,” Nebel says. In other words, don’t just accept facts at face value.</p>
+      
+      
+      
+      <p>Elaboration helps you combine new information with other things you know. And it creates a bigger network in your brain of things that relate to one another, she says. That larger network makes it easier to learn and remember things.</p>
+      
+      
+      
+      <div style="padding-left: 400px;padding-right: 300px;" class="wp-block-image"><figure class="alignleft size-large"><img loading="lazy" src="https://www.sciencenewsforstudents.org/wp-content/uploads/2020/09/680_science_better_learning_story_man_car.jpg" alt="an illustration of a man driving a blue car" class="wp-image-3091170" width="680" height="309"><figcaption><span class="caption wp-caption-3091170">You’ll remember facts if you ask questions about why they’re so and how they fit with other things. For example, suppose a hungry man drove a car. Why might he do that? </span><span class="credit wp-credit-3091170">cenkerdem/DigitalVisionVectors/Getty Images Plus</span></figcaption></figure></div>
+      
+      
+      
+      <p>Suppose you’re asked to remember a string of facts about different men, says McDaniel. For example, “The hungry man got into the car. The strong man helped the woman. The brave man ran into the house.” And so on. In one of his studies back in the ‘80s, college students had trouble remembering the bare statements. They did better when researchers gave them explanations for each man’s action. And the students remembered a whole lot better <a href="https://psycnet.apa.org/doiLanding?doi=10.1037%2F0278-7393.13.2.291">when they had to answer questions about why each man did something</a>.</p>
+      
+      
+      
+      <p>“Good understanding produces really good memory,” McDaniel says. “And that’s key for a lot of students.” If information just seems sort of random, ask more questions. Make sure you can explain the material. Better yet, he says, see if you can explain it to someone else. Some of his college students do this by calling home to explain what they’re learning to their parents.</p>
+      
+      
+      
+      <h4>10. Make a plan — and stick to it</h4>
+      
+      
+      
+      <p>Many students know they should space out study periods, quiz themselves and practice other good skills. Yet many don’t actually do those things. Often, they fail to plan ahead.</p>
+      
+      
+      
+      <p>Back when Rawson was a student, she used a paper calendar for her planning. She wrote in the date for each exam. “And then for four or five other days,” she recalls, “I wrote in time to study.”</p>
+      
+      
+      
+      <div style="padding-left: 400px;padding-right: 300px;" class="wp-block-image"><figure class="alignright size-large"><img loading="lazy" src="https://www.sciencenewsforstudents.org/wp-content/uploads/2020/09/680_science_better_learning_excercise-674x450.jpg" alt="a photo of a person running away from the viewer on a leafy path, zoomed in on the feet and lower legs " class="wp-image-3091171" width="674" height="450"><figcaption><span class="caption wp-caption-3091171">Build breaks for exercise into your study schedule too. Even a few minutes outside can help you perk up for more studying.</span><span class="credit wp-credit-3091171">Halfpoint/iStock/Getty Images Plus</span></figcaption></figure></div>
+      
+      
+      
+      <p>Try to stick to a routine, too. Have a set time and place where you do schoolwork and studying. It may seem odd at first. But, Kornell assures you, “by the time week two rolls around, it becomes a normal thing.” And put your phone <a href="https://www.sciencenewsforstudents.org/article/when-smartphones-go-school">somewhere else</a> while you work, adds Nebel.<br><br>Allow yourself short breaks. Set a timer for 25 minutes or so, suggests Sana. Study during that time, with no <a href="https://www.sciencenewsforstudents.org/article/distracted-teenage-brain">distractions</a>. When the timer goes off, take a five or 10 minute break. Exercise. Check your phone. Maybe drink some water — whatever. Afterward, set the timer again.</p>
+      
+      
+      
+      <p>“If you have a study plan, stick to it!” adds McDaniel. Recently, he and psychologist Gilles Einstein at Furman University in Greenville, S.C., looked at <a href="https://journals.sagepub.com/doi/abs/10.1177/1745691620920723?journalCode=ppsa">why students don’t use good study skills</a>. Many students know what those skills are, they report. But often they don’t plan when they intend to put them in action. Even when students do make plans, something more enticing may come up. Studying has to become a priority, they say. The team published its report in Perspectives on Psychological Science on July 23.</p>
+      
+      
+      
+      <h4>Bonus: Be kind to yourself</h4>
+      
+      
+      
+      <p>Try to stick to a regular routine. And get enough sleep — not just the night before the test <a href="https://www.sciencenewsforstudents.org/article/exam-scores-benefit-from-months-of-regular-sleep">but for weeks or months on end</a>. “Those things are really, really important for learning,” Nebel says. <a href="https://www.sciencenewsforstudents.org/article/exercise-builds-brawn-and-brains">Exercise</a> <a href="https://www.sciencenewsforstudents.org/article/remember-something-new-exercise">helps</a> as well, she says.</p>
+      
+      
+      
+      <p>Don’t stress out if all of this seems like a lot, she adds. If a lot seems new, try adding just one new study skill each week or two. Or at least space out your study sessions and practice retrieval for the first few months. As you get more practice, you can add more skills. And if you need help, ask.</p>
+      
+      
+      
+      <p>Doing schoolwork during a pandemic is a tough situation at best. But remember your teachers and classmates also face challenges. Like you, they have fears, concerns and questions. Be willing to cut them some slack. And be kind to yourself as well. After all, Kornell says, “we’re all in this together.”</p>
+      
+                                          
+    
+    
+    
+      <footer class="py-5 bg-info">
+        <div class="container">
+          <p class="m-0 text-center text-white">Keep Calm and Be Happy!</p>
+        </div>
+        <!-- /.container -->
+      </footer>
+    
+       <!-- Bootstrap core JavaScript -->
+      
+       <script src="{% static 'login_system/vendor/jquery/jquery.min.js' %}"></script>
+       <script src="{% static 'login_system//vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+     </body>
+                                        

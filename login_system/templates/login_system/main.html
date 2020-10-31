@@ -26,6 +26,9 @@
   
   <!-- Custom styles for this template -->
   <link href="{% static 'login_system/css/shop-homepage.css' %}" rel="stylesheet">
+  <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
 
 <body>
@@ -45,14 +48,14 @@
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">Games</a>
+            <a class="nav-link" href="{% url 'chal_list' %}">Challenges</a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="#">Self analysis</a>
           </li>
-          <li class="nav-item">
+          <!-- <li class="nav-item">
             <a class="nav-link" href="{% url 'art' %}">Articles</a>
-          </li>
+          </li> -->
         </ul>
       </div>
     </div>
@@ -63,15 +66,28 @@
 
     <div class="row">
 
-      <div class="col-lg-3">
+      <div style="padding-left: 0px;" class="col-lg-3">
 
         <h1 class="my-4">Upcoming Events</h1>
-        <div class="list-group">
+        <!-- <div class="list-group">
           <a href="#" class="list-group-item">Meeting with Temirlan Yechshanov</a>
           <a href="#" class="list-group-item">World Suicide Prevention Day</a>
           <a href="#" class="list-group-item">Webinar: Karpman Drama Triangle</a>
-        </div>
+        </div> -->
+        <div class="w3-bar-block">
+          <a href="#portfolio" onclick="w3_close()" class="w3-bar-item w3-button w3-padding w3-text-teal"><i class="fa fa-th-large fa-fw w3-margin-right"></i>ABOUT</a> 
+          <a href="#about" onclick="w3_close()" class="w3-bar-item w3-button w3-padding"><i class="fa fa-user fa-fw w3-margin-right"></i>CONSULTATION</a> 
+          <a href="#contact" onclick="w3_close()" class="w3-bar-item w3-button w3-padding"><i class="fa fa-globe fa-fw w3-margin-right"></i>INTERNATIONAL STUDENTS</a>
+          <a href="#contact" onclick="w3_close()" class="w3-bar-item w3-button w3-padding"><i class="fa fa-check-square fa-fw w3-margin-right"></i>TRAINING</a>
+          <a href="#contact" onclick="w3_close()" class="w3-bar-item w3-button w3-padding"><i class="fa fa-child fa-fw w3-margin-right"></i>STAFF</a>
+          <a href="#contact" onclick="w3_close()" class="w3-bar-item w3-button w3-padding"><i class="fa fa-angle-double-right fa-fw w3-margin-right"></i>PSYCHOLOGICAL SUPPORT</a>
+          <a href="#contact" onclick="w3_close()" class="w3-bar-item w3-button w3-padding"><i class="fa fa-compass fa-fw w3-margin-right"></i>USEFUL INFORMATION</a>
+          <a href="#contact" onclick="w3_close()" class="w3-bar-item w3-button w3-padding"><i class="fa fa-desktop fa-fw w3-margin-right"></i>SELF-HELP RESOURCES</a>
+          <a href="#contact" onclick="w3_close()" class="w3-bar-item w3-button w3-padding"><i class="fa fa-phone fa-fw w3-margin-right"></i>CALL CENTER</a>
+          <a href="#contact" onclick="w3_close()" class="w3-bar-item w3-button w3-padding"><i class="fa fa-lock fa-fw w3-margin-right"></i>COVID-19</a>
 
+        </div>
+        
       </div>
       <!-- /.col-lg-3 -->
 
@@ -105,11 +121,25 @@
         </div>
 
         <div class="row">
+          <div class="col-lg-4 col-md-6 mb-4">
+            <div class="card h-80">
+              <!-- <a href="#"><img class="card-img-top" src="/media/a4.png" alt=""></a> -->
+              <!-- <div class="card-body"> -->
+                <iframe style="height: 150px;" class ='text-center' src="https://www.youtube.com/embed/mPTwZsQATPE"></iframe>
+              <!-- </div> -->
+              <div class="card-footer">
+                <p class="card-text">Make an appointment with a counselor today, at my.nu.edu.kz under the "consultation" tab.
 
+                  Psychological Counseling Center (PCC)
+                  Location: Offices 11101,11102, 11103, 11105, 19105, 19106, 26106, 26107, 26108. 
+                  Email: nu_counseling@nu.edu.kz</p>
+              </div>
+            </div>
+          </div>
           <div class="col-lg-4 col-md-6 mb-4">
             <div class="card h-80">
               <a href="{% url 'artOne' %}"><img class="card-img-top" src="/media/a1.jpg" alt=""></a>
-              <div class="card-body">
+              <div style="height: 150px;"class="card-body">
                 <h4 class="card-title">
                   <a href="{% url 'artOne' %}">You should guess answers to your homework before searching online</a>
                 </h4>
@@ -123,10 +153,34 @@
 
           <div class="col-lg-4 col-md-6 mb-4">
             <div class="card h-80">
-              <a href="#"><img class="card-img-top" src="/media/a2.png" alt=""></a>
-              <div class="card-body">
+              <!-- <a href="#"><img class="card-img-top" src="/media/a4.png" alt=""></a> -->
+              <!-- <div class="card-body"> -->
+                <iframe style="height: 150px;" class ='text-center' src="https://www.youtube.com/embed/gvwegw-JLrY"></iframe>
+              <!-- </div> -->
+              <div class="card-footer">
+                <p class="card-text">Zoom webinar will discuss: 4 main stages of adaptation to self isolation, tips how to build a convenient work schedule, techniques on how to get rid of unnecessary desires, what should you do to not get depressed, how to stop getting annoyed and be at peace with your loved ones.</p>
+              </div>
+            </div>
+          </div>
+          
+          <div class="col-lg-4 col-md-6 mb-4">
+            <div class="card h-80">
+              <!-- <a href="#"><img class="card-img-top" src="/media/a4.png" alt=""></a> -->
+              <!-- <div class="card-body"> -->
+                <iframe style="height: 150px;" src="https://www.instagram.com/p/CGO3Rd7nWyt/embed" frameborder="0"></iframe>
+              <!-- </div> -->
+              <div class="card-footer">
+                <p class="card-text">The Psychological Counseling Center invites you to attend an event dedicated to the World Suicide Prevention Day.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-lg-4 col-md-6 mb-4">
+            <div class="card h-80">
+              <a href="{% url 'artTwo' %}"><img class="card-img-top" src="/media/a2.png" alt=""></a>
+              <div style="height: 150px;" class="card-body">
                 <h4 class="card-title">
-                  <a href="#">Top 10 tips on how to study smarter, not longer</a>
+                  <a href="{% url 'artTwo' %}">Top 10 tips on how to study smarter, not longer</a>
                 </h4>
                 <!-- <p class="card-text">Interim Report: is due 14.10.2020</p> -->
               </div>
@@ -138,60 +192,15 @@
 
           <div class="col-lg-4 col-md-6 mb-4">
             <div class="card h-80">
-              <a href="#"><img class="card-img-top" src="/media/a3.jpg" alt=""></a>
-              <div class="card-body">
+              <a href="{% url 'artThree' %}"><img class="card-img-top" src="/media/a3.jpg" alt=""></a>
+              <div style="height: 150px;" class="card-body">
                 <h4 class="card-title">
-                  <a href="#">Let’s learn about bias</a>
+                  <a href="{% url 'artThree' %}">Let’s learn about bias</a>
                 </h4>
                 <!-- <p class="card-text">Homework8: is due 18.10.2020</p> -->
               </div>
               <div class="card-footer">
                 <p class="card-text">We all prefer one thing, group or person over another — even if we don’t think we do </p>
-              </div>
-            </div>
-          </div>
-          
-          <div class="col-lg-4 col-md-6 mb-4">
-            <div class="card h-80">
-              <a href="#"><img class="card-img-top" src="/media/a4.png" alt=""></a>
-              <div class="card-body">
-                <h4 class="card-title">
-                  <a href="#">Five tips for learning better from home</a>
-                </h4>
-                <!-- <p class="card-text">Homework3: is due 23.10.2020</p> -->
-              </div>
-              <div class="card-footer">
-                <p class="card-text">Here’s how to optimize learning when your working conditions are less than ideal </p>
-              </div>
-            </div>
-          </div>
-
-          <div class="col-lg-4 col-md-6 mb-4">
-            <div class="card h-80">
-              <a href="#"><img class="card-img-top" src="/media/a5.png" alt=""></a>
-              <div class="card-body">
-                <h4 class="card-title">
-                  <a href="#">Learning will change with COVID-19’s social distancing</a>
-                </h4>
-                <!-- <p class="card-text">Interim Report: is due 14.10.2020</p> -->
-              </div>
-              <div class="card-footer">
-                <p class="card-text">Hong Kong’s experiences offer lessons for students and teachers everywhere </p>
-              </div>
-            </div>
-          </div>
-
-          <div class="col-lg-4 col-md-6 mb-4">
-            <div class="card h-80">
-              <a href="#"><img class="card-img-top" src="/media/a6.png" alt=""></a>
-              <div class="card-body">
-                <h4 class="card-title">
-                  <a href="#">How to cope as COVID-19 imposes social distancing</a>
-                </h4>
-                <!-- <p class="card-text">Homework8: is due 18.10.2020</p> -->
-              </div>
-              <div class="card-footer">
-                <p class="card-text">As schools close and communities lock down, we provide tips to cope </p>
               </div>
             </div>
           </div>

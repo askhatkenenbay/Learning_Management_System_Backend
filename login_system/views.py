@@ -46,3 +46,9 @@ def art(request):
 
 def artOne(request):
     return render(request,'login_system/a1.html')
+
+def artTwo(request):
+    return render(request,'login_system/a2.html')
+
+def artThree(request):
+    return render(request,'login_system/a3.html')
