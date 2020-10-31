@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="en" style="margin-bottom: 0px;padding-bottom: 0px;">
+  {% load static %}
+<head>
+  <link rel="icon" href="/media/nu_logo.jpg">
+ <!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-155182390-3"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-155182390-3');
+</script>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+  <title>Self Analysis</title>
+
+  <!-- Bootstrap core CSS -->
+  <!--CSS Theme-->
+    <!--CSS Overrides-->
+  <link rel="stylesheet" type="text/css" href="{% static 'quiz/overrides.css' %}" />
+  
+  <link href="{% static 'quiz/vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+  
+  <!-- Custom styles for this template -->
+  <link href="{% static 'quiz/css/shop-homepage.css' %}" rel="stylesheet">
+  <!-- <link rel="stylesheet" type="text/css" href="{% static 'quiz/questionwriter.css' %}" /> -->
+</head>
+
+<body style="margin-bottom: 0px;padding-bottom: 0px;">
+  
+  <!-- Navigation -->
+  <nav class="navbar navbar-expand-lg navbar-dark bg-info fixed-top">
+    <div class="container">
+      <a class="navbar-brand" href="{% url 'home' %}">Psychological Counseling Center</a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarResponsive">
+        <ul class="navbar-nav ml-auto">
+          <li class="nav-item active">
+            <a class="nav-link" href="{% url 'home' %}">Dashboard</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'chal_list' %}">Challenges</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'quizzes' %}">Self analysis
+            <span class="sr-only">(current)</span></a>
+          </li>
+          <!-- <li class="nav-item">
+            <a class="nav-link" href="{% url 'art' %}">Articles</a>
+          </li> -->
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <br>
+  <br>
+  <br>  
+
+  <h2 class='text-center text-info'>Self Analysis</h2>
+
+  <!-- Page Content -->
+  <div class="container">
+
+<form method="POST" id="myform">
+    <div class="row">
+    <h1>Little interest or pleasure in doing things</h1>
+    </div>  
+
+    <div class='row'>
+
+      <label>
+        <input type="radio" name="light" checked>
+        <span class="design"></span>
+        <span class="text">Not at all</span>
+      </label>
+    </div>
+    <div class='row'>
+
+      <label>
+        <input type="radio" name="light">
+        <span class="design"></span>
+        <span class="text">Several days</span>
+      </label>
+    </div>
+    <div class='row'>
+
+      <label>
+        <input type="radio" name="light">
+        <span class="design"></span>
+        <span class="text">More than half of the days</span>
+      </label>
+    </div>
+    <div class='row'>
+
+      <label>
+        <input type="radio" name="light">
+        <span class="design"></span>
+        <span class="text">Nearly every day</span>
+      </label>
+    </div>
+
+    <div class="row">
+    <h1>Feeling down, depressed, or hopeless</h1>
+    </div> 
+
+
+
+    <div class='row'>
+
+      <label>
+        <input type="radio" name="light" checked>
+        <span class="design"></span>
+        <span class="text">Not at all</span>
+      </label>
+          </div>
+    <div class='row'>
+
+      <label>
+        <input type="radio" name="light">
+        <span class="design"></span>
+        <span class="text">Several days</span>
+      </label>
+          </div>
+    <div class='row'>
+
+      <label>
+        <input type="radio" name="light">
+        <span class="design"></span>
+        <span class="text">More than half of the days</span>
+      </label>
+          </div>
+    <div class='row'>
+
+      <label>
+        <input type="radio" name="light">
+        <span class="design"></span>
+        <span class="text">Nearly every day</span>
+      </label>
+    </div>
+
+    <div class="row">
+    <h1>Trouble falling or staying asleep, or sleeping too much</h1>
+    </div>  
+
+    <div class='row'>
+
+      <label>
+        <input type="radio" name="light" checked>
+        <span class="design"></span>
+        <span class="text">Not at all</span>
+      </label>
+          </div>
+    <div class='row'>
+
+      <label>
+        <input type="radio" name="light">
+        <span class="design"></span>
+        <span class="text">Several days</span>
+      </label>
+          </div>
+    <div class='row'>
+
+      <label>
+        <input type="radio" name="light">
+        <span class="design"></span>
+        <span class="text">More than half of the days</span>
+      </label>
+          </div>
+    <div class='row'>
+
+      <label>
+        <input type="radio" name="light">
+        <span class="design"></span>
+        <span class="text">Nearly every day</span>
+      </label>
+    </div>
+
+    <div class="row">
+    <h1>Feeling tired or having little energy</h1>
+    </div>  
+
+    <div class='row'>
+
+      <label>
+        <input type="radio" name="light" checked>
+        <span class="design"></span>
+        <span class="text">Not at all</span>
+      </label>
+          </div>
+    <div class='row'>
+
+      <label>
+        <input type="radio" name="light">
+        <span class="design"></span>
+        <span class="text">Several days</span>
+      </label>
+          </div>
+    <div class='row'>
+
+      <label>
+        <input type="radio" name="light">
+        <span class="design"></span>
+        <span class="text">More than half of the days</span>
+      </label>
+          </div>
+    <div class='row'>
+
+      <label>
+        <input type="radio" name="light">
+        <span class="design"></span>
+        <span class="text">Nearly every day</span>
+      </label>
+    </div>
+
+    <div class="row">
+    <h1>Poor appetite or overeating</h1>
+    </div>  
+
+    <div class='row'>
+
+            <label>
+        <input type="radio" name="light" checked>
+        <span class="design"></span>
+        <span class="text">Not at all</span>
+      </label>
+          </div>
+    <div class='row'>
+
+      <label>
+        <input type="radio" name="light">
+        <span class="design"></span>
+        <span class="text">Several days</span>
+      </label>
+          </div>
+    <div class='row'>
+
+      <label>
+        <input type="radio" name="light">
+        <span class="design"></span>
+        <span class="text">More than half of the days</span>
+      </label>
+          </div>
+    <div class='row'>
+
+      <label>
+        <input type="radio" name="light">
+        <span class="design"></span>
+        <span class="text">Nearly every day</span>
+      </label>
+    </div>
+    <div class="row">
+    <h1>Feeling bad about yourself - or that you are a failure or have let yourself or your family down</h1>
+    </div>  
+
+    <div class='row'>
+
+            <label>
+        <input type="radio" name="light" checked>
+        <span class="design"></span>
+        <span class="text">Not at all</span>
+      </label>
+          </div>
+    <div class='row'>
+
+      <label>
+        <input type="radio" name="light">
+        <span class="design"></span>
+        <span class="text">Several days</span>
+      </label>
+          </div>
+    <div class='row'>
+
+      <label>
+        <input type="radio" name="light">
+        <span class="design"></span>
+        <span class="text">More than half of the days</span>
+      </label>
+          </div>
+    <div class='row'>
+
+      <label>
+        <input type="radio" name="light">
+        <span class="design"></span>
+        <span class="text">Nearly every day</span>
+      </label>
+    </div>
+
+    <div class="row">
+    <h1>Trouble concentrating on things, such as reading the newspaper or watching television</h1>
+    </div>  
+
+    <div class='row'>
+
+            <label>
+        <input type="radio" name="light" checked>
+        <span class="design"></span>
+        <span class="text">Not at all</span>
+      </label>
+          </div>
+    <div class='row'>
+
+      <label>
+        <input type="radio" name="light">
+        <span class="design"></span>
+        <span class="text">Several days</span>
+      </label>
+          </div>
+    <div class='row'>
+
+      <label>
+        <input type="radio" name="light">
+        <span class="design"></span>
+        <span class="text">More than half of the days</span>
+      </label>
+          </div>
+    <div class='row'>
+
+      <label>
+        <input type="radio" name="light">
+        <span class="design"></span>
+        <span class="text">Nearly every day</span>
+      </label>
+    </div>
+
+    <div class="row">
+    <h1>Moving or speaking so slowly that other people could have noticed</h1>
+    </div>  
+
+    <div class='row'>
+
+            <label>
+        <input type="radio" name="light" checked>
+        <span class="design"></span>
+        <span class="text">Not at all</span>
+      </label>
+          </div>
+    <div class='row'>
+
+      <label>
+        <input type="radio" name="light">
+        <span class="design"></span>
+        <span class="text">Several days</span>
+      </label>
+          </div>
+    <div class='row'>
+
+      <label>
+        <input type="radio" name="light">
+        <span class="design"></span>
+        <span class="text">More than half of the days</span>
+      </label>
+          </div>
+    <div class='row'>
+
+      <label>
+        <input type="radio" name="light">
+        <span class="design"></span>
+        <span class="text">Nearly every day</span>
+      </label>
+    </div>
+
+    <div class="row">
+    <h1>Thoughts that you would be better off dead, or of hurting yourself</h1>
+    </div>  
+
+    <div class='row'>
+
+            <label>
+        <input type="radio" name="light" checked>
+        <span class="design"></span>
+        <span class="text">Not at all</span>
+      </label>
+          </div>
+    <div class='row'>
+
+      <label>
+        <input type="radio" name="light">
+        <span class="design"></span>
+        <span class="text">Several days</span>
+      </label>
+          </div>
+    <div class='row'>
+
+      <label>
+        <input type="radio" name="light">
+        <span class="design"></span>
+        <span class="text">More than half of the days</span>
+      </label>
+          </div>
+    <div class='row'>
+
+      <label>
+        <input type="radio" name="light">
+        <span class="design"></span>
+        <span class="text">Nearly every day</span>
+      </label>
+    </div>
+
+        <div class="row">
+    <h1>If you've had any days with issues above, how difficult have these problems made it for you at work, home, school, or with other people?</h1>
+    </div>  
+
+    <div class='row'>
+
+            <label>
+        <input type="radio" name="light" checked>
+        <span class="design"></span>
+        <span class="text">Not at all</span>
+      </label>
+          </div>
+    <div class='row'>
+
+      <label>
+        <input type="radio" name="light">
+        <span class="design"></span>
+        <span class="text">Several days</span>
+      </label>
+          </div>
+    <div class='row'>
+
+      <label>
+        <input type="radio" name="light">
+        <span class="design"></span>
+        <span class="text">More than half of the days</span>
+      </label>
+          </div>
+    <div class='row'>
+
+      <label>
+        <input type="radio" name="light">
+        <span class="design"></span>
+        <span class="text">Nearly every day</span>
+      </label>
+    </div>
+
+<br>
+<a href="#" onclick="document.getElementById('myform').submit()">Submit</a>
+</form>
+  </div>
+  <!-- /.container -->
+  
+
+  <br>
+  <br>
+
+  <!-- Footer -->
+  <footer class="py-5 bg-info">
+    <div class="container">
+      <p class="m-0 text-center text-white">Keep Calm and Be Happy!</p>
+    </div>
+    <!-- /.container -->
+  </footer>
+
+  <!-- Bootstrap core JavaScript -->
+  <script src="{% static 'quiz/vendor/jquery/jquery.min.js' %}"></script>
+  <script src="{% static 'quiz/vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+
+</body>
+
+</html>
