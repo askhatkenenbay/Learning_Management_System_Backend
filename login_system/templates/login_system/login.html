@@ -186,6 +186,8 @@ body {
 </head>
 
 <body>
+  {% load crispy_forms_tags %}
+  {% load static %}
     <div class="login-box">
         <h2>Login</h2>
         <form method="POST" id="myform">
@@ -206,6 +208,10 @@ body {
 	    <a href="#" onclick="document.getElementById('myform').submit()">Submit</a>          
           
         </form>
+
+        <a href="{% url 'reg' %}">Register new Account</a>
       </div>
+
+      
 </body>
     
