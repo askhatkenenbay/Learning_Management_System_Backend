@@ -40,3 +40,6 @@ def reg(request):
         messages.success(request, f'Your account has been created! You are now able to log in')
         return render(request,'login_system/login.html')
     return render(request,'login_system/reg.html')
+
+def art(request):
+    return render(request,'login_system/art.html')
