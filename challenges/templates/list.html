@@ -34,31 +34,33 @@
 <body style="margin-bottom: 0px;padding-bottom: 0px;">
   
   <!-- Navigation -->
-  <nav class="navbar navbar-expand-lg navbar-dark bg-info fixed-top" style="margin-bottom: 0px;padding-bottom: 0px;">
-    
-      <a class="navbar-brand" href="#">Psychological Counseling Center</a>
+  <nav class="navbar navbar-expand-lg navbar-dark bg-info fixed-top">
+    <div class="container">
+      <a class="navbar-brand" href="{% url 'home' %}">Psychological Counseling Center</a>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
       <div class="collapse navbar-collapse" id="navbarResponsive">
         <ul class="navbar-nav ml-auto">
-          <li class="nav-item ">
+          <li class="nav-item active">
             <a class="nav-link" href="{% url 'home' %}">Dashboard</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="http://127.0.0.1:8000/challenges/">Games</a>
+            <a class="nav-link" href="{% url 'chal_list' %}">Challenges
+              <span class="sr-only">(current)</span>
+            </a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="#">Self analysis</a>
           </li>
-          <li class="nav-item active">
-            <a class="nav-link" href="#">Articles</a>
-            <span class="sr-only">(current)</span>
-          </li>
+          <!-- <li class="nav-item">
+            <a class="nav-link" href="{% url 'art' %}">Articles</a>
+          </li> -->
         </ul>
       </div>
-    
+    </div>
   </nav>
+
   <br>
   <br>
   <br>  
@@ -66,7 +68,7 @@
   <h2 class='text-center text-info'>Challenges</h2>
 
   <!-- Page Content -->
-  <div class="container bg-info rounded shadow-lg">
+  <div class="container rounded shadow-lg">
       <br>
 
     <div class="row">
@@ -78,10 +80,10 @@
 
           <div class="col-lg-4 col-md-6 mb-4">
             <div class="card h-100">
-              <a href="http://127.0.0.1:8000/challenges/breathing-exercise/"><img class="card-img-top" style="height:200px;" src="{% static 'challenges/media/breath.jpg' %}" alt=""></a>
+              <a href="{% url 'breath' %}"><img class="card-img-top" style="height:200px;" src="{% static 'challenges/media/breath.jpg' %}" alt=""></a>
               <div class="card-body">
                 <h4 class="card-title text-center">
-                  <a href="http://127.0.0.1:8000/challenges/breathing-exercise/">Do a deep breathing exercise.</a>
+                  <a href="{% url 'breath' %}">Do a deep breathing exercise.</a>
                 </h4>
                 <p class="card-text text-center">Breathing exercises can help you relax, because they make your body feel like it does when you are already relaxed. Deep breathing is one of the best ways to lower stress in the body. This is because when you breathe deeply, it sends a message to your brain to calm down and relax.</p>
               </div>
@@ -90,10 +92,10 @@
 
           <div class="col-lg-4 col-md-6 mb-4">
             <div class="card h-100">
-              <a href="http://127.0.0.1:8000/challenges/30-minutes-of-yoga/"><img class="card-img-top" style="height:200px;" src="{% static 'challenges/media/yoga1.png' %}" alt=""></a>
+              <a href="{% url 'yoga' %}"><img class="card-img-top" style="height:200px;" src="{% static 'challenges/media/yoga1.png' %}" alt=""></a>
               <div class="card-body">
                 <h4 class="card-title text-center">
-                  <a href="http://127.0.0.1:8000/challenges/30-minutes-of-yoga/">Do 30 minutes of yoga.</a>
+                  <a href="{% url 'yoga' %}">Do 30 minutes of yoga.</a>
                 </h4>
                 <p class="card-text text-center">People who took twice-weekly yoga classes experienced a bigger decrease in chronic stress compared to a control group put on a waitlist, found a 2016 study published in the journal Cogent Psychology.</p>
               </div>
@@ -102,10 +104,10 @@
 
           <div class="col-lg-4 col-md-6 mb-4">
             <div class="card h-100">
-              <a href="http://127.0.0.1:8000/challenges/night-with-friends/"><img class="card-img-top" style="height:200px;" src="{% static 'challenges/media/friends.jpg' %}" alt=""></a>
+              <a href="{% url 'friends' %}"><img class="card-img-top" style="height:200px;" src="{% static 'challenges/media/friends.jpg' %}" alt=""></a>
               <div class="card-body">
                 <h4 class="card-title text-center">
-                  <a href="http://127.0.0.1:8000/challenges/night-with-friends/">Plan a night in with friends.</a>
+                  <a href="{% url 'friends' %}">Plan a night in with friends.</a>
                 </h4>
                 <p class="card-text text-center">Whether it's book club or a Bachelor viewing party, you'll save money versus dinner out (and you can wear comfy clothes).</p>
               </div>
@@ -127,10 +129,10 @@
 
           <div class="col-lg-4 col-md-6 mb-4">
             <div class="card h-100">
-              <a href="http://127.0.0.1:8000/challenges/call-parents/"><img class="card-img-top" style="height:200px;" src="{% static 'challenges/media/parents.jpg' %}" alt=""></a>
+              <a href="{% url 'parents' %}"><img class="card-img-top" style="height:200px;" src="{% static 'challenges/media/parents.jpg' %}" alt=""></a>
               <div class="card-body">
                 <h4 class="card-title text-center">
-                  <a href="http://127.0.0.1:8000/challenges/call-parents/">Call your parents.</a>
+                  <a href="{% url 'parents' %}">Call your parents.</a>
                 </h4>
                 <p class="card-text text-center">Call your parents and say you love them.</p>
               </div>
@@ -139,10 +141,10 @@
 
           <div class="col-lg-4 col-md-6 mb-4">
             <div class="card h-100">
-              <a href="http://127.0.0.1:8000/challenges/write-good-thing/"><img class="card-img-top" style="height:200px;" src="{% static 'challenges/media/rainbow.jpg' %}" alt=""></a>
+              <a href="{% url 'good' %}"><img class="card-img-top" style="height:200px;" src="{% static 'challenges/media/rainbow.jpg' %}" alt=""></a>
               <div class="card-body">
                 <h4 class="card-title text-center">
-                  <a href="http://127.0.0.1:8000/challenges/write-good-thing/">Write down something good that happened today.</a>
+                  <a href="{% url 'good' %}">Write down something good that happened today.</a>
                 </h4>
                 <p class="card-text text-center">Even if you've just had the worst day, jot down what you're grateful for instead.</p>
               </div>
@@ -151,10 +153,10 @@
 
           <div class="col-lg-4 col-md-6 mb-4">
             <div class="card h-100">
-              <a href="http://127.0.0.1:8000/challenges/meet-your-floormate/"><img class="card-img-top" style="height:200px;" src="{% static 'challenges/media/dorm.png' %}" alt=""></a>
+              <a href="{% url 'floormate' %}"><img class="card-img-top" style="height:200px;" src="{% static 'challenges/media/dorm.png' %}" alt=""></a>
               <div class="card-body">
                 <h4 class="card-title text-center">
-                  <a href="http://127.0.0.1:8000/challenges/meet-your-floormate/">Meet your floormate.</a>
+                  <a href="{% url 'floormate' %}">Meet your floormate.</a>
                 </h4>
                 <p class="card-text text-center">New meetings are very important.</p>
               </div>
