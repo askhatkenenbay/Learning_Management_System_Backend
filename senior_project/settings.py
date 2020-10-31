@@ -25,12 +25,13 @@ SECRET_KEY = '$@l04x*37j^*a_w@f0m30x$*b@0@d!345*cqy(e3mlx6g3_c97'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['seds.school','www.seds.school','localhost']
+ALLOWED_HOSTS = ['seds.school','www.seds.school','localhost', '127.0.0.1']
 
 
 # Application definition
 
 INSTALLED_APPS = [
+    'challenges.apps.ChallengesConfig',
     'administrator.apps.AdministratorConfig',
     'login_system.apps.LoginSystemConfig',
     'alldata.apps.AlldataConfig',
@@ -40,8 +41,6 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'storages',
-    # 'crispy_forms',
 ]
 
 MIDDLEWARE = [
