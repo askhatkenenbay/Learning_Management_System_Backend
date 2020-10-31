@@ -31,30 +31,31 @@
 <body style="margin-bottom: 0px;padding-bottom: 0px;">
   
   <!-- Navigation -->
-  <nav class="navbar navbar-expand-lg navbar-dark bg-info fixed-top" style="margin-bottom: 0px;padding-bottom: 0px;">
-    
-      <a class="navbar-brand" href="#">Psychological Counseling Center</a>
+  <nav class="navbar navbar-expand-lg navbar-dark bg-info fixed-top">
+    <div class="container">
+      <a class="navbar-brand" href="{% url 'home' %}">Psychological Counseling Center</a>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
       <div class="collapse navbar-collapse" id="navbarResponsive">
         <ul class="navbar-nav ml-auto">
-          <li class="nav-item ">
+          <li class="nav-item active">
             <a class="nav-link" href="{% url 'home' %}">Dashboard</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="http://127.0.0.1:8000/challenges/">Games</a>
+            <a class="nav-link" href="{% url 'chal_list' %}">Challenges
+              <span class="sr-only">(current)</span>
+            </a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="#">Self analysis</a>
           </li>
-          <li class="nav-item active">
-            <a class="nav-link" href="#">Articles</a>
-            <span class="sr-only">(current)</span>
-          </li>
+          <!-- <li class="nav-item">
+            <a class="nav-link" href="{% url 'art' %}">Articles</a>
+          </li> -->
         </ul>
       </div>
-    
+    </div>
   </nav>
   <br>
   <br>
@@ -63,14 +64,12 @@
   <h2 class='text-center text-info'>Do a deep breathing exercise.</h2>
 
   <!-- Page Content -->
-  <div class="container bg-info rounded shadow-lg">
+  <div class="container rounded shadow-lg">
       <br>
       <div class="card h-100">
-        <img class="card-img-top" style="height:500px;" src="{% static 'challenges/media/breath.jpg' %}" alt="">
+        <img class="card-img-top" style="height:500px;" src="{% static 'challenges/media/rainbow.jpg' %}" alt="">
         <div class="card-body">
-          <h4 class="card-title text-center">
-          </h4>
-          <p class="card-text text-center">Count backwards from 10, breathing low and slow. Try it before a meeting, in the car, or before you greet your kids or partner after a long day.</p>
+          <p class="card-text text-center">Even if you've just had the worst day, jot down what you're grateful for instead.</p>
         </div>
       </div>
       <br>
