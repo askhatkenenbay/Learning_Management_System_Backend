@@ -17,3 +17,7 @@ def parents(request):
 
 def floormate(request):
 	return render(request, 'floormate.html')
+
+def good(request):
+	return render(request, 'good.html')
+
