@@ -43,3 +43,6 @@ def reg(request):
 
 def art(request):
     return render(request,'login_system/art.html')
+
+def artOne(request):
+    return render(request,'login_system/a1.html')
