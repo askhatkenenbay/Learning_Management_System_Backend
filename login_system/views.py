@@ -4,7 +4,7 @@ from django.contrib import messages
 from django.core.mail import send_mail
 from django.conf import settings
 from django.shortcuts import redirect
-
+# this line should not be in master branch
 def login(request):
     if request.method == 'POST':
         username = request.POST.get('username', None)
