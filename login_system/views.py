@@ -11,8 +11,10 @@ def login(request):
     if request.method == 'POST':
         username = request.POST.get('username', None)
         password = request.POST.get('password', None)
-        print(username)
-        print(password)
+        user = User.objects.filter(email = username, password = password).first()
+        if user == None:
+            messages.success(request, f'Error')
+            return render(request,'login_system/login.html')
         return render(request,'login_system/main.html')
     else:
         form = MyUserCreateForm()
@@ -26,10 +28,15 @@ def reg(request):
         username = request.POST.get('username', None)
         password = request.POST.get('password', None)
         password_copy = request.POST.get('password_copy', None)
+        user = User.objects.filter(email = username).first()
+        if (password != password_copy or user != None) :
+            messages.success(request, f'Error')
+            return render(request,'login_system/reg.html')
         school = School.objects.filter(name = "SEDS").first()
         dep = Department.objects.filter(name = "Physics").first()
         temp = User(email=username,password=password, school_name=school, department_name=dep)
         # school_name = SEDS, department_name = Physics
         temp.save()
-        return render(request,'login_system/reg.html')
+        messages.success(request, f'Your account has been created! You are now able to log in')
+        return render(request,'login_system/login.html')
     return render(request,'login_system/reg.html')
