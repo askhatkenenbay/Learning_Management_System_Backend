@@ -25,7 +25,7 @@ SECRET_KEY = '$@l04x*37j^*a_w@f0m30x$*b@0@d!345*cqy(e3mlx6g3_c97'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['seds.school','www.seds.school']
+# ALLOWED_HOSTS = ['seds.school','www.seds.school']
 
 
 # Application definition
@@ -33,6 +33,7 @@ ALLOWED_HOSTS = ['seds.school','www.seds.school']
 INSTALLED_APPS = [
     'administrator.apps.AdministratorConfig',
     'login_system.apps.LoginSystemConfig',
+    'challenges.apps.ChallengesConfig',
     'alldata.apps.AlldataConfig',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -40,7 +41,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'storages',
+    # 'storages',
 ]
 
 MIDDLEWARE = [
