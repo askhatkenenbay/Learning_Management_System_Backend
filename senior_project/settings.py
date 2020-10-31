@@ -32,6 +32,7 @@ ALLOWED_HOSTS = ['seds.school','www.seds.school','localhost', '127.0.0.1']
 # Application definition
 
 INSTALLED_APPS = [
+    'quiz.apps.QuizConfig',
     'challenges.apps.ChallengesConfig',
     'administrator.apps.AdministratorConfig',
     'login_system.apps.LoginSystemConfig',
