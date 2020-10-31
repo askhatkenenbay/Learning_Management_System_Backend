@@ -21,3 +21,4 @@ def floormate(request):
 def good(request):
 	return render(request, 'good.html')
 
+
