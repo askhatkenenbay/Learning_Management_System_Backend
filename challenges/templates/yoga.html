@@ -1,16 +1,24 @@
-<!DOCTYPE html>
-<html lang="en">
+<!DOCTYPE html><!DOCTYPE html>
+<html lang="en" style="margin-bottom: 0px;padding-bottom: 0px;">
   {% load static %}
 <head>
+  <link rel="icon" href="/media/nu_logo.jpg">
  <!-- Global site tag (gtag.js) - Google Analytics -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=UA-155182390-3"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-155182390-3');
+</script>
 
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <meta name="description" content="">
   <meta name="author" content="">
 
-  <title>NU Course List</title>
+  <title>Challenges</title>
 
   <!-- Bootstrap core CSS -->
   
@@ -20,153 +28,70 @@
   <link href="{% static 'challenges/css/shop-homepage.css' %}" rel="stylesheet">
 </head>
 
-<body>
+<body style="margin-bottom: 0px;padding-bottom: 0px;">
   
   <!-- Navigation -->
-  <nav class="navbar navbar-expand-lg navbar-dark bg-info fixed-top">
-    <div class="container">
-      <a class="navbar-brand" href="#">Learning Management System</a>
+  <nav class="navbar navbar-expand-lg navbar-dark bg-info fixed-top" style="margin-bottom: 0px;padding-bottom: 0px;">
+    
+      <a class="navbar-brand" href="#">Psychological Counseling Center</a>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
       <div class="collapse navbar-collapse" id="navbarResponsive">
         <ul class="navbar-nav ml-auto">
+          <li class="nav-item ">
+            <a class="nav-link" href="{% url 'home' %}">Dashboard</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="http://127.0.0.1:8000/challenges/">Games</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">Self analysis</a>
+          </li>
           <li class="nav-item active">
-            <a class="nav-link" href="#">Dashboard
-              <span class="sr-only">(current)</span>
-            </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">Grades</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">Profile</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">Settings</a>
+            <a class="nav-link" href="#">Articles</a>
+            <span class="sr-only">(current)</span>
           </li>
         </ul>
       </div>
-    </div>
+    
   </nav>
+  <br>
+  <br>
+  <br>
+
+  <h2 class='text-center text-info'>Do 30 minutes of yoga.</h2>
 
   <!-- Page Content -->
-  <div class="container">
-
-    <div class="row">
-
-      <div class="col-lg-3">
-
-        <h1 class="my-4">Nazarbayev University</h1>
-        <div class="list-group">
-          <a href="#" class="list-group-item">Spring 2020</a>
-          <a href="#" class="list-group-item">Fall 2020</a>
-          <a href="#" class="list-group-item">Spring 2019</a>
-        </div>
-
-      </div>
-      <!-- /.col-lg-3 -->
-
-      <div class="col-lg-9">
-
-        <div id="carouselExampleIndicators" class="carousel slide my-4" data-ride="carousel">
-          <ol class="carousel-indicators">
-            <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
-            <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
-            <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
-          </ol>
-          <div class="carousel-inner" role="listbox">
-            <div class="carousel-item active">
-              <img class="d-block img-fluid" src="/media/NU1.jpg" alt="First slide">
-            </div>
-            <div class="carousel-item">
-              <img class="d-block img-fluid" src="/media/NU2.jpg" alt="Second slide">
-            </div>
-            <div class="carousel-item">
-              <img class="d-block img-fluid" src="/media/NU3.jpg" alt="Third slide">
-            </div>
-          </div>
-          <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
-            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-            <span class="sr-only">Previous</span>
-          </a>
-          <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
-            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-            <span class="sr-only">Next</span>
-          </a>
-        </div>
-
-        <div class="row">
-
-          <div class="col-lg-4 col-md-6 mb-4">
-            <div class="card h-80">
-              <a href="#"><img class="card-img-top" src="/media/1.jpeg" alt=""></a>
+  <div class="container bg-info rounded shadow-lg">
+      <br>
+  <div class="card h-100">
+              <img class="card-img-top" style="height:500px;" src="{% static 'challenges/media/yoga1.png' %}" alt="">
               <div class="card-body">
-                <h4 class="card-title">
-                  <a href="#">Deep Learning</a>
-                </h4>
-                <p class="card-text">Homework3: is due 23.10.2020</p>
-              </div>
-              <div class="card-footer">
-                <p class="card-text">Current Grade: 57/60</p>
+                <p class="card-text text-center">People who took twice-weekly yoga classes experienced a bigger decrease in chronic stress compared to a control group put on a waitlist, found a 2016 study published in the journal Cogent Psychology.</p>
               </div>
             </div>
-          </div>
-
-          <div class="col-lg-4 col-md-6 mb-4">
-            <div class="card h-80">
-              <a href="#"><img class="card-img-top" src="/media/2.jpg" alt=""></a>
-              <div class="card-body">
-                <h4 class="card-title">
-                  <a href="#">Senior Project</a>
-                </h4>
-                <p class="card-text">Interim Report: is due 14.10.2020</p>
-              </div>
-              <div class="card-footer">
-                <p class="card-text">Current Grade: 20/20</p>
-              </div>
-            </div>
-          </div>
-
-          <div class="col-lg-4 col-md-6 mb-4">
-            <div class="card h-80">
-              <a href="#"><img class="card-img-top" src="/media/3.jpg" alt=""></a>
-              <div class="card-body">
-                <h4 class="card-title">
-                  <a href="#">Astronomy</a>
-                </h4>
-                <p class="card-text">Homework8: is due 18.10.2020</p>
-              </div>
-              <div class="card-footer">
-                <p class="card-text">Current Grade: 50/63</p>
-              </div>
-            </div>
-          </div>
-
-        </div>
-        <!-- /.row -->
-
-      </div>
-      <!-- /.col-lg-9 -->
-
-    </div>
-    <!-- /.row -->
-
+      <br>
   </div>
   <!-- /.container -->
+  
+
+  <br>
+  <br>
 
   <!-- Footer -->
   <footer class="py-5 bg-info">
     <div class="container">
-      <p class="m-0 text-center text-white">Study Hard!</p>
+      <p class="m-0 text-center text-white">Keep Calm and Be Happy!</p>
     </div>
     <!-- /.container -->
   </footer>
 
   <!-- Bootstrap core JavaScript -->
-  
   <script src="{% static 'challenges/vendor/jquery/jquery.min.js' %}"></script>
-  <script src="{% static 'challenges//vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
-</body>
+  <script src="{% static 'challenges/vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
 
+</body>
 </html>
+
+
