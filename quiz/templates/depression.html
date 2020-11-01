@@ -67,342 +67,144 @@
 
   <h2 class='text-center text-info'>Self Analysis</h2>
 
+  {% if messages %}
+  {% for message in messages %}
+      <div class="alert alert-{{ message.tags}}" style="background-color: #fff;">
+          {{message}}
+      </div>
+  {% endfor %}
+{%endif%}
+
   <!-- Page Content -->
   <div class="container">
 
 <form method="POST" id="myform">
+  {% csrf_token %}
     <div class="row">
-    <h1>Little interest or pleasure in doing things</h1>
+    <h1>Little interest or pleasure in doing things?</h1>
     </div>  
 
     <div class='row'>
-
-      <label>
-        <input type="radio" name="light" checked>
-        <span class="design"></span>
-        <span class="text">Not at all</span>
-      </label>
-    </div>
-    <div class='row'>
-
-      <label>
-        <input type="radio" name="light">
-        <span class="design"></span>
-        <span class="text">Several days</span>
-      </label>
-    </div>
-    <div class='row'>
-
-      <label>
-        <input type="radio" name="light">
-        <span class="design"></span>
-        <span class="text">More than half of the days</span>
-      </label>
-    </div>
-    <div class='row'>
-
-      <label>
-        <input type="radio" name="light">
-        <span class="design"></span>
-        <span class="text">Nearly every day</span>
-      </label>
+      <select class="q1" name="q1" required>
+        <option selected>Choose...</option>
+        <option value="1">Not at all</option>
+        <option value="2">Several days</option>
+        <option value="3">More than half of the days</option>
+        <option value="4">Nearly every day</option>
+      </select>
     </div>
 
     <div class="row">
-    <h1>Feeling down, depressed, or hopeless</h1>
+    <h1>Feeling down, depressed, or hopeless?</h1>
     </div> 
 
 
 
     <div class='row'>
-
-      <label>
-        <input type="radio" name="light" checked>
-        <span class="design"></span>
-        <span class="text">Not at all</span>
-      </label>
-          </div>
-    <div class='row'>
-
-      <label>
-        <input type="radio" name="light">
-        <span class="design"></span>
-        <span class="text">Several days</span>
-      </label>
-          </div>
-    <div class='row'>
-
-      <label>
-        <input type="radio" name="light">
-        <span class="design"></span>
-        <span class="text">More than half of the days</span>
-      </label>
-          </div>
-    <div class='row'>
-
-      <label>
-        <input type="radio" name="light">
-        <span class="design"></span>
-        <span class="text">Nearly every day</span>
-      </label>
+      <select class="qqq" name="q2">
+        <option selected>Choose...</option>
+        <option value="1">Not at all</option>
+        <option value="2">Several days</option>
+        <option value="3">More than half of the days</option>
+        <option value="4">Nearly every day</option>
+      </select>
     </div>
 
     <div class="row">
-    <h1>Trouble falling or staying asleep, or sleeping too much</h1>
+    <h1>Trouble falling or staying asleep, or sleeping too much?</h1>
     </div>  
 
     <div class='row'>
-
-      <label>
-        <input type="radio" name="light" checked>
-        <span class="design"></span>
-        <span class="text">Not at all</span>
-      </label>
-          </div>
-    <div class='row'>
-
-      <label>
-        <input type="radio" name="light">
-        <span class="design"></span>
-        <span class="text">Several days</span>
-      </label>
-          </div>
-    <div class='row'>
-
-      <label>
-        <input type="radio" name="light">
-        <span class="design"></span>
-        <span class="text">More than half of the days</span>
-      </label>
-          </div>
-    <div class='row'>
-
-      <label>
-        <input type="radio" name="light">
-        <span class="design"></span>
-        <span class="text">Nearly every day</span>
-      </label>
+      <select class="qqq" name="q3">
+        <option selected>Choose...</option>
+        <option value="1">Not at all</option>
+        <option value="2">Several days</option>
+        <option value="3">More than half of the days</option>
+        <option value="4">Nearly every day</option>
+      </select>
     </div>
 
     <div class="row">
-    <h1>Feeling tired or having little energy</h1>
+    <h1>Feeling tired or having little energy?</h1>
     </div>  
 
     <div class='row'>
-
-      <label>
-        <input type="radio" name="light" checked>
-        <span class="design"></span>
-        <span class="text">Not at all</span>
-      </label>
-          </div>
-    <div class='row'>
-
-      <label>
-        <input type="radio" name="light">
-        <span class="design"></span>
-        <span class="text">Several days</span>
-      </label>
-          </div>
-    <div class='row'>
-
-      <label>
-        <input type="radio" name="light">
-        <span class="design"></span>
-        <span class="text">More than half of the days</span>
-      </label>
-          </div>
-    <div class='row'>
-
-      <label>
-        <input type="radio" name="light">
-        <span class="design"></span>
-        <span class="text">Nearly every day</span>
-      </label>
+      <select class="qqq" name="q4">
+        <option selected>Choose...</option>
+        <option value="1">Not at all</option>
+        <option value="2">Several days</option>
+        <option value="3">More than half of the days</option>
+        <option value="4">Nearly every day</option>
+      </select>
     </div>
 
     <div class="row">
-    <h1>Poor appetite or overeating</h1>
+    <h1>Poor appetite or overeating?</h1>
     </div>  
 
     <div class='row'>
-
-            <label>
-        <input type="radio" name="light" checked>
-        <span class="design"></span>
-        <span class="text">Not at all</span>
-      </label>
-          </div>
-    <div class='row'>
-
-      <label>
-        <input type="radio" name="light">
-        <span class="design"></span>
-        <span class="text">Several days</span>
-      </label>
-          </div>
-    <div class='row'>
-
-      <label>
-        <input type="radio" name="light">
-        <span class="design"></span>
-        <span class="text">More than half of the days</span>
-      </label>
-          </div>
-    <div class='row'>
-
-      <label>
-        <input type="radio" name="light">
-        <span class="design"></span>
-        <span class="text">Nearly every day</span>
-      </label>
+      <select class="qqq" name="q5">
+        <option selected>Choose...</option>
+        <option value="1">Not at all</option>
+        <option value="2">Several days</option>
+        <option value="3">More than half of the days</option>
+        <option value="4">Nearly every day</option>
+      </select>
     </div>
     <div class="row">
-    <h1>Feeling bad about yourself - or that you are a failure or have let yourself or your family down</h1>
+    <h1>Feeling bad about yourself - or that you are a failure or have let yourself or your family down?</h1>
     </div>  
 
     <div class='row'>
-
-            <label>
-        <input type="radio" name="light" checked>
-        <span class="design"></span>
-        <span class="text">Not at all</span>
-      </label>
-          </div>
-    <div class='row'>
-
-      <label>
-        <input type="radio" name="light">
-        <span class="design"></span>
-        <span class="text">Several days</span>
-      </label>
-          </div>
-    <div class='row'>
-
-      <label>
-        <input type="radio" name="light">
-        <span class="design"></span>
-        <span class="text">More than half of the days</span>
-      </label>
-          </div>
-    <div class='row'>
-
-      <label>
-        <input type="radio" name="light">
-        <span class="design"></span>
-        <span class="text">Nearly every day</span>
-      </label>
+      <select class="qqq" name="q6">
+        <option selected>Choose...</option>
+        <option value="1">Not at all</option>
+        <option value="2">Several days</option>
+        <option value="3">More than half of the days</option>
+        <option value="4">Nearly every day</option>
+      </select>
     </div>
 
     <div class="row">
-    <h1>Trouble concentrating on things, such as reading the newspaper or watching television</h1>
+    <h1>Trouble concentrating on things, such as reading the newspaper or watching television?</h1>
     </div>  
 
     <div class='row'>
-
-            <label>
-        <input type="radio" name="light" checked>
-        <span class="design"></span>
-        <span class="text">Not at all</span>
-      </label>
-          </div>
-    <div class='row'>
-
-      <label>
-        <input type="radio" name="light">
-        <span class="design"></span>
-        <span class="text">Several days</span>
-      </label>
-          </div>
-    <div class='row'>
-
-      <label>
-        <input type="radio" name="light">
-        <span class="design"></span>
-        <span class="text">More than half of the days</span>
-      </label>
-          </div>
-    <div class='row'>
-
-      <label>
-        <input type="radio" name="light">
-        <span class="design"></span>
-        <span class="text">Nearly every day</span>
-      </label>
+      <select class="qqq" name="q7">
+        <option selected>Choose...</option>
+        <option value="1">Not at all</option>
+        <option value="2">Several days</option>
+        <option value="3">More than half of the days</option>
+        <option value="4">Nearly every day</option>
+      </select>
     </div>
 
     <div class="row">
-    <h1>Moving or speaking so slowly that other people could have noticed</h1>
+    <h1>Moving or speaking so slowly that other people could have noticed?</h1>
     </div>  
 
     <div class='row'>
-
-            <label>
-        <input type="radio" name="light" checked>
-        <span class="design"></span>
-        <span class="text">Not at all</span>
-      </label>
-          </div>
-    <div class='row'>
-
-      <label>
-        <input type="radio" name="light">
-        <span class="design"></span>
-        <span class="text">Several days</span>
-      </label>
-          </div>
-    <div class='row'>
-
-      <label>
-        <input type="radio" name="light">
-        <span class="design"></span>
-        <span class="text">More than half of the days</span>
-      </label>
-          </div>
-    <div class='row'>
-
-      <label>
-        <input type="radio" name="light">
-        <span class="design"></span>
-        <span class="text">Nearly every day</span>
-      </label>
+      <select class="qqq" name="q8">
+        <option selected>Choose...</option>
+        <option value="1">Not at all</option>
+        <option value="2">Several days</option>
+        <option value="3">More than half of the days</option>
+        <option value="4">Nearly every day</option>
+      </select>
     </div>
 
     <div class="row">
-    <h1>Thoughts that you would be better off dead, or of hurting yourself</h1>
+    <h1>Thoughts that you would be better off dead, or of hurting yourself?</h1>
     </div>  
 
     <div class='row'>
-
-            <label>
-        <input type="radio" name="light" checked>
-        <span class="design"></span>
-        <span class="text">Not at all</span>
-      </label>
-          </div>
-    <div class='row'>
-
-      <label>
-        <input type="radio" name="light">
-        <span class="design"></span>
-        <span class="text">Several days</span>
-      </label>
-          </div>
-    <div class='row'>
-
-      <label>
-        <input type="radio" name="light">
-        <span class="design"></span>
-        <span class="text">More than half of the days</span>
-      </label>
-          </div>
-    <div class='row'>
-
-      <label>
-        <input type="radio" name="light">
-        <span class="design"></span>
-        <span class="text">Nearly every day</span>
-      </label>
+      <select class="qqq" name="q9">
+        <option selected>Choose...</option>
+        <option value="1">Not at all</option>
+        <option value="2">Several days</option>
+        <option value="3">More than half of the days</option>
+        <option value="4">Nearly every day</option>
+      </select>
     </div>
 
         <div class="row">
@@ -410,36 +212,13 @@
     </div>  
 
     <div class='row'>
-
-            <label>
-        <input type="radio" name="light" checked>
-        <span class="design"></span>
-        <span class="text">Not at all</span>
-      </label>
-          </div>
-    <div class='row'>
-
-      <label>
-        <input type="radio" name="light">
-        <span class="design"></span>
-        <span class="text">Several days</span>
-      </label>
-          </div>
-    <div class='row'>
-
-      <label>
-        <input type="radio" name="light">
-        <span class="design"></span>
-        <span class="text">More than half of the days</span>
-      </label>
-          </div>
-    <div class='row'>
-
-      <label>
-        <input type="radio" name="light">
-        <span class="design"></span>
-        <span class="text">Nearly every day</span>
-      </label>
+      <select class="qqq" name="q10">
+        <option selected>Choose...</option>
+        <option value="1">Not at all</option>
+        <option value="2">Several days</option>
+        <option value="3">More than half of the days</option>
+        <option value="4">Nearly every day</option>
+      </select>
     </div>
 
 <br>
