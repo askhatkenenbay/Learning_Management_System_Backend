@@ -50,7 +50,7 @@ class Student(models.Model):
     studentid = models.AutoField(db_column='studentID', primary_key=True)  # Field name made lowercase.
     user_userid = models.ForeignKey('User', on_delete=models.CASCADE, db_column='user_userID')  # Field name made lowercase.
     level = models.CharField(max_length=45, choices=[('Foundation', 'Foundation'),('Undegraduate','Undegraduate'),('Graduate','Graduate'), ('Phd','Phd')])
-    year_of_study = models.IntegerField(choices=[('0', '0'),('1','1'),('2','2'),('3','3'), ('4','4')])
+    year_of_study = models.IntegerField(choices=[(0, 0),(1,1),(2,2),(3,3), (4,4)])
     academic_status = models.CharField(max_length=45, choices=[('Good', 'Good'),('Probation','Probation')])
     schedule_approve = models.BooleanField(default=False)
     schedule_lock = models.BooleanField(default=False)

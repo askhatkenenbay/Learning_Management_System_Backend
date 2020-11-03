@@ -5,8 +5,14 @@ from django.core.mail import send_mail
 from django.conf import settings
 from django.shortcuts import redirect
 from .forms import MyUserCreateForm
-from alldata.models import User, School, Department
-# this line should not be in master branch
+from alldata.models import User, School, Department, Student,StudentEnrollment,Coursesection,Course
+from django.contrib.auth.decorators import login_required, user_passes_test
+
+student_required = user_passes_test(lambda user: user.role == 'student', login_url='/')
+def student_required(view_func):
+    decorated_view_func = login_required(student_required(view_func))
+    return decorated_view_func
+
 def login(request):
     if request.method == 'POST':
         username = request.POST.get('username', None)
@@ -15,7 +21,14 @@ def login(request):
         if user == None:
             messages.success(request, f'Error')
             return render(request,'login_system/login.html')
-        return render(request,'login_system/main.html')
+        request.session['role'] = user.role
+        student = Student.objects.filter(user_userid = user.userid).first()
+        courses = StudentEnrollment.objects.filter(student_studentid = student.studentid)
+        mylist = []
+        for course in courses:
+            sid = course.coursesection_sectionid.course_courseid.title
+            mylist.append(sid)
+        return render(request,'login_system/main.html', {'session':request.session, "list" : mylist})
     else:
         form = MyUserCreateForm()
     return render(request,'login_system/login.html', { 'form' : form })
@@ -23,23 +36,7 @@ def login(request):
 def home(request):
     return render(request,'login_system/main.html')
 
-def reg(request):
-    if(request.method == 'POST'):
-        username = request.POST.get('username', None)
-        password = request.POST.get('password', None)
-        password_copy = request.POST.get('password_copy', None)
-        user = User.objects.filter(email = username).first()
-        if (password != password_copy or user != None) :
-            messages.success(request, f'Error')
-            return render(request,'login_system/reg.html')
-        school = School.objects.filter(name = "SEDS").first()
-        dep = Department.objects.filter(name = "Physics").first()
-        temp = User(email=username,password=password, school_name=school, department_name=dep)
-        # school_name = SEDS, department_name = Physics
-        temp.save()
-        messages.success(request, f'Your account has been created! You are now able to log in')
-        return render(request,'login_system/login.html')
-    return render(request,'login_system/reg.html')
 
-def art(request):
-    return render(request,'login_system/art.html')
+
+def grade(request):
+    return render(request,'login_system/grade.html')

@@ -1,0 +1,185 @@
+{% load static %}
+<head>
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300i,400" rel="stylesheet">
+    
+    <style>
+        body {
+    background-color: #100e17;
+    font-family: 'Open Sans', sans-serif;
+    }
+
+.container-v {
+  position: absolute;
+  height: 300px;
+  width: 600px;
+  top: 60px;
+  left: calc(50% - 300px);
+  display: flex;
+}
+
+.card-v {
+  display: flex;
+  height: 280px;
+  width: 200px;
+  background-color: #17141d;
+  border-radius: 10px;
+  box-shadow: -1rem 0 3rem #000;
+/*   margin-left: -50px; */
+  transition: 0.4s ease-out;
+  position: relative;
+  left: 0px;
+}
+
+.card-v:not(:first-child) {
+    /* margin-left: -500px; */
+}
+
+/* .card-v:hover {
+  transform: translateY(-20px);
+  transition: 0.4s ease-out;
+} */
+
+.card-v:hover ~ .card-v {
+  position: relative;
+  left: 50px;
+  transition: 0.4s ease-out;
+}
+.card-v:hover .stroke-v {
+  stroke-dashoffset: 100;
+  transition: 0.6s ease-out;
+}
+.card-v:hover .filledbar-v {
+  width: 150px;
+  transition: 0.4s ease-out;
+}
+.title-v {
+  color: white;
+  font-weight: 300;
+  position: absolute;
+  left: 20px;
+  top: 15px;
+}
+
+.bar-v {
+  position: absolute;
+  top: 100px;
+  left: 20px;
+  height: 5px;
+  width: 150px;
+}
+
+.emptybar-v {
+  background-color: #2e3033;
+  width: 100%;
+  height: 100%;
+}
+
+.filledbar-v {
+  position: absolute;
+  top: 0px;
+  z-index: 3;
+  width: 0px;
+  height: 100%;
+  background: rgb(0,154,217);
+  background: linear-gradient(90deg, rgba(0,154,217,1) 0%, rgba(217,147,0,1) 65%, rgba(255,186,0,1) 100%);
+  transition: 0.6s ease-out;
+}
+
+
+
+.circle-v {
+  position: absolute;
+  top: 150px;
+  left: calc(1%);
+}
+
+.stroke-v {
+  stroke: white;
+  stroke-dasharray: 360;
+  stroke-dashoffset: 360;
+  transition: 0.6s ease-out;
+}
+
+svg {
+  fill: #17141d;
+  stroke-width: 2px;
+}
+.info {
+    color: white;
+}
+.tab1{
+    padding-left: 60px;
+}
+
+    </style>
+    <link href="{% static 'login_system/vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+  
+    <!-- Custom styles for this template -->
+    <link href="{% static 'login_system/css/shop-homepage.css' %}" rel="stylesheet">
+  </head>
+  <body>
+      <!-- Navigation -->
+  <nav class="navbar navbar-expand-lg navbar-dark bg-info fixed-top">
+    <div class="container">
+      <a class="navbar-brand" href="#">Learning Management System</a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarResponsive">
+        <ul class="navbar-nav ml-auto">
+          <li class="nav-item active">
+            <a class="nav-link" href="#">Dashboard
+              <span class="sr-only">(current)</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">Grades</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">Profile</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">Settings</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+    <div class="card-v" style="width: 700px;height: 500px;padding-left: 1000px;">
+        <h3 class="title-v">Fall 2020</h3>
+        <div class="bar-v">
+          <div class="emptybar-v"></div>
+          <div class="filledbar-v"></div>
+        </div>
+        <div class="circle-v">
+            <h4 class="info">
+                <span class="tab1">Code</span>
+                <span class="tab1">Course Title</span>
+                <span class="tab1">Grade</span>
+                <span class="tab1">Credits ECTS</span>
+                <span class="tab1">Grade Points</span>
+            </h4>
+            <h4 class="info">
+                <span class="tab1">MATH 161</span>
+                <span class="tab1">Calculus I</span>
+                <span class="tab1">A</span>
+                <span class="tab1">8</span>
+                <span class="tab1">4.0</span>
+            </h4>
+            <h4 class="info">
+                <span class="tab1">MATH 161</span>
+                <span class="tab1">Calculus I</span>
+                <span class="tab1">A</span>
+                <span class="tab1">8</span>
+                <span class="tab1">4.0</span>
+            </h4>
+        </div>
+      </div>
+  
+
+  <!-- Bootstrap core JavaScript -->
+  
+  <script src="{% static 'login_system/vendor/jquery/jquery.min.js' %}"></script>
+  <script src="{% static 'login_system//vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+  </body>

@@ -52,6 +52,15 @@
           <li class="nav-item">
             <a class="nav-link" href="#">Settings</a>
           </li>
+          {% if session.role  == "student" %}
+            <a class="nav-link" href="#">Reg</a>
+          {% endif %}
+          {% if session.role  == "instructor" %}
+            <a class="nav-link" href="#">Prof Stuff</a>
+          {% endif %}
+          <li class="nav-item">
+            <a class="nav-link" href="#">Log Out</a>
+          </li>
         </ul>
       </div>
     </div>
@@ -104,13 +113,13 @@
         </div>
 
         <div class="row">
-
+          {% for o in list %}
           <div class="col-lg-4 col-md-6 mb-4">
             <div class="card h-80">
               <a href="#"><img class="card-img-top" src="/media/1.jpeg" alt=""></a>
               <div class="card-body">
                 <h4 class="card-title">
-                  <a href="#">Deep Learning</a>
+                  <a href="#">{{o}}</a>
                 </h4>
                 <p class="card-text">Homework3: is due 23.10.2020</p>
               </div>
@@ -119,36 +128,8 @@
               </div>
             </div>
           </div>
-
-          <div class="col-lg-4 col-md-6 mb-4">
-            <div class="card h-80">
-              <a href="#"><img class="card-img-top" src="/media/2.jpg" alt=""></a>
-              <div class="card-body">
-                <h4 class="card-title">
-                  <a href="#">Senior Project</a>
-                </h4>
-                <p class="card-text">Interim Report: is due 14.10.2020</p>
-              </div>
-              <div class="card-footer">
-                <p class="card-text">Current Grade: 20/20</p>
-              </div>
-            </div>
-          </div>
-
-          <div class="col-lg-4 col-md-6 mb-4">
-            <div class="card h-80">
-              <a href="#"><img class="card-img-top" src="/media/3.jpg" alt=""></a>
-              <div class="card-body">
-                <h4 class="card-title">
-                  <a href="#">Astronomy</a>
-                </h4>
-                <p class="card-text">Homework8: is due 18.10.2020</p>
-              </div>
-              <div class="card-footer">
-                <p class="card-text">Current Grade: 50/63</p>
-              </div>
-            </div>
-          </div>
+          {% endfor %}
+          
 
         </div>
         <!-- /.row -->
