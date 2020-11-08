@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <!--  This file has been downloaded from bootdey.com    @bootdey on twitter -->
+    <!--  All snippets are MIT license http://bootdey.com/license -->
+    <title>Your Profile</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <style type="text/css">
+    	body{
+    margin-top:20px;
+    background: #f5f5f5;
+}
+
+.ui-w-100 {
+    width: 100px !important;
+    height: auto;
+}
+
+.card {
+    background-clip: padding-box;
+    box-shadow: 0 1px 4px rgba(24,28,33,0.012);
+}
+
+.user-view-table td:first-child {
+    width: 9rem;
+}
+.user-view-table td {
+    padding-right: 0;
+    padding-left: 0;
+    border: 0;
+}
+
+.card .row-bordered>[class*=" col-"]::after {
+    border-color: rgba(24,28,33,0.075);
+}    
+
+    </style>
+</head>
+<body>
+ {% include 'login_system/nav.html' %}
+<div class="container bootdey flex-grow-1 container-p-y">
+
+            <div class="media align-items-center py-3 mb-3">
+              <img src="/media/nu_logo.jpg" alt="" class="d-block ui-w-100 rounded-circle">
+              <div class="media-body ml-4">
+                <h4 class="font-weight-bold mb-0">{{user.user_userid.first_name}} {{user.user_userid.last_name}}</h4>
+                  <br>
+                <div class="text-muted mb-2">ID: {{user.user_userid.userid}}</div>
+              </div>
+            </div>
+
+            <div class="card mb-4">
+              <div class="card-body">
+                <table class="table user-view-table m-0">
+                  <tbody>
+                    <tr>
+                      <td>E-mail:</td>
+                      <td>{{user.user_userid.email}}</td>
+                    </tr>
+                    <tr>
+                      <td>School:</td>
+                      <td>{{user.user_userid.school_name.name}}</td>
+                    </tr>
+                    <tr>
+                      <td>Department:</td>
+                      <td>{{user.user_userid.department_name.name}}</td>
+                    </tr>
+                    <tr>
+                      <td>Role:</td>
+                      <td>{{user.user_userid.role}}</td>
+                    </tr>
+                   <tr>
+                      <td>Gender:</td>
+                      <td>{{user.user_userid.gender}}</td>
+                    </tr>
+                     {% if session.role  == "student" %}
+                   <tr>
+                      <td>Level:</td>
+                      <td>{{user.level}}</td>
+                    </tr>
+                    <tr>
+                      <td>Year of Study:</td>
+                      <td>{{user.year_of_study}}</td>
+                    </tr>
+                    <tr>
+                      <td>Academic Status:</td>
+                      <td>{{user.academic_status}}</td>
+                    </tr>
+                    {% endif %}
+
+                     {% if session.role  == "instructor" %}
+                   <tr>
+                      <td>Position:</td>
+                      <td>{{user.position}}</td>
+                    </tr>
+                    {% endif %}
+                  </tbody>
+                </table>
+              </div>
+              <hr class="border-light m-0">
+
+            </div>
+</div>
+
+</body>
+</html>
