@@ -17,7 +17,7 @@
   <meta name="description" content="">
   <meta name="author" content="">
 
-  <title>NU Course List</title>
+  <title>LMS Dashboard</title>
 
   <!-- Bootstrap core CSS -->
   
@@ -29,43 +29,7 @@
 
 <body>
   
-  <!-- Navigation -->
-  <nav class="navbar navbar-expand-lg navbar-dark bg-info fixed-top">
-    <div class="container">
-      <a class="navbar-brand" href="#">Learning Management System</a>
-      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navbarResponsive">
-        <ul class="navbar-nav ml-auto">
-          <li class="nav-item active">
-            <a class="nav-link" href="#">Dashboard
-              <span class="sr-only">(current)</span>
-            </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">Grades</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">Profile</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">Settings</a>
-          </li>
-          {% if session.role  == "student" %}
-            <a class="nav-link" href="#">Reg</a>
-          {% endif %}
-          {% if session.role  == "instructor" %}
-            <a class="nav-link" href="#">Prof Stuff</a>
-          {% endif %}
-          <li class="nav-item">
-            <a class="nav-link" href="#">Log Out</a>
-          </li>
-        </ul>
-      </div>
-    </div>
-  </nav>
-
+ {% include 'login_system/nav.html' %}
   <!-- Page Content -->
   <div class="container">
 
