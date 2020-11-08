@@ -1,0 +1,25 @@
+<h1>Participants</h1>
+<h2>Students</h2>
+{% for o in list.students %}
+    <h3>
+        <span style="padding-right: 20px;">{{o.fname}}</span>
+        <span style="padding-right: 20px;">{{o.sname}}</span>
+        <span style="padding-right: 20px;">{{o.department}}</span>
+        <span style="padding-right: 20px;">{{o.school}}</span>
+        <span style="padding-right: 20px;">{{o.year}}</span>
+    </h3>
+    
+{% endfor %}
+
+<h2>Profs</h2>
+
+{% for o in list.profs %}
+    <h3>
+        <span style="padding-right: 20px;">{{o.fname}}</span>
+        <span style="padding-right: 20px;">{{o.sname}}</span>
+        <span style="padding-right: 20px;">{{o.department}}</span>
+        <span style="padding-right: 20px;">{{o.school}}</span>
+        <span style="padding-right: 20px;">{{o.position}}</span>
+    </h3>
+    
+{% endfor %}
