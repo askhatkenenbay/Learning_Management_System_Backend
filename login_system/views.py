@@ -5,7 +5,7 @@ from django.core.mail import send_mail
 from django.conf import settings
 from django.shortcuts import redirect
 from .forms import MyUserCreateForm
-from alldata.models import User, School, Department, Student,StudentEnrollment,Coursesection,Course, Instructor, CourseInstructor,Coursesection
+from alldata.models import User, School, Department, Student,StudentEnrollment,Coursesection,Course, Instructor, CourseInstructor,Coursesection, Coursepagemodule, File
 from django.contrib.auth.decorators import login_required, user_passes_test
 
 noadmin_required = user_passes_test(lambda user: user.role == 'student' or user.role == 'instructor', login_url='/')
@@ -33,7 +33,7 @@ def login(request):
             request.session['id'] = roleuser.instructorid
         mylist = []
         for course in courses:
-            sid = course.coursesection_sectionid.course_courseid.title
+            sid = (course.coursesection_sectionid.course_courseid.title, course.coursesection_sectionid.course_courseid.courseid, course.coursesection_sectionid.sectionid)
             mylist.append(sid)
         return render(request,'login_system/main.html', {'session':request.session, "list" : mylist})
     else:
@@ -47,7 +47,7 @@ def home(request):
         courses = CourseInstructor.objects.filter(instructor_instructorid=request.session['id'])
     mylist = []
     for course in courses:
-        sid = course.coursesection_sectionid.course_courseid.title
+        sid = (course.coursesection_sectionid.course_courseid.title, course.coursesection_sectionid.course_courseid.courseid, course.coursesection_sectionid.sectionid)
         mylist.append(sid)
     return render(request,'login_system/main.html', {'session':request.session, "list" : mylist})
 
@@ -119,3 +119,10 @@ class ProfInfo:
     self.department = department
     self.school = school
     self.position = position
+
+def course(request, course_id, coursesection_id):
+    course_section = Coursesection.objects.filter(sectionid = coursesection_id).first()
+    course = course_section.course_courseid
+    modules = Coursepagemodule.objects.filter(coursesection_sectionid = coursesection_id).all()
+    return render(request,'login_system/coursepage.html', {'session':request.session, 'course':course, 'course_section':course_section, 'modules':modules})
+
