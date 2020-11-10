@@ -10,12 +10,10 @@
   <body>
   {% include 'login_system/nav.html' %}
   <br>
-  <div class="container rounded shadow-sm">
-    <h1>Course Name</h1>
-  </div>  
+  <br>
 
   <div class="container rounded shadow-lg">
-    <h3>Participants</h3>
+    <h3>Courses I am taking</h3>
     <hr>
     <style>
       table {
@@ -34,49 +32,46 @@
         background-color: #dddddd;
       }
     </style>
-    <h4>Students</h4>
     <table >
       <tr>
-        <th>First Name</th>
-        <th>Second Name</th>
-        <th>Department</th>
-        <th>School</th>
-        <th>Year</th>
+        <th>Course name</th>
+        <th>Grade</th>
+        <th>Letter Grade</th>
       </tr>
-    {% for o in list.students %}
       <tr>
-        <td>{{o.fname}}</td>
-        <td>{{o.sname}}</td>
-        <td>{{o.department}}</td>
-        <td>{{o.school}}</td>
-        <td>{{o.year}}</td>
+        <td>Course name</td>
+        <td>Grade</td>
+        <td>Letter Grade</td>
       </tr>
-    {% endfor %}
-    </table>
-    <h4>Professors</h4>
-    <table >
       <tr>
-        <th>First Name</th>
-        <th>Second Name</th>
-        <th>Department</th>
-        <th>School</th>
-        <th>Position</th>
+        <td>Course name</td>
+        <td>Grade</td>
+        <td>Letter Grade</td>
       </tr>
-    {% for o in list.profs %}
       <tr>
-        <td>{{o.fname}}</td>
-        <td>{{o.sname}}</td>
-        <td>{{o.department}}</td>
-        <td>{{o.school}}</td>
-        <td>{{o.position}}</td>
+        <td>Course name</td>
+        <td>Grade</td>
+        <td>Letter Grade</td>
       </tr>
-    {% endfor %}
+      <tr>
+        <td>Course name</td>
+        <td>Grade</td>
+        <td>Letter Grade</td>
+      </tr>
+      <tr>
+        <td>Course name</td>
+        <td>Grade</td>
+        <td>Letter Grade</td>
+      </tr>
+      <tr>
+        <td>Course name</td>
+        <td>Grade</td>
+        <td>Letter Grade</td>
+      </tr>
     </table>
   <br>
   </div> 
   <!-- /.container -->
-  <br>
-  
 
   <!-- Footer -->
   <footer class="py-5 bg-info">

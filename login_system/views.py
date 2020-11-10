@@ -52,8 +52,8 @@ def home(request):
     return render(request,'login_system/main.html', {'session':request.session, "list" : mylist})
 
 
-def grade(request):
-    return render(request,'login_system/grade.html', {'session':request.session})
+def grades(request):
+    return render(request,'login_system/grades.html', {'session':request.session})
 
 def course(request):
     return render(request,'login_system/home.html', {'session':request.session})

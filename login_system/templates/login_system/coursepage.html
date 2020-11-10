@@ -30,13 +30,30 @@
 </head>
 
 <body>
-
 	{% include 'login_system/nav.html' %}
+  <button type="button" class="btn btn-info"><a href="#courseMenu" data-toggle="modal" class='text-white'>Course Menu</a></button>
+  <br>
+  <h2 class='text-center'>{{ course.title }}</h2>
 
-  <br>
-  <br>
-  <!-- <h2 class='text-center text-info'>{{course.title}}</h2> -->
-  <h2 class='text-center text-info'>{{ course.title }}</h2>
+  <div class="modal fade" id="courseMenu" tabindex="-1" role="dialog" aria-labelledby="chooseUserCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title text-info" id="chooseUserLongTitle">{{ course.title }}</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body text-center">
+          <button type="button" class="btn btn-success"><a href="/grades" class='text-white'>Grades</a></button>
+          <button type="button" class="btn btn-success"><a href="/participants" class='text-white'>Participants</a></button>
+        </div>
+        <div class="modal-footer">
+          <a href="#" class='text-info' data-dismiss="modal" aria-label="Close">cancel</a>
+        </div>
+      </div>
+    </div>
+  </div>
 
   <div class="modal fade" id="addContent" tabindex="-1" role="dialog" aria-labelledby="chooseUserCenterTitle" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
@@ -176,7 +193,7 @@
    </div>
 
 
-  <div class="container bg-info rounded shadow-lg">
+  <div class="container bg-secondary rounded shadow-lg">
     {% for module in modules %}
   	<br>
     <div class="row">
@@ -184,6 +201,7 @@
         <div class="card h-80">
           <div class="card-body">
             <h4 class="card-title">{{ module.title }}</h4>
+            <hr/>
             <!-- Take somehow from db -->
             <p class="card-text">Week content</p>
             <p class="card-text">Week content</p>
@@ -207,8 +225,6 @@
     {% endif %}  
   </div>
   <!-- /.container -->
-  
-
   <br>
   <br>
   <!-- Footer -->
