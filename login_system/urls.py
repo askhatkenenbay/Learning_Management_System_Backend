@@ -8,7 +8,7 @@ urlpatterns = [
     path('grades',views.grades, name='grades'),
     path('profile',views.profile, name='profile'),
     path('logout',views.logout, name='logout'),
-    path('participants',views.participants, name='participants'),
+    path('participants/<int:coursesection_id>/',views.participants),
     path('course/<int:course_id>/<int:coursesection_id>/', views.course),
     path('schedule',views.schedule, name='schedule'),
 ]

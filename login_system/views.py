@@ -90,8 +90,8 @@ def logout(request):
     del request.session['id']
     return redirect('/')
 
-def participants(request):
-    student, prof = getListOfParticipants(5)
+def participants(request, coursesection_id):
+    student, prof = getListOfParticipants(coursesection_id)
     part = {
         "students" : student,
         "profs" : prof
