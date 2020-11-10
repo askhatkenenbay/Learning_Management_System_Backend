@@ -54,6 +54,7 @@ def home(request):
 
 def grade(request):
     return render(request,'login_system/grade.html', {'session':request.session})
+    
 
 def profile(request):
     if request.session['role']=='student':
