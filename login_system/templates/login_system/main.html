@@ -17,7 +17,7 @@
   <meta name="description" content="">
   <meta name="author" content="">
 
-  <title>LMS Dashboard</title>
+  <title>Dashboard</title>
 
   <!-- Bootstrap core CSS -->
   
@@ -83,7 +83,7 @@
               <a href="#"><img class="card-img-top" src="/media/1.jpeg" alt=""></a>
               <div class="card-body">
                 <h4 class="card-title">
-                  <a href="{% url 'participants' %}">{{o}}</a>
+                  <a href="/course/{{ o.1 }}/{{ o.2 }}">{{ o.0 }}</a>
                 </h4>
                 <p class="card-text">Homework3: is due 23.10.2020</p>
               </div>

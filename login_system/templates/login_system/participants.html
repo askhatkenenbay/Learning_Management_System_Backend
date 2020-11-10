@@ -1,25 +1,96 @@
-<h1>Participants</h1>
-<h2>Students</h2>
-{% for o in list.students %}
-    <h3>
-        <span style="padding-right: 20px;">{{o.fname}}</span>
-        <span style="padding-right: 20px;">{{o.sname}}</span>
-        <span style="padding-right: 20px;">{{o.department}}</span>
-        <span style="padding-right: 20px;">{{o.school}}</span>
-        <span style="padding-right: 20px;">{{o.year}}</span>
-    </h3>
-    
-{% endfor %}
+{% load static %}
+<head>
+  <title>Participants</title>
 
-<h2>Profs</h2>
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300i,400" rel="stylesheet">
+    </style>
+    <link href="{% static 'login_system/vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+  
+    <!-- Custom styles for this template -->
+    <link href="{% static 'login_system/css/shop-homepage.css' %}" rel="stylesheet">
+  </head>
+  <body>
+  {% include 'login_system/nav.html' %}
+  <br>
+  <div class="container rounded shadow-sm">
+    <h1>Course Name</h1>
+  </div>  
 
-{% for o in list.profs %}
-    <h3>
-        <span style="padding-right: 20px;">{{o.fname}}</span>
-        <span style="padding-right: 20px;">{{o.sname}}</span>
-        <span style="padding-right: 20px;">{{o.department}}</span>
-        <span style="padding-right: 20px;">{{o.school}}</span>
-        <span style="padding-right: 20px;">{{o.position}}</span>
-    </h3>
-    
-{% endfor %}
+  <div class="container rounded shadow-lg">
+    <h3>Participants</h3>
+    <hr>
+    <style>
+      table {
+        font-family: arial, sans-serif;
+        border-collapse: collapse;
+        width: 100%;
+      }
+
+      td, th {
+        border: 1px solid #dddddd;
+        text-align: left;
+        padding: 8px;
+      }
+
+      tr:nth-child(even) {
+        background-color: #dddddd;
+      }
+    </style>
+    <h4>Students</h4>
+    <table >
+      <tr>
+        <th>First Name</th>
+        <th>Second Name</th>
+        <th>Department</th>
+        <th>School</th>
+        <th>Year</th>
+      </tr>
+    {% for o in list.students %}
+      <tr>
+        <td>{{o.fname}}</td>
+        <td>{{o.sname}}</td>
+        <td>{{o.department}}</td>
+        <td>{{o.school}}</td>
+        <td>{{o.year}}</td>
+      </tr>
+    {% endfor %}
+    </table>
+    <h4>Professors</h4>
+    <table >
+      <tr>
+        <th>First Name</th>
+        <th>Second Name</th>
+        <th>Department</th>
+        <th>School</th>
+        <th>Position</th>
+      </tr>
+    {% for o in list.profs %}
+      <tr>
+        <td>{{o.fname}}</td>
+        <td>{{o.sname}}</td>
+        <td>{{o.department}}</td>
+        <td>{{o.school}}</td>
+        <td>{{o.position}}</td>
+      </tr>
+    {% endfor %}
+    </table>
+  <br>
+  </div> 
+  <!-- /.container -->
+  <br>
+  
+
+  <!-- Footer -->
+  <footer class="py-5 bg-info">
+    <div class="container">
+      <p class="m-0 text-center text-white">Study Hard!</p>
+    </div>
+    <!-- /.container -->
+  </footer>
+  
+
+  <!-- Bootstrap core JavaScript -->
+  
+  <script src="{% static 'login_system/vendor/jquery/jquery.min.js' %}"></script>
+  <script src="{% static 'login_system//vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+  </body>

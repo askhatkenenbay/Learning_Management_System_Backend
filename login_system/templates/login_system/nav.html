@@ -44,14 +44,19 @@
             </a>
           </li>
           <li class="nav-item active">
-            <a class="nav-link" href="{% url 'grade' %}">Grades</a>
+            <a class="nav-link" href="{% url 'grades' %}">Grades</a>
+          </li>
+        <li class="nav-item active">
+            <a class="nav-link" href="{% url 'schedule' %}">Schedule</a>
           </li>
           <li class="nav-item active">
             <a class="nav-link" href="{% url 'profile' %}">Profile</a>
           </li>
+        <!--
           <li class="nav-item active">
             <a class="nav-link" href="#">Settings</a>
           </li >
+          -->
             <li class="nav-item active">
           {% if session.role  == "student" %}
             <a class="nav-link" href="#">Reg</a>

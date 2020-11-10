@@ -1,0 +1,91 @@
+{% load static %}
+<head>
+  <title>Grades</title>
+
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300i,400" rel="stylesheet">
+    </style>
+    <link href="{% static 'login_system/vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+  
+    <!-- Custom styles for this template -->
+    <link href="{% static 'login_system/css/shop-homepage.css' %}" rel="stylesheet">
+  </head>
+  <body>
+  {% include 'login_system/nav.html' %}
+  <br>
+  <br>
+
+  <div class="container rounded shadow-lg">
+    <h3>Courses I am taking</h3>
+    <hr>
+    <style>
+      table {
+        font-family: arial, sans-serif;
+        border-collapse: collapse;
+        width: 100%;
+      }
+
+      td, th {
+        border: 1px solid #dddddd;
+        text-align: left;
+        padding: 8px;
+      }
+
+      tr:nth-child(even) {
+        background-color: #dddddd;
+      }
+    </style>
+    <table >
+      <tr>
+        <th>Course name</th>
+        <th>Grade</th>
+        <th>Letter Grade</th>
+      </tr>
+      <tr>
+        <td>Course name</td>
+        <td>Grade</td>
+        <td>Letter Grade</td>
+      </tr>
+      <tr>
+        <td>Course name</td>
+        <td>Grade</td>
+        <td>Letter Grade</td>
+      </tr>
+      <tr>
+        <td>Course name</td>
+        <td>Grade</td>
+        <td>Letter Grade</td>
+      </tr>
+      <tr>
+        <td>Course name</td>
+        <td>Grade</td>
+        <td>Letter Grade</td>
+      </tr>
+      <tr>
+        <td>Course name</td>
+        <td>Grade</td>
+        <td>Letter Grade</td>
+      </tr>
+      <tr>
+        <td>Course name</td>
+        <td>Grade</td>
+        <td>Letter Grade</td>
+      </tr>
+    </table>
+  <br>
+  </div> 
+  <!-- /.container -->
+
+  <!-- Footer -->
+  <footer class="py-5 bg-info">
+    <div class="container">
+      <p class="m-0 text-center text-white">Study Hard!</p>
+    </div>
+    <!-- /.container -->
+  </footer>
+  
+
+  <!-- Bootstrap core JavaScript -->
+  
+  <script src="{% static 'login_system/vendor/jquery/jquery.min.js' %}"></script>
+  <script src="{% static 'login_system//vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+  </body>

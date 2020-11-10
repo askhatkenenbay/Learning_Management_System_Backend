@@ -114,15 +114,17 @@ class CoursepagemoduleAdmin(admin.ModelAdmin):
 		return (obj.coursesection_sectionid.course_courseid.course_code, obj.coursesection_sectionid.course_courseid.title)
 admin.site.register(Coursepagemodule, CoursepagemoduleAdmin)
 
+admin.site.register(Assignment)
+
+admin.site.register(File)
+
 #admin.site.register(Announcement)
 #admin.site.register(AnnouncementNotification)
 #admin.site.register(Discussion)
 #admin.site.register(Post)
-#admin.site.register(Assignment)
 #admin.site.register(Assignmentsubmission)
 #admin.site.register(Quiz)
 #admin.site.register(Quizquestion)
 #admin.site.register(Answerchoice)
 #admin.site.register(Quizsubmission)
-#admin.site.register(File)
 # admin.site.unregister(School)

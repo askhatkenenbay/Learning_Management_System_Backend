@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+{% load static %}
+
+<head>
+ 	<!-- Global site tag (gtag.js) - Google Analytics -->
+	<script async src="https://www.googletagmanager.com/gtag/js?id=UA-155182390-3"></script>
+	<script>
+	  window.dataLayer = window.dataLayer || [];
+	  function gtag(){dataLayer.push(arguments);}
+	  gtag('js', new Date());
+
+	  gtag('config', 'UA-155182390-3');
+	</script>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+  <title>{{ course.course_code}}</title>
+
+  <!-- Bootstrap core CSS -->
+  <link href="{% static 'coursepage/vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+  <link href="{% static 'coursepage/css/bootstrap.css' %}" rel="stylesheet">
+
+  <!-- Custom styles for this template -->
+  <link href="{% static 'coursepage/css/admin.css' %}" rel="stylesheet">
+
+</head>
+
+<body>
+	{% include 'login_system/nav.html' %}
+  <button type="button" class="btn btn-info"><a href="#courseMenu" data-toggle="modal" class='text-white'>Course Menu</a></button>
+  <br>
+  <h2 class='text-center'>{{ course.title }}</h2>
+
+  <div class="modal fade" id="courseMenu" tabindex="-1" role="dialog" aria-labelledby="chooseUserCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title text-info" id="chooseUserLongTitle">{{ course.title }}</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body text-center">
+          <button type="button" class="btn btn-success"><a href="/grades" class='text-white'>Grades</a></button>
+          <button type="button" class="btn btn-success"><a href="/participants" class='text-white'>Participants</a></button>
+        </div>
+        <div class="modal-footer">
+          <a href="#" class='text-info' data-dismiss="modal" aria-label="Close">cancel</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal fade" id="addContent" tabindex="-1" role="dialog" aria-labelledby="chooseUserCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title text-info" id="chooseUserLongTitle">What do you want to add?</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body text-center">
+          <button type="button" class="btn btn-success"><a href="#addFile" data-toggle="modal" class='text-white'>File</a></button>
+          <button type="button" class="btn btn-success"><a href="#addAssigment" data-toggle="modal" class='text-white'>Assignment</a></button>
+          <button type="button" class="btn btn-success"><a href="#addQuiz" data-toggle="modal" class='text-white'>Quiz</a></button>
+        </div>
+        <div class="modal-footer">
+          <a href="#" class='text-info' data-dismiss="modal" aria-label="Close">cancel</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal fade" id="addFile" tabindex="-1" role="dialog" aria-labelledby="chooseUserCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title text-info" id="chooseUserLongTitle">Add New File</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form>
+            <div class="form-group">
+              <label for="formGroupExampleInput">Description</label>
+              <input type="text" class="form-control" id="moduleTitle" placeholder="Description">
+            </div>
+            <div class="form-group">
+              <label for="exampleFormControlFile1">File</label>
+              <input type="file" class="form-control-file" id="exampleFormControlFile1">
+            </div>
+            <button type="submit" class="btn btn-primary">Save</button>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <a href="#" class='text-info' data-dismiss="modal" aria-label="Close">cancel</a>
+        </div>
+      </div>
+    </div>
+   </div>
+
+   <div class="modal fade" id="addAssigment" tabindex="-1" role="dialog" aria-labelledby="chooseUserCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title text-info" id="chooseUserLongTitle">Add New Assignment</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form>
+            <div class="form-group">
+              <label for="formGroupExampleInput">Title</label>
+              <input type="text" class="form-control" id="moduleTitle" placeholder="Title">
+            </div>
+            <div class="form-group">
+              <label for="formGroupExampleInput">Description</label>
+              <input type="text" class="form-control" id="moduleTitle" placeholder="Description">
+            </div>
+            <button type="submit" class="btn btn-primary">Save</button>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <a href="#" class='text-info' data-dismiss="modal" aria-label="Close">cancel</a>
+        </div>
+      </div>
+    </div>
+   </div>
+
+   <div class="modal fade" id="addQuiz" tabindex="-1" role="dialog" aria-labelledby="chooseUserCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title text-info" id="chooseUserLongTitle">Add New Quiz</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form>
+            <div class="form-group">
+              <label for="formGroupExampleInput">Title</label>
+              <input type="text" class="form-control" id="moduleTitle" placeholder="Title">
+            </div>
+            <div class="form-group">
+              <label for="formGroupExampleInput">Description</label>
+              <input type="text" class="form-control" id="moduleTitle" placeholder="Description">
+            </div>
+            <button type="submit" class="btn btn-primary">Save</button>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <a href="#" class='text-info' data-dismiss="modal" aria-label="Close">cancel</a>
+        </div>
+      </div>
+    </div>
+   </div>
+
+  <div class="modal fade" id="addModule" tabindex="-1" role="dialog" aria-labelledby="chooseUserCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title text-info" id="chooseUserLongTitle">Add New Module</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form>
+            <div class="form-group">
+              <label for="formGroupExampleInput">Title</label>
+              <input type="text" class="form-control" id="moduleTitle" placeholder="Title">
+            </div>
+            <div class="form-group">
+              <label for="formGroupExampleInput2">Order</label>
+              <input type="number" class="form-control" id="moduleOrder" placeholder="Week number">
+            </div>
+            <button type="submit" class="btn btn-primary">Save</button>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <a href="#" class='text-info' data-dismiss="modal" aria-label="Close">cancel</a>
+        </div>
+      </div>
+    </div>
+   </div>
+
+
+  <div class="container bg-secondary rounded shadow-lg">
+    {% for module in modules %}
+  	<br>
+    <div class="row">
+      <div class="col">
+        <div class="card h-80">
+          <div class="card-body">
+            <h4 class="card-title">{{ module.title }}</h4>
+            <hr/>
+            <!-- Take somehow from db -->
+            <p class="card-text">Week content</p>
+            <p class="card-text">Week content</p>
+          </div>
+          
+          {% if session.role == "instructor" %}
+          <div class="card-footer text-center">
+            <a href="#addContent" data-toggle="modal" class='text-success'>Add Content</a>
+          </div>
+          {% endif %}
+
+        </div>
+       </div>
+    </div>
+  	<br>
+    {% endfor %}
+    {% if session.role == "instructor" %}
+    <div class="text-right">
+      <a href="#addModule" data-toggle="modal" class='text-white'>Add Module</a>
+    </div>
+    {% endif %}  
+  </div>
+  <!-- /.container -->
+  <br>
+  <br>
+  <!-- Footer -->
+  <footer class="py-5 bg-info">
+    <div class="container text-center">
+      <a href="https://nu.edu.kz/" target="_blank" class="text-white">2020 Nazarbayev University</a>
+    </div>
+    <!-- /.container -->
+  </footer>
+
+  <!-- Bootstrap core JavaScript -->
+  <script src="{% static 'coursepage/vendor/jquery/jquery.min.js' %}"></script>
+  <script src="{% static 'coursepage/vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+
+
+</body>
+
+</html>

@@ -311,6 +311,7 @@ class File(models.Model):
     placeid = models.IntegerField(db_column='placeID')  # Field name made lowercase.
     placeName = models.CharField(max_length=45, choices=[('assignment','assignment'), ('submission', 'submission'), ('course', 'course')]) #to identify where from
     url = models.CharField(max_length=250)
+    description = models.CharField(max_length=250)
 
     class Meta:
         db_table = 'file'

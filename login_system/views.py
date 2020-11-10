@@ -5,7 +5,7 @@ from django.core.mail import send_mail
 from django.conf import settings
 from django.shortcuts import redirect
 from .forms import MyUserCreateForm
-from alldata.models import User, School, Department, Student,StudentEnrollment,Coursesection,Course, Instructor, CourseInstructor,Coursesection
+from alldata.models import *
 from django.contrib.auth.decorators import login_required, user_passes_test
 
 noadmin_required = user_passes_test(lambda user: user.role == 'student' or user.role == 'instructor', login_url='/')
@@ -33,7 +33,7 @@ def login(request):
             request.session['id'] = roleuser.instructorid
         mylist = []
         for course in courses:
-            sid = course.coursesection_sectionid.course_courseid.title
+            sid = (course.coursesection_sectionid.course_courseid.title, course.coursesection_sectionid.course_courseid.courseid, course.coursesection_sectionid.sectionid)
             mylist.append(sid)
         return render(request,'login_system/main.html', {'session':request.session, "list" : mylist})
     else:
@@ -47,14 +47,36 @@ def home(request):
         courses = CourseInstructor.objects.filter(instructor_instructorid=request.session['id'])
     mylist = []
     for course in courses:
-        sid = course.coursesection_sectionid.course_courseid.title
+        sid = (course.coursesection_sectionid.course_courseid.title, course.coursesection_sectionid.course_courseid.courseid, course.coursesection_sectionid.sectionid)
         mylist.append(sid)
     return render(request,'login_system/main.html', {'session':request.session, "list" : mylist})
 
 
-def grade(request):
-    return render(request,'login_system/grade.html', {'session':request.session})
-    
+def grades(request):
+    return render(request,'login_system/grades.html', {'session':request.session})
+
+def course(request):
+    return render(request,'login_system/home.html', {'session':request.session})
+
+def schedule(request):
+    if request.session['role'] == 'student':
+        courses = StudentEnrollment.objects.filter(student_studentid=request.session['id'])
+    elif request.session['role'] == 'instructor':
+        courses = CourseInstructor.objects.filter(instructor_instructorid=request.session['id'])
+    w, h = 6, 12;
+    el = lesson('', '', '', '')
+    les = [[el for x in range(w)] for y in range(h)]
+    dd = {"M": 0, "T": 1, "W": 2, "R": 3, "F": 4, "S": 5}
+    for course in courses:
+        sid = course.coursesection_sectionid
+        l = lesson(sid.course_courseid.title, sid.start_time, sid.end_time, sid.room)
+        i = sid.start_time.hour - 8
+        days = Sectionday.objects.filter(coursesection_sectionid = sid)
+        for day in days:
+            d = day.day
+            j = dd[d]
+            les[i][j] = l
+    return render(request, 'login_system/schedule.html', {'session':request.session, "les" : les})
 
 def profile(request):
     if request.session['role']=='student':
@@ -120,3 +142,16 @@ class ProfInfo:
     self.department = department
     self.school = school
     self.position = position
+
+class lesson:
+  def __init__(self, title, start, end, room):
+    self.title = title
+    self.start = start
+    self.end = end
+    self.room = room
+
+def course(request, course_id, coursesection_id):
+    course_section = Coursesection.objects.filter(sectionid = coursesection_id).first()
+    course = course_section.course_courseid
+    modules = Coursepagemodule.objects.filter(coursesection_sectionid = coursesection_id).all()
+    return render(request,'login_system/coursepage.html', {'session':request.session, 'course':course, 'course_section':course_section, 'modules':modules})
