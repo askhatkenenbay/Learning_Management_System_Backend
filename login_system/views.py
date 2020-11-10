@@ -33,7 +33,8 @@ def login(request):
             request.session['id'] = roleuser.instructorid
         mylist = []
         for course in courses:
-            sid = (course.coursesection_sectionid.course_courseid.title, course.coursesection_sectionid.course_courseid.courseid, course.coursesection_sectionid.sectionid)
+            #sid = (course.coursesection_sectionid.course_courseid.title, course.coursesection_sectionid.course_courseid.courseid, course.coursesection_sectionid.sectionid)
+            sid = course.coursesection_sectionid
             mylist.append(sid)
         return render(request,'login_system/main.html', {'session':request.session, "list" : mylist})
     else:
@@ -47,7 +48,8 @@ def home(request):
         courses = CourseInstructor.objects.filter(instructor_instructorid=request.session['id'])
     mylist = []
     for course in courses:
-        sid = (course.coursesection_sectionid.course_courseid.title, course.coursesection_sectionid.course_courseid.courseid, course.coursesection_sectionid.sectionid)
+        #sid = (course.coursesection_sectionid.course_courseid.title, course.coursesection_sectionid.course_courseid.courseid, course.coursesection_sectionid.sectionid)
+        sid = course.coursesection_sectionid
         mylist.append(sid)
     return render(request,'login_system/main.html', {'session':request.session, "list" : mylist})
 
@@ -55,27 +57,21 @@ def home(request):
 def grades(request):
     return render(request,'login_system/grades.html', {'session':request.session})
 
-def course(request):
-    return render(request,'login_system/home.html', {'session':request.session})
-
 def schedule(request):
     if request.session['role'] == 'student':
         courses = StudentEnrollment.objects.filter(student_studentid=request.session['id'])
     elif request.session['role'] == 'instructor':
         courses = CourseInstructor.objects.filter(instructor_instructorid=request.session['id'])
-    w, h = 6, 12;
-    el = lesson('', '', '', '')
-    les = [[el for x in range(w)] for y in range(h)]
+    les = [[None for x in range(6)] for y in range(12)]
     dd = {"M": 0, "T": 1, "W": 2, "R": 3, "F": 4, "S": 5}
     for course in courses:
         sid = course.coursesection_sectionid
-        l = lesson(sid.course_courseid.title, sid.start_time, sid.end_time, sid.room)
         i = sid.start_time.hour - 8
         days = Sectionday.objects.filter(coursesection_sectionid = sid)
         for day in days:
             d = day.day
             j = dd[d]
-            les[i][j] = l
+            les[i][j] = sid
     return render(request, 'login_system/schedule.html', {'session':request.session, "les" : les})
 
 def profile(request):
@@ -142,13 +138,6 @@ class ProfInfo:
     self.department = department
     self.school = school
     self.position = position
-
-class lesson:
-  def __init__(self, title, start, end, room):
-    self.title = title
-    self.start = start
-    self.end = end
-    self.room = room
 
 def course(request, course_id, coursesection_id):
     course_section = Coursesection.objects.filter(sectionid = coursesection_id).first()
