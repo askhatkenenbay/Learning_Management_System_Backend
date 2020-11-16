@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <!--  This file has been downloaded from bootdey.com    @bootdey on twitter -->
+    <!--  All snippets are MIT license http://bootdey.com/license -->
+    <title>Advisees</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style type="text/css">
+    	body{
+    background:#FCFCFC;    
+}
+.pr-12 {
+    padding-right: 12px !important;
+}
+
+.mb-20 {
+    margin-bottom: 20px !important;
+}
+
+.b-1 {
+    border: 1px solid #ebebeb !important;
+}
+
+.card {
+    border: 0;
+    border-radius: 0;
+    margin-bottom: 30px;
+    -webkit-transition: .5s;
+    transition: .5s;
+}
+
+.card {
+    position: relative;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-direction: column;
+    flex-direction: column;
+    min-width: 0;
+    word-wrap: break-word;
+    background-color: #fff;
+    background-clip: border-box;
+    border: 1px solid rgba(0,0,0,.125);
+    border-radius: .25rem;
+}
+
+.media {
+    padding: 16px 12px;
+    -webkit-transition: background-color .2s linear;
+    transition: background-color .2s linear;
+}
+
+.media {
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-align: start;
+    align-items: flex-start;
+}
+
+.card-body {
+    -ms-flex: 1 1 auto;
+    flex: 1 1 auto;
+    padding: 1.25rem;
+}
+
+.media .avatar {
+    flex-shrink: 0;
+}
+
+.no-radius {
+    border-radius: 0 !important;
+}
+
+.avatar-xl {
+    width: 64px;
+    height: 64px;
+    line-height: 64px;
+    font-size: 1.25rem;
+}
+
+.avatar {
+    position: relative;
+    display: inline-block;
+    width: 36px;
+    height: 36px;
+    line-height: 36px;
+    text-align: center;
+    border-radius: 100%;
+    background-color: #f5f6f7;
+    color: #8b95a5;
+    text-transform: uppercase;
+}
+
+img {
+    max-width: 100%;
+}
+
+img {
+    vertical-align: middle;
+    border-style: none;
+}
+
+.mb-2 {
+    margin-bottom: .5rem!important;
+}
+
+.fs-20 {
+    font-size: 20px !important;
+}
+
+.pr-16 {
+    padding-right: 16px !important;
+}
+
+.ls-1 {
+    letter-spacing: 1px !important;
+}
+
+.fw-300 {
+    font-weight: 300 !important;
+}
+
+.fs-16 {
+    font-size: 16px !important;
+}
+
+.media-body>* {
+    margin-bottom: 0;
+}
+
+small, time, .small {
+    font-family: Roboto,sans-serif;
+    font-weight: 400;
+    font-size: 11px;
+    color: #8b95a5;
+}
+
+.fs-14 {
+    font-size: 14px !important;
+}
+
+.mb-12 {
+    margin-bottom: 12px !important;
+}
+
+.text-fade {
+    color: rgba(77,82,89,0.7) !important;
+}
+
+
+
+.card-footer>*:last-child {
+    margin-bottom: 0
+}
+
+.hover-shadow {
+    -webkit-box-shadow: 0 0 35px rgba(0, 0, 0, 0.11);
+    box-shadow: 0 0 35px rgba(0, 0, 0, 0.11)
+}
+
+
+    </style>
+</head>
+<body>
+{% include 'login_system/nav.html' %}
+
+<br>
+<br>
+<br>
+<div class="container">
+<div class="col-md-12">
+     {% for adv in list %}
+         <a href="#">
+    <div class="card b-1 hover-shadow mb-20">
+        <div class="media card-body">
+            <div class="media-left pr-12">
+                <img class="avatar avatar-xl no-radius" src="/media/nu_logo.jpg" alt="...">
+            </div>
+            <div class="media-body">
+                <div class="mb-2">
+                    <span class="fs-20 pr-16">{{adv.user_userid.first_name}} {{adv.user_userid.last_name}}</span>
+                </div>
+                <small class="fs-16 fw-300 ls-1">{{adv.user_userid.department_name.name}} {{adv.level}} {{adv.year_of_study}}-year</small>
+            </div>
+            <div class="media-right text-right d-none d-md-block">
+                <p class="fs-14 text-fade mb-12"><i class="fa fa-map-marker pr-1"></i>Schedule Locked : {{adv.schedule_lock}}</p>
+                <p class="fs-14 text-fade mb-12"><i class="fa fa-map-marker pr-1"></i>Schedule Approved : {{adv.schedule_approve}}</p>
+                <span class="text-fade"><i class="fa fa-money pr-1"></i>Academic Status : {{adv.academic_status}}</span>
+            </div>
+        </div>
+    </div>
+         </a>
+    {% endfor %}
+    <br>
+</div>
+</div>
+</body>
+</html>

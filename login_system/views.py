@@ -58,20 +58,26 @@ def home(request):
 def grades(request):
     return render(request,'login_system/grades.html', {'session':request.session})
 
+def adviseeList(request):
+    advisees = Advice.objects.filter(instructor_instructorid=request.session['id'])
+    list = []
+    for advisee in advisees:
+        advid = advisee.student_studentid
+        list.append(advid)
+    return render(request,'login_system/adviseeList.html', {'session':request.session, "list" : list})
+
 def schedule(request):
     if request.session['role'] == 'student':
         courses = StudentEnrollment.objects.filter(student_studentid=request.session['id'], coursesection_sectionid__year=year, coursesection_sectionid__semester=semester)
     elif request.session['role'] == 'instructor':
         courses = CourseInstructor.objects.filter(instructor_instructorid=request.session['id'],  coursesection_sectionid__year=year, coursesection_sectionid__semester=semester)
     les = [[None for x in range(6)] for y in range(12)]
-    dd = {"M": 0, "T": 1, "W": 2, "R": 3, "F": 4, "S": 5}
     for course in courses:
         sid = course.coursesection_sectionid
         i = sid.start_time.hour - 8
         days = Sectionday.objects.filter(coursesection_sectionid = sid)
         for day in days:
-            d = day.day
-            j = dd[d]
+            j = int(day.day)-1
             les[i][j] = sid
     return render(request, 'login_system/schedule.html', {'session':request.session, "les" : les})
 
@@ -85,6 +91,8 @@ def profile(request):
 def logout(request):
     del request.session['role']
     del request.session['id']
+    del request.session['name']
+    del request.session['surname']
     return redirect('/')
 
 def participants(request, coursesection_id):
@@ -93,7 +101,7 @@ def participants(request, coursesection_id):
         "students" : student,
         "profs" : prof
     }
-    return render(request,'login_system/participants.html', {'list':part})
+    return render(request,'login_system/participants.html', {'session':request.session, 'list':part})
 
 def getListOfParticipants(id):
     section = Coursesection.objects.filter(sectionid=id).first()
