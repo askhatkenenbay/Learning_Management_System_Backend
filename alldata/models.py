@@ -128,7 +128,7 @@ class Coursesection(models.Model):
 
 class Sectionday(models.Model):
     coursesection_sectionid = models.ForeignKey(Coursesection, on_delete=models.CASCADE, db_column='courseSection_sectionID')  # Field name made lowercase.
-    day = models.CharField(max_length=45, choices=[('M', 'Monday'),('T','Tuesday'),('W','Wednesday'), ('R','Thursday'),('F','Friday'),('S','Saturday')])
+    day = models.CharField(max_length=45, choices=[('1', 'Monday'),('2','Tuesday'),('3','Wednesday'), ('4','Thursday'),('5','Friday'),('6','Saturday')])
 
     class Meta:
         db_table = 'sectionDay'
