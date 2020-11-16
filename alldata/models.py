@@ -239,18 +239,24 @@ class Assignment(models.Model):
     start_date = models.DateTimeField()
     due_date = models.DateTimeField()
     max_point = models.IntegerField()
-
+    # myFile = models.FileField(default="default.jpg")
     class Meta:
         db_table = 'assignment'
         unique_together = (('assignmentid', 'coursepagemodule_moduleid'),)
+
+    # def save(self,*args,**kwargs):
+    #     super().save(*args,**kwargs)
+    #     myFile = ???
 
 
 class Assignmentsubmission(models.Model):
     assignment_assignmentid = models.ForeignKey(Assignment, on_delete=models.CASCADE, db_column='assignment_assignmentID')  # Field name made lowercase.
     student_studentid = models.ForeignKey('Student', on_delete=models.CASCADE, db_column='student_studentID')  # Field name made lowercase.
-    date = models.DateField(unique=True, blank=True, null=True)
+    # date = models.DateField(unique=True, blank=True, null=True)
+    date = models.DateTimeField(null=True)
     points = models.IntegerField()
     feedback = models.CharField(max_length=250, blank=True, null=True)
+    myFile = models.FileField(default="default.jpg")
 
     class Meta:
         db_table = 'assignmentSubmission'
@@ -262,8 +268,8 @@ class Quiz(models.Model):
     coursepagemodule_moduleid = models.ForeignKey(Coursepagemodule, on_delete=models.CASCADE, db_column='coursePageModule_moduleID')  # Field name made lowercase.
     name = models.CharField(max_length=45)
     description = models.CharField(max_length=250)
-    open_time = models.TimeField()
-    close_time = models.TimeField()
+    open_time = models.DateTimeField()
+    close_time = models.DateTimeField()
     time_limit = models.IntegerField()
     max_point = models.IntegerField()
 
@@ -308,7 +314,7 @@ class Quizsubmission(models.Model):
 
 class File(models.Model):
     fileid = models.AutoField(db_column='fileID', primary_key=True)  # Field name made lowercase.
-    placeid = models.IntegerField(db_column='placeID')  # Field name made lowercase.
+    coursepagemodule_moduleid = models.ForeignKey(Coursepagemodule, on_delete=models.CASCADE, db_column='coursePageModule_moduleID')  # Field name made lowercase.
     placeName = models.CharField(max_length=45, choices=[('assignment','assignment'), ('submission', 'submission'), ('course', 'course')]) #to identify where from
     url = models.CharField(max_length=250)
     description = models.CharField(max_length=250)

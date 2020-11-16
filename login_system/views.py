@@ -140,8 +140,36 @@ class ProfInfo:
     self.school = school
     self.position = position
 
+class ModuleInfo:
+  def __init__(self, cModule, ass, quiz, myFile):
+    self.cModule = cModule
+    self.ass = ass
+    self.quiz = quiz
+    self.myFile = myFile
+
 def course(request, course_id, coursesection_id):
+    if request.method == 'POST':
+        sua = request.POST.get('student-upload-ass', None)
+        if sua is not None:
+            submission = Assignmentsubmission()
+            submission.date = datetime.datetime.now()
+            submission.myFile = request.POST.get('filename', None)
+            ass = Assignment.objects.filter(assignmentid = request.POST.get('assID', None)).first()
+            submission.assignment_assignmentid = ass
+            student = Student.objects.filter(studentid = request.session['id']).first()
+            submission.student_studentid = student
+            submission.points = 0
+            submission.save()
+            print("!!!!!!")
+
     course_section = Coursesection.objects.filter(sectionid = coursesection_id).first()
     course = course_section.course_courseid
-    modules = Coursepagemodule.objects.filter(coursesection_sectionid = coursesection_id).all()
-    return render(request,'login_system/coursepage.html', {'session':request.session, 'course':course, 'course_section':course_section, 'modules':modules})
+    modules = Coursepagemodule.objects.filter(coursesection_sectionid = coursesection_id).order_by('order').all()
+    moduleList = []
+    for module in modules:
+        ass = Assignment.objects.filter(coursepagemodule_moduleid = module).all()
+        quiz = Quiz.objects.filter(coursepagemodule_moduleid = module).all()
+        myFile = File.objects.filter(coursepagemodule_moduleid = module).all()
+        temp = ModuleInfo(module,ass,quiz,myFile)
+        moduleList.append(temp)
+    return render(request,'login_system/coursepage.html', {'session':request.session, 'course':course, 'course_section':course_section, 'modules':modules, 'list':moduleList})

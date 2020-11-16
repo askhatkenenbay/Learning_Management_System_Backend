@@ -194,30 +194,66 @@
 
 
   <div class="container bg-secondary rounded shadow-lg">
-    {% for module in modules %}
-  	<br>
-    <div class="row">
-      <div class="col">
-        <div class="card h-80">
-          <div class="card-body">
-            <h4 class="card-title">{{ module.title }}</h4>
-            <hr/>
-            <!-- Take somehow from db -->
-            <p class="card-text">Week content</p>
-            <p class="card-text">Week content</p>
-          </div>
-          
-          {% if session.role == "instructor" %}
-          <div class="card-footer text-center">
-            <a href="#addContent" data-toggle="modal" class='text-success'>Add Content</a>
-          </div>
-          {% endif %}
+    
 
+    {% for temp in list %}
+      <br>
+      <div class="row">
+        <div class="col">
+          <div class="card h-80">
+            <div class="card-body">
+              <h4 class="card-title">{{ temp.cModule.title }}</h4>
+              {% if temp.ass %}
+              <hr/>
+              <h3>Assignments</h3>
+              {% endif%}
+              {% for ass in temp.ass %}
+                <h5>{{ass.name}}</h5>
+                <h5>{{ass.description}}</h5>
+                <h5>Start Date: {{ass.start_date}}</h5>
+                <h5>End Date: {{ass.due_date}}</h5>
+                <h5>Max Points: {{ass.max_point}}</h5>
+                <form method="POST" >
+                  {% csrf_token %}
+                  <input type="hidden" name="student-upload-ass" value="yes">
+                  <input type="hidden" name="assID" value={{ass.assignmentid}}>
+                  <input type="file"  name="filename">
+                  <input type="submit">
+                </form>
+              {% endfor %}
+              {% if temp.quiz %}
+              <br>
+              <h3>Quiz</h3>
+              {% endif%}
+              {% for quiz in temp.quiz %}
+                <h5>{{quiz.name}}</h5>
+                <h5>{{quiz.description}}</h5>
+                <h5>Start Date: {{quiz.open_time}}</h5>
+                <h5>End Date: {{quiz.close_time}}</h5>
+                <h5>Time Limit: {{quiz.time_limit}}</h5>
+                <h5>Max points: {{quiz.max_point}}</h5>
+              {% endfor %}
+              {% if temp.myFile %}
+              <br>
+              <h3>Files</h3>
+              {% endif%}
+              {% for file in temp.myFile %}
+                <h5>{{file.description}}</h5>
+              {% endfor %}
+            </div>
+            
+            {% if session.role == "instructor" %}
+            <div class="card-footer text-center">
+              <a href="#addContent" data-toggle="modal" class='text-success'>Add Content</a>
+            </div>
+            {% endif %}
+
+          </div>
         </div>
-       </div>
-    </div>
-  	<br>
+      </div>
+      <br>
     {% endfor %}
+
     {% if session.role == "instructor" %}
     <div class="text-right">
       <a href="#addModule" data-toggle="modal" class='text-white'>Add Module</a>
