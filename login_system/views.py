@@ -56,6 +56,7 @@ def grades(request):
     return render(request,'login_system/grades.html', {'session':request.session})
 
 def course(request):
+    # TODO Save prof add course
     return render(request,'login_system/home.html', {'session':request.session})
 
 def schedule(request):
@@ -63,7 +64,7 @@ def schedule(request):
         courses = StudentEnrollment.objects.filter(student_studentid=request.session['id'])
     elif request.session['role'] == 'instructor':
         courses = CourseInstructor.objects.filter(instructor_instructorid=request.session['id'])
-    w, h = 6, 12;
+    w, h = 6, 12
     el = lesson('', '', '', '')
     les = [[el for x in range(w)] for y in range(h)]
     dd = {"M": 0, "T": 1, "W": 2, "R": 3, "F": 4, "S": 5}
