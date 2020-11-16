@@ -26,7 +26,9 @@
 
   <!-- Custom styles for this template -->
   <link href="{% static 'coursepage/css/admin.css' %}" rel="stylesheet">
+  <script>
 
+  </script>
 </head>
 
 <body>
@@ -86,14 +88,17 @@
           </button>
         </div>
         <div class="modal-body">
-          <form>
+          <form method="POST">
+            {% csrf_token %}
+            <input type="hidden" name="new-content" value="myFile">
+            <input type="hidden" id="moduleID_F" name="moduleID" value="">
             <div class="form-group">
               <label for="formGroupExampleInput">Description</label>
-              <input type="text" class="form-control" id="moduleTitle" placeholder="Description">
+              <input type="text" class="form-control" name="desc" placeholder="Description">
             </div>
             <div class="form-group">
               <label for="exampleFormControlFile1">File</label>
-              <input type="file" class="form-control-file" id="exampleFormControlFile1">
+              <input type="file"  name="filename">
             </div>
             <button type="submit" class="btn btn-primary">Save</button>
           </form>
@@ -115,14 +120,30 @@
           </button>
         </div>
         <div class="modal-body">
-          <form>
+          <form method="POST">
+            {% csrf_token %}
+            <input type="hidden" name="new-content" value="ass">
+            <input type="hidden" id="moduleID_A" name="moduleID" value="">
             <div class="form-group">
               <label for="formGroupExampleInput">Title</label>
-              <input type="text" class="form-control" id="moduleTitle" placeholder="Title">
+              <input type="text" class="form-control" name="name" placeholder="Title">
             </div>
             <div class="form-group">
               <label for="formGroupExampleInput">Description</label>
-              <input type="text" class="form-control" id="moduleTitle" placeholder="Description">
+              <input type="text" class="form-control" name="description" placeholder="Description">
+            </div>
+            <div class="form-group">
+              <label for="formGroupExampleInput">Start Time</label>
+              <input type="date" name="startDate">
+              <input type="time" name="startTime">
+            </div>
+            <div class="form-group">
+              <label for="formGroupExampleInput">End Time</label>
+              <input type="date" name="endDate">
+              <input type="time" name="endTime">
+            </div>
+            <div class="form-group">
+              <span>Max Points</span><input type="number" name="maxPoint">
             </div>
             <button type="submit" class="btn btn-primary">Save</button>
           </form>
@@ -144,14 +165,31 @@
           </button>
         </div>
         <div class="modal-body">
-          <form>
+          <form method="POST">
+            {% csrf_token %}
+            <input type="hidden" name="new-content" value="quiz">
+            <input type="hidden" id="moduleID" name="moduleID" value="">
             <div class="form-group">
               <label for="formGroupExampleInput">Title</label>
-              <input type="text" class="form-control" id="moduleTitle" placeholder="Title">
+              <input type="text" class="form-control"  name="title" placeholder="Title">
             </div>
             <div class="form-group">
               <label for="formGroupExampleInput">Description</label>
-              <input type="text" class="form-control" id="moduleTitle" placeholder="Description">
+              <input type="text" class="form-control" name="desc" placeholder="Description">
+            </div>
+            <div class="form-group">
+              <label for="formGroupExampleInput">Start Time</label>
+              <input type="date" name="startDate">
+              <input type="time" name="startTime">
+            </div>
+            <div class="form-group">
+              <label for="formGroupExampleInput">End Time</label>
+              <input type="date" name="endDate">
+              <input type="time" name="endTime">
+            </div>
+            <div class="form-group">
+              <span>Time Limit:</span><input type="number" name="limit"><br>
+              <span>Max Points</span><input type="number" name="maxPoint">
             </div>
             <button type="submit" class="btn btn-primary">Save</button>
           </form>
@@ -203,6 +241,7 @@
           <div class="card h-80">
             <div class="card-body">
               <h4 class="card-title">{{ temp.cModule.title }}</h4>
+              <input type="hidden" id = "mod_{{ forloop.counter }}" name="moduleID" value={{temp.cModule.moduleid}}>
               {% if temp.ass %}
               <hr/>
               <h3>Assignments</h3>
@@ -213,13 +252,15 @@
                 <h5>Start Date: {{ass.start_date}}</h5>
                 <h5>End Date: {{ass.due_date}}</h5>
                 <h5>Max Points: {{ass.max_point}}</h5>
-                <form method="POST" >
-                  {% csrf_token %}
-                  <input type="hidden" name="student-upload-ass" value="yes">
-                  <input type="hidden" name="assID" value={{ass.assignmentid}}>
-                  <input type="file"  name="filename">
-                  <input type="submit">
-                </form>
+                {% if session.role == "student" %}
+                  <form method="POST" >
+                    {% csrf_token %}
+                    <input type="hidden" name="student-upload-ass" value="yes">
+                    <input type="hidden" name="assID" value={{ass.assignmentid}}>
+                    <input type="file"  name="filename">
+                    <input type="submit">
+                  </form>
+                {% endif%}
               {% endfor %}
               {% if temp.quiz %}
               <br>
@@ -239,12 +280,17 @@
               {% endif%}
               {% for file in temp.myFile %}
                 <h5>{{file.description}}</h5>
+                <h5>{{file.fileid}}</h5>
+                <a target="_blank" href="/download/{{file.fileid}}">Download</a>
               {% endfor %}
             </div>
             
             {% if session.role == "instructor" %}
             <div class="card-footer text-center">
-              <a href="#addContent" data-toggle="modal" class='text-success'>Add Content</a>
+              <a href="#addContent" 
+                onclick="document.getElementById('moduleID').value = document.getElementById('mod_{{ forloop.counter }}').value;document.getElementById('moduleID_A').value = document.getElementById('mod_{{ forloop.counter }}').value;document.getElementById('moduleID_F').value = document.getElementById('mod_{{ forloop.counter }}').value;" 
+                data-toggle="modal" class='text-success'>Add Content
+              </a>
             </div>
             {% endif %}
 

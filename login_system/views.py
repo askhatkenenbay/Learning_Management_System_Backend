@@ -96,15 +96,19 @@ def logout(request):
     return redirect('/')
 
 def participants(request, coursesection_id):
-    student, prof = getListOfParticipants(coursesection_id)
+    student, prof,title, level = getListOfParticipants(coursesection_id)
     part = {
         "students" : student,
-        "profs" : prof
+        "profs" : prof,
+        "title" : title,
+        "level" : level
     }
     return render(request,'login_system/participants.html', {'session':request.session, 'list':part})
 
 def getListOfParticipants(id):
     section = Coursesection.objects.filter(sectionid=id).first()
+    title = section.course_courseid.title
+    level = section.course_courseid.course_code
     students = StudentEnrollment.objects.filter(coursesection_sectionid = section)
     profs = CourseInstructor.objects.filter(coursesection_sectionid = section)
     studentList = []
@@ -130,7 +134,7 @@ def getListOfParticipants(id):
         school = dep.school_name.name
         p1 = ProfInfo(fname,sname,department,school,position)
         profList.append(p1)
-    return studentList, profList
+    return studentList, profList,title,level
 
 class StudentInfo:
   def __init__(self, fname, sname, department, school, year):
@@ -168,7 +172,49 @@ def course(request, course_id, coursesection_id):
             submission.student_studentid = student
             submission.points = 0
             submission.save()
-            print("!!!!!!")
+            print("NEW SUBMISSION")
+        content = request.POST.get('new-content', None)
+        if content == "quiz":
+            print("NEW QUIZ ADDED")
+            name = request.POST.get('title', None)
+            desc = request.POST.get('desc', None)
+            startDate = request.POST.get('startDate', None)
+            startTime = request.POST.get('startTime', None)
+            start = str(startDate) + " " +  str(startTime)
+            endDate = request.POST.get('endDate', None)
+            endTime = request.POST.get('endTime', None)
+            end = str(endDate) + " "+ str(endTime)
+            maxPoint = request.POST.get('maxPoint', None)
+            limit = request.POST.get('limit', None)
+            moduleId = request.POST.get('moduleID', None)
+            module = Coursepagemodule.objects.filter(moduleid = moduleId).first()
+            q = Quiz(name = name, description = desc, open_time = start, close_time = end, time_limit = limit, max_point = maxPoint,coursepagemodule_moduleid = module)
+            q.save()
+        elif content == "ass":
+            print("NEW ASS ADDED")
+            name = request.POST.get('name', None)
+            desc = request.POST.get('description', None)
+            startDate = request.POST.get('startDate', None)
+            startTime = request.POST.get('startTime', None)
+            start = str(startDate) + " " +  str(startTime)
+            endDate = request.POST.get('endDate', None)
+            endTime = request.POST.get('endTime', None)
+            end = str(endDate) + " "+ str(endTime)
+            maxPoint = request.POST.get('maxPoint', None)
+            moduleId = request.POST.get('moduleID', None)
+            module = Coursepagemodule.objects.filter(moduleid = moduleId).first()
+            a = Assignment(name = name, description = desc,start_date = start, due_date = end, max_point = maxPoint,coursepagemodule_moduleid = module)
+            a.save()
+        elif content == "myFile":
+            print("NEW File ADDED")
+            desc = request.POST.get('desc', None)
+            # tempFile = request.FILES['filename']
+            moduleId = request.POST.get('moduleID', None)
+            module = Coursepagemodule.objects.filter(moduleid = moduleId).first()
+            qqq = File(description = desc, coursepagemodule_moduleid = module)
+            qqq.myFile = request.POST.get('filename', None)
+            qqq.save()
+    
 
     course_section = Coursesection.objects.filter(sectionid = coursesection_id).first()
     course = course_section.course_courseid
@@ -181,3 +227,12 @@ def course(request, course_id, coursesection_id):
         temp = ModuleInfo(module,ass,quiz,myFile)
         moduleList.append(temp)
     return render(request,'login_system/coursepage.html', {'session':request.session, 'course':course, 'course_section':course_section, 'modules':modules, 'list':moduleList})
+
+def download(request, file_id):
+    print(file_id)
+    temp = File.objects.filter(fileid = file_id).first()
+    data = temp.myFile.read()
+    return data
+    # response = HttpResponse(temp.myFile.read())
+    # print("HERE")
+    # return response

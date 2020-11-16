@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'storages',
 ]
 
 MIDDLEWARE = [
@@ -140,8 +141,9 @@ EMAIL_HOST_PASSWORD = ''
 
 DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
 AWS_STORAGE_BUCKET_NAME = ''# remove before push
-AWS_S3_REGION_NAME = ''
+AWS_S3_REGION_NAME = 'eu-north-1'
 AWS_ACCESS_KEY_ID = '' # remove before push
 AWS_SECRET_ACCESS_KEY = '' # remove before push
 AWS_S3_FILE_OVERWRITE = False
 AWS_DEFAULT_ACL = None
+

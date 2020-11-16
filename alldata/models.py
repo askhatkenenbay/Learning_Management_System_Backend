@@ -239,14 +239,10 @@ class Assignment(models.Model):
     start_date = models.DateTimeField()
     due_date = models.DateTimeField()
     max_point = models.IntegerField()
-    # myFile = models.FileField(default="default.jpg")
     class Meta:
         db_table = 'assignment'
         unique_together = (('assignmentid', 'coursepagemodule_moduleid'),)
 
-    # def save(self,*args,**kwargs):
-    #     super().save(*args,**kwargs)
-    #     myFile = ???
 
 
 class Assignmentsubmission(models.Model):
@@ -261,6 +257,9 @@ class Assignmentsubmission(models.Model):
     class Meta:
         db_table = 'assignmentSubmission'
         unique_together = (('assignment_assignmentid', 'student_studentid'),)
+
+    def save(self,*args,**kwargs):
+        super().save(*args,**kwargs)
 
 
 class Quiz(models.Model):
@@ -315,9 +314,11 @@ class Quizsubmission(models.Model):
 class File(models.Model):
     fileid = models.AutoField(db_column='fileID', primary_key=True)  # Field name made lowercase.
     coursepagemodule_moduleid = models.ForeignKey(Coursepagemodule, on_delete=models.CASCADE, db_column='coursePageModule_moduleID')  # Field name made lowercase.
-    placeName = models.CharField(max_length=45, choices=[('assignment','assignment'), ('submission', 'submission'), ('course', 'course')]) #to identify where from
-    url = models.CharField(max_length=250)
+    # placeName = models.CharField(max_length=45, choices=[('assignment','assignment'), ('submission', 'submission'), ('course', 'course')]) #to identify where from
+    # url = models.CharField(max_length=250)
     description = models.CharField(max_length=250)
-
+    myFile = models.FileField(default="default.jpg")
     class Meta:
         db_table = 'file'
+    def save(self,*args,**kwargs):
+        super().save(*args,**kwargs)
