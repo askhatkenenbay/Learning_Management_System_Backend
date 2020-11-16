@@ -58,6 +58,9 @@
     vertical-align: top;
     border-top: 1px solid #dee2e6;
 }
+.bg-light-gray {
+    background-color: #f7f7f7;
+}
 a:link
 {
    color: black;
@@ -83,6 +86,7 @@ a:active
 <body>
  {% include 'login_system/nav.html' %}
  <br><br>
+
 <div class="container">
                 <div class="table-responsive">
                     <table class="table table-bordered text-center">
@@ -101,14 +105,19 @@ a:active
                             {% for ll in les %}
                                 <tr>
                                 {% for l in ll %}
-                                    <td>
-                                     <a href="{% url 'course' %}">
-                                    <span class="padding-5px-tb padding-15px-lr border-radius-5 margin-10px-bottom text-black font-size16  xs-font-size13">{{l.title}}</span>
-                                        <div class="margin-10px-top font-size14">{{l.room}}</div>
-                                    <div class="font-size13">{{l.start}}</div>
-                                    <div class="font-size13">{{l.end}}</div>
+                                    {% if l %}
+                                        <td>
+                                        <a href="/course/{{ l.course_courseid.courseid }}/{{ l.sectionid }}">
+                                    <span  style="color:Navy" class="padding-5px-tb padding-15px-lr border-radius-5 margin-10px-bottom text-black font-size16  xs-font-size13">
+                                        {{l.course_courseid.title}}</span>
+                                    <div class="margin-10px-top font-size14">Room: {{l.room}}</div>
+                                    <div class="font-size13">Start: {{l.start_time}}</div>
+                                    <div class="font-size13">End: {{l.end_time}}</div>
                                      </a>
-                                    </td>
+                                        </td>
+                                     {% else %}
+                                          <td class="bg-light-gray"></td>
+                                     {% endif %}
                                 {% endfor %}
                                 </tr>
                             {% endfor %}

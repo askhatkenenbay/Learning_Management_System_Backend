@@ -40,6 +40,7 @@
 </head>
 <body>
  {% include 'login_system/nav.html' %}
+ <br><br>
 <div class="container bootdey flex-grow-1 container-p-y">
 
             <div class="media align-items-center py-3 mb-3">
@@ -47,7 +48,7 @@
               <div class="media-body ml-4">
                 <h4 class="font-weight-bold mb-0">{{user.user_userid.first_name}} {{user.user_userid.last_name}}</h4>
                   <br>
-                <div class="text-muted mb-2">ID: {{user.user_userid.userid}}</div>
+                <div class="text-muted mb-2">User ID: {{user.user_userid.userid}}</div>
               </div>
             </div>
 
@@ -76,6 +77,10 @@
                       <td>{{user.user_userid.gender}}</td>
                     </tr>
                      {% if session.role  == "student" %}
+                    <tr>
+                      <td>Student ID:</td>
+                      <td>{{user.studentid}}</td>
+                    </tr>
                    <tr>
                       <td>Level:</td>
                       <td>{{user.level}}</td>
@@ -91,6 +96,10 @@
                     {% endif %}
 
                      {% if session.role  == "instructor" %}
+                     <tr>
+                      <td>Instructor ID:</td>
+                      <td>{{user.instructorid}}</td>
+                    </tr>
                    <tr>
                       <td>Position:</td>
                       <td>{{user.position}}</td>
