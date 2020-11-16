@@ -241,6 +241,14 @@
           <div class="card h-80">
             <div class="card-body">
               <h4 class="card-title">{{ temp.cModule.title }}</h4>
+              {% if session.role == "instructor" %}
+                <form method="POST">
+                  {% csrf_token %}
+                  <input type="hidden" name="moduleID" value="{{temp.cModule.moduleid}}">
+                  <input type="hidden" name="delete" value="module">
+                  <input type="submit" style="background-color: red;" value="Delete Module">
+                </form>
+              {% endif%}
               <input type="hidden" id = "mod_{{ forloop.counter }}" name="moduleID" value={{temp.cModule.moduleid}}>
               {% if temp.ass %}
               <hr/>
@@ -261,6 +269,14 @@
                     <input type="submit">
                   </form>
                 {% endif%}
+                {% if session.role == "instructor" %}
+                  <form method="POST">
+                    {% csrf_token %}
+                    <input type="hidden" name="assID" value="{{ass.assignmentid}}">
+                    <input type="hidden" name="delete" value="ass">
+                    <input type="submit" style="background-color: red;" value="Delete Assignment">
+                  </form>
+                {% endif%}
               {% endfor %}
               {% if temp.quiz %}
               <br>
@@ -273,6 +289,14 @@
                 <h5>End Date: {{quiz.close_time}}</h5>
                 <h5>Time Limit: {{quiz.time_limit}}</h5>
                 <h5>Max points: {{quiz.max_point}}</h5>
+                {% if session.role == "instructor" %}
+                  <form method="POST">
+                    {% csrf_token %}
+                    <input type="hidden" name="quizID" value="{{quiz.quizid}}">
+                    <input type="hidden" name="delete" value="quiz">
+                    <input type="submit" style="background-color: red;" value="Delete Quiz">
+                  </form>
+                {% endif%}
               {% endfor %}
               {% if temp.myFile %}
               <br>
@@ -282,6 +306,14 @@
                 <h5>{{file.description}}</h5>
                 <h5>{{file.fileid}}</h5>
                 <a target="_blank" href="/download/{{file.fileid}}">Download</a>
+                {% if session.role == "instructor" %}
+                  <form method="POST">
+                    {% csrf_token %}
+                    <input type="hidden" name="fileID" value="{{file.fileid}}">
+                    <input type="hidden" name="delete" value="file">
+                    <input type="submit" style="background-color: red;" value="Delete File">
+                  </form>
+                {% endif%}
               {% endfor %}
             </div>
             

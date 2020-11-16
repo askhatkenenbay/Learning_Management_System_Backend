@@ -8,7 +8,7 @@ from .forms import MyUserCreateForm
 from alldata.models import *
 from django.contrib.auth.decorators import login_required, user_passes_test
 import datetime
-
+from django.http import HttpResponseRedirect
 noadmin_required = user_passes_test(lambda user: user.role == 'student' or user.role == 'instructor', login_url='/')
 def noadmin_required(view_func):
     decorated_view_func = login_required(noadmin_required(view_func))
@@ -173,6 +173,7 @@ def course(request, course_id, coursesection_id):
             submission.points = 0
             submission.save()
             print("NEW SUBMISSION")
+            return HttpResponseRedirect(request.path_info)
         content = request.POST.get('new-content', None)
         if content == "quiz":
             print("NEW QUIZ ADDED")
@@ -190,6 +191,7 @@ def course(request, course_id, coursesection_id):
             module = Coursepagemodule.objects.filter(moduleid = moduleId).first()
             q = Quiz(name = name, description = desc, open_time = start, close_time = end, time_limit = limit, max_point = maxPoint,coursepagemodule_moduleid = module)
             q.save()
+            return HttpResponseRedirect(request.path_info)
         elif content == "ass":
             print("NEW ASS ADDED")
             name = request.POST.get('name', None)
@@ -205,6 +207,7 @@ def course(request, course_id, coursesection_id):
             module = Coursepagemodule.objects.filter(moduleid = moduleId).first()
             a = Assignment(name = name, description = desc,start_date = start, due_date = end, max_point = maxPoint,coursepagemodule_moduleid = module)
             a.save()
+            return HttpResponseRedirect(request.path_info)
         elif content == "myFile":
             print("NEW File ADDED")
             desc = request.POST.get('desc', None)
@@ -214,6 +217,21 @@ def course(request, course_id, coursesection_id):
             qqq = File(description = desc, coursepagemodule_moduleid = module)
             qqq.myFile = request.POST.get('filename', None)
             qqq.save()
+            return HttpResponseRedirect(request.path_info)
+        delete = request.POST.get('delete', None)
+        
+        if delete == "quiz":
+            myID = request.POST.get('quizID', None)
+            Quiz.objects.filter(quizid = myID).delete()
+        elif delete == "ass":
+            myID = request.POST.get('assID', None)
+            Assignment.objects.filter(assignmentid = myID).delete()
+        elif delete == "file":
+            myID = request.POST.get('fileID', None)
+            File.objects.filter(fileid = myID).delete()
+        elif delete == "module":
+            myID = request.POST.get('moduleID', None)
+            Coursepagemodule.objects.filter(moduleid = myID).delete()
     
 
     course_section = Coursesection.objects.filter(sectionid = coursesection_id).first()

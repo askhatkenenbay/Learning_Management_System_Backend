@@ -9,7 +9,7 @@ urlpatterns = [
     path('profile',views.profile, name='profile'),
     path('logout',views.logout, name='logout'),
     path('participants/<int:coursesection_id>/',views.participants),
-    path('course/<int:course_id>/<int:coursesection_id>/', views.course),
+    path('course/<int:course_id>/<int:coursesection_id>/', views.course, name="coursePage"),
     path('schedule',views.schedule, name='schedule'),
     path('adviseeList',views.adviseeList, name='adviseeList'),
     path('download/<int:file_id>/', views.download, name='download'),
