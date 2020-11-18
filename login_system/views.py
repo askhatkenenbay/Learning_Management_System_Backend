@@ -173,7 +173,7 @@ def course(request, course_id, coursesection_id):
             submission.points = 0
             submission.save()
             print("NEW SUBMISSION")
-            return HttpResponseRedirect(request.path_info)
+            # return HttpResponseRedirect(request.path_info)
         content = request.POST.get('new-content', None)
         if content == "quiz":
             print("NEW QUIZ ADDED")
@@ -191,7 +191,7 @@ def course(request, course_id, coursesection_id):
             module = Coursepagemodule.objects.filter(moduleid = moduleId).first()
             q = Quiz(name = name, description = desc, open_time = start, close_time = end, time_limit = limit, max_point = maxPoint,coursepagemodule_moduleid = module)
             q.save()
-            return HttpResponseRedirect(request.path_info)
+            # return HttpResponseRedirect(request.path_info)
         elif content == "ass":
             print("NEW ASS ADDED")
             name = request.POST.get('name', None)
@@ -207,7 +207,7 @@ def course(request, course_id, coursesection_id):
             module = Coursepagemodule.objects.filter(moduleid = moduleId).first()
             a = Assignment(name = name, description = desc,start_date = start, due_date = end, max_point = maxPoint,coursepagemodule_moduleid = module)
             a.save()
-            return HttpResponseRedirect(request.path_info)
+            # return HttpResponseRedirect(request.path_info)
         elif content == "myFile":
             print("NEW File ADDED")
             desc = request.POST.get('desc', None)
@@ -217,7 +217,17 @@ def course(request, course_id, coursesection_id):
             qqq = File(description = desc, coursepagemodule_moduleid = module)
             qqq.myFile = request.POST.get('filename', None)
             qqq.save()
-            return HttpResponseRedirect(request.path_info)
+            # return HttpResponseRedirect(request.path_info)
+        elif content == "content":
+            name = request.POST.get('name', None)
+            order = request.POST.get('order', None)
+            sectionID = request.POST.get('section', None) 
+            section = Coursesection.objects.filter(sectionid = sectionID).first()
+            temp = Coursepagemodule(coursesection_sectionid = section, title = name, order = order)
+            temp.save()
+            print("NEW MODULE")
+            # return HttpResponseRedirect(request.path_info)
+
         delete = request.POST.get('delete', None)
         
         if delete == "quiz":
