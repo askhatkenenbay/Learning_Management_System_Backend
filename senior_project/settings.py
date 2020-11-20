@@ -9,7 +9,7 @@ https://docs.djangoproject.com/en/3.1/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.1/ref/settings/
 """
-
+import json
 from pathlib import Path
 import os
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -139,11 +139,14 @@ EMAIL_USE_TLS = True
 EMAIL_HOST_USER = '' 
 EMAIL_HOST_PASSWORD = '' 
 
+f = open('senior_project/config.json',)
+data = json.load(f)	
 DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
-AWS_STORAGE_BUCKET_NAME = ''# remove before push
+AWS_STORAGE_BUCKET_NAME = data["AWS_STORAGE_BUCKET_NAME"]
 AWS_S3_REGION_NAME = 'eu-north-1'
-AWS_ACCESS_KEY_ID = '' # remove before push
-AWS_SECRET_ACCESS_KEY = '' # remove before push
+AWS_ACCESS_KEY_ID = data["AWS_ACCESS_KEY_ID"]
+AWS_SECRET_ACCESS_KEY = data["AWS_SECRET_ACCESS_KEY"]
 AWS_S3_FILE_OVERWRITE = False
 AWS_DEFAULT_ACL = None
+f.close()
 
