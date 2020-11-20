@@ -31,6 +31,9 @@ def login(request):
         request.session['role'] = user.role
         request.session['name'] = user.first_name
         request.session['surname'] = user.last_name
+        if user.role == 'admin':
+            request.session['id'] = user.userid
+            return redirect('/administrator/home')
         if user.role == 'student':
             roleuser = Student.objects.filter(user_userid = user.userid).first()
             request.session['id'] = roleuser.studentid

@@ -32,18 +32,18 @@
       <div class="collapse navbar-collapse" id="navbarResponsive">
         <ul class="navbar-nav ml-auto">
           <li class="nav-item active">
-            <a class="nav-link" href="#">Home
+            <a class="nav-link" href="{% url 'adminhome' %}">Home
               <span class="sr-only">(current)</span>
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="http://www.seds.school/admin/alldata/student/">Students</a>
+            <a class="nav-link" href="{% url 'admincourses' %}">Courses</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="http://www.seds.school/admin/alldata/instructor/">Instructors</a>
+            <a class="nav-link" href="{% url 'admininstructors' %}">Instructors</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="http://www.seds.school/admin/alldata/course/">Courses</a>
+            <a class="nav-link" href="{% url 'adminstudents' %}">Students</a>
           </li>
         </ul>
       </div>
@@ -75,8 +75,8 @@
     			        </button>
     			      </div>
     			      <div class="modal-body text-center">
-    			       	<button type="button" class="btn btn-success"><a href="http://www.seds.school/admin/alldata/student/add/" class='text-white'>Student</a></button>
-    			        <button type="button" class="btn btn-success"><a href="http://www.seds.school/admin/alldata/instructor/add/" class='text-white'>Instructor</a></button>
+    			       	<button type="button" class="btn btn-success"><a href="{% url 'createstudent' %}" class='text-white'>Student</a></button>
+    			        <button type="button" class="btn btn-success"><a href="{% url 'createinstructor' %}"class='text-white'>Instructor</a></button>
     			      </div>
     			      <div class="modal-footer">
     			        <a href="#" class='text-info' data-dismiss="modal" aria-label="Close">cancel</a>
@@ -101,7 +101,7 @@
               <a href="http://www.seds.school/admin/alldata/course/add/"><img class="card-img-top" src="{% static 'administrator/media/image.jpg' %}" alt=""></a>
               <div class="card-body">
                 <h4 class="card-title text-center">
-                  <a href="http://www.seds.school/admin/alldata/course/add/" class='text-white'>Add New Course</a>
+                  <a href="{% url 'createcourse' %}" class='text-white'>Add New Course</a>
                 </h4>
               </div>
             </div>
@@ -133,10 +133,10 @@
 
           <div class="col-lg-4 col-md-6 mb-4">
             <div class="card h-80 bg-secondary">
-              <a href="http://www.seds.school/admin/alldata/course/"><img class="card-img-top" src="{% static 'administrator/media/image.jpg' %}" alt=""></a>
+              <a href="{% url 'admincourses' %}"><img class="card-img-top" src="{% static 'administrator/media/image.jpg' %}" alt=""></a>
               <div class="card-body">
                 <h4 class="card-title text-center">
-                  <a href="http://www.seds.school/admin/alldata/course/" class='text-white'>All Courses</a>
+                  <a href="{% url 'admincourses' %}" class='text-white'>All Courses</a>
                 </h4>
               </div>
             </div>
@@ -144,10 +144,10 @@
 
           <div class="col-lg-4 col-md-6 mb-4">
             <div class="card h-80 bg-secondary">
-              <a href="http://www.seds.school/admin/alldata/student/"><img class="card-img-top" src="{% static 'administrator/media/image.jpg' %}" alt=""></a>
+              <a href="{% url 'adminstudents' %}"><img class="card-img-top" src="{% static 'administrator/media/image.jpg' %}" alt=""></a>
               <div class="card-body">
                 <h4 class="card-title text-center">
-                  <a href="http://www.seds.school/admin/alldata/student/" class='text-white'>All Students</a>
+                  <a href="{% url 'adminstudents' %}" class='text-white'>All Students</a>
                 </h4>
               </div>
             </div>
@@ -155,10 +155,10 @@
 
           <div class="col-lg-4 col-md-6 mb-4">
             <div class="card h-80 bg-secondary">
-              <a href="http://www.seds.school/admin/alldata/instructor/"><img class="card-img-top" src="{% static 'administrator/media/image.jpg' %}" alt=""></a>
+              <a href="{% url 'admininstructors' %}"><img class="card-img-top" src="{% static 'administrator/media/image.jpg' %}" alt=""></a>
               <div class="card-body">
                 <h4 class="card-title text-center">
-                  <a href="http://www.seds.school/admin/alldata/instructor/" class='text-white'>All Instructors</a>
+                  <a href="{% url 'admininstructors' %}" class='text-white'>All Instructors</a>
                 </h4>
               </div>
             </div>
