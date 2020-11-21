@@ -24,7 +24,7 @@
   <!-- Navigation -->
   <nav class="navbar navbar-expand-lg navbar-dark bg-info fixed-top">
     <div class="container">
-      <a class="navbar-brand" href="#">Learning Management System</a>
+      <a class="navbar-brand" href="{% url 'adminhome' %}">Learning Management System</a>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
@@ -77,6 +77,10 @@
     </div>
       <br>
     {% endfor %}
+    <div class="text-center">
+        <button type="button" onclick="location.href='/administrator/create-instructor/'" class="btn btn-success">Add Instructor</button>
+    </div>
+      <br>
   </div>
   
 

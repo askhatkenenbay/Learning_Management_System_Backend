@@ -9,7 +9,7 @@
   <meta name="description" content="">
   <meta name="author" content="">
 
-  <title>Create Student</title>
+  <title>Create Course</title>
 
   <!-- Bootstrap core CSS -->
   <link href="{% static 'administrator/vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
@@ -33,16 +33,16 @@
           <li class="nav-item">
             <a class="nav-link" href="{% url 'adminhome' %}">Home</a>
           </li>
-          <li class="nav-item">
-            <a class="nav-link" href="{% url 'admincourses' %}">Courses</a>
+          <li class="nav-item active">
+            <a class="nav-link" href="{% url 'admincourses' %}">Courses
+              <span class="sr-only">(current)</span>
+            </a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="{% url 'admininstructors' %}">Instructors</a>
           </li>
-          <li class="nav-item active">
-            <a class="nav-link" href="{% url 'adminstudents' %}">Students
-              <span class="sr-only">(current)</span>
-            </a>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'adminstudents' %}">Students</a>
           </li>
         </ul>
       </div>
@@ -51,7 +51,7 @@
 
   <br>
   <br>
-  <h2 class='text-center text-info'>Create Student</h2>
+  <h2 class='text-center text-info'>Create Course</h2>
 
   <!-- Page Content -->
   <div class="container bg-info rounded shadow-lg">
@@ -66,43 +66,27 @@
               <input type="hidden" name="new-content" value="student">
 
               <div class="form-group">
-                <label for="formGroupExampleInput">First Name</label>
-                <input type="text" class="form-control"  name="first_name" placeholder="First Name" required>
+                <label for="formGroupExampleInput">Course Code</label>
+                <input type="text" class="form-control"  name="course_code" placeholder="Course Code" required>
                 <div class="invalid-feedback">
                   Please fill out this field.
                 </div>
               </div>
 
               <div class="form-group">
-                <label for="formGroupExampleInput">Last Name</label>
-                <input type="text" class="form-control" name="last_name" placeholder="Last Name" required>
+                <label for="formGroupExampleInput">Course Title</label>
+                <input type="text" class="form-control" name="title" placeholder="Course Title" required>
                 <div class="invalid-feedback">
                   Please fill out this field.
                 </div>
               </div>
 
               <div class="form-group">
-                <label for="formGroupExampleInput">Email</label>
-                <input type="text" class="form-control" name="email" placeholder="Email" required>
+                <label for="formGroupExampleInput">Number of Credits</label>
+                <input type="number" class="form-control" name="credits" placeholder="Number of Credits" required>
                 <div class="invalid-feedback">
                   Please fill out this field.
                 </div>
-              </div>
-
-              <div class="form-group">
-                <label for="formGroupExampleInput">Password</label>
-                <input type="text" class="form-control" name="password" placeholder="Password" required>
-                <div class="invalid-feedback">
-                  Please fill out this field.
-                </div>
-              </div>
-
-              <div class="form-group">
-                <label for="exampleFormControlSelect1">Gender</label>
-                <select class="form-control" name="gender" required>
-                  <option value="male">male</option>
-                  <option value="female">female</option>
-                </select>
               </div>
 
               <div class="form-group">
@@ -125,22 +109,8 @@
               </div>
 
               <div class="form-group">
-                <label for="exampleFormControlSelect1">Year of Study</label>
-                <select class="form-control" name="year_of_study" required>
-                  <option value="0">0</option>
-                  <option value="1">1</option>
-                  <option value="2">2</option>
-                  <option value="3">3</option>
-                  <option value="4">4</option>
-                </select>
-              </div>
-
-              <div class="form-group">
-                <label for="exampleFormControlSelect1">Academic Status</label>
-                <select class="form-control" name="academic_status" required>
-                  <option value="Good">Good</option>
-                  <option value="Probation">Probation</option>
-                </select>
+                <label for="exampleFormControlTextarea1">Description of the Course</label>
+                <textarea class="form-control" name="description" rows="3" required></textarea>
               </div>
 
           </div>
