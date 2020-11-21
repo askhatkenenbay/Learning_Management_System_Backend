@@ -15,13 +15,15 @@ def students(request):
     return render(request,'adminstudents.html', {'session':request.session, "students" : students})
 
 def instructors(request):
-    return render(request,'adminhome.html')
+    instructors = Instructor.objects.all()
+    return render(request,'admininstructors.html', {'session':request.session, "instructors" : instructors})
 
 def courses(request):
-    return render(request,'adminhome.html')
+    courses = Course.objects.all()
+    return render(request,'admincourses.html', {'session':request.session, "courses" : courses})
 
 def create_student(request):
-    return render(request,'adminhome.html')
+    return render(request,'createstudent.html')
 
 def create_instructor(request):
     return render(request,'adminhome.html')

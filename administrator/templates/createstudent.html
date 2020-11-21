@@ -9,7 +9,7 @@
   <meta name="description" content="">
   <meta name="author" content="">
 
-  <title>All Students</title>
+  <title>Create Student</title>
 
   <!-- Bootstrap core CSS -->
   <link href="{% static 'administrator/vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
@@ -30,8 +30,10 @@
       </button>
       <div class="collapse navbar-collapse" id="navbarResponsive">
         <ul class="navbar-nav ml-auto">
-          <li class="nav-item">
-            <a class="nav-link" href="{% url 'adminhome' %}">Home</a>
+          <li class="nav-item active">
+            <a class="nav-link" href="{% url 'adminhome' %}">Home
+              <span class="sr-only">(current)</span>
+            </a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="{% url 'admincourses' %}">Courses</a>
@@ -39,10 +41,8 @@
           <li class="nav-item">
             <a class="nav-link" href="{% url 'admininstructors' %}">Instructors</a>
           </li>
-          <li class="nav-item active">
-            <a class="nav-link" href="{% url 'adminstudents' %}">Students 
-              <span class="sr-only">(current)</span>
-            </a>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'adminstudents' %}">Students</a>
           </li>
         </ul>
       </div>
@@ -51,33 +51,49 @@
 
   <br>
   <br>
-  <h2 class='text-center text-info'>All Students</h2>
+  <h2 class='text-center text-info'>Create Student</h2>
 
   <!-- Page Content -->
   <div class="container bg-info rounded shadow-lg">
       <br>
-    {% for student in students %}
     <div class="row">
       <div class="col">
+
         <div class="card h-80">
           <div class="card-body">
-            <h4 class="card-title">{{ student.user_userid.first_name }} {{ student.user_userid.last_name }}</h4>
-            <hr>
-            <img class="rounded float-left" src="/media/nu_logo.jpg" alt="...">
-            <p class="card-text">Student ID: {{ student.studentid }}</p>
-            <p class="card-text">{{ student.user_userid.department_name.name }} Department</p>
-            <p class="card-text">{{ student.level }} - {{ student.year_of_study }} Year</p>
-            <p class="card-text">Academic status: {{ student.academic_status }}</p>
+            <form method="POST">
+              {% csrf_token %}
+              <input type="hidden" name="new-content" value="student">
+              <div class="form-group">
+                <label for="formGroupExampleInput">First Name</label>
+                <input type="text" class="form-control"  name="first_name" placeholder="First Name">
+              </div>
+              <div class="form-group">
+                <label for="formGroupExampleInput">Last Name</label>
+                <input type="text" class="form-control" name="last_name" placeholder="Last Name">
+              </div>
+              <div class="form-group">
+                <label for="formGroupExampleInput">Email</label>
+                <input type="text" class="form-control" name="email" placeholder="Email">
+              </div>
+              <div class="form-group">
+                <label for="formGroupExampleInput">Password</label>
+                <input type="text" class="form-control" name="password" placeholder="Password">
+              </div>
+              <div class="form-group">
+                <label for="formGroupExampleInput">Gender</label>
+                <input type="text" class="form-control" name="password" placeholder="Password">
+              </div>
           </div>
           <div class="card-footer text-right">
-          	<button type="button" class="btn btn-success">Edit</button>
-          	<button type="button" class="btn btn-danger">Delete</button>
+            <button type="submit" class="btn btn-success">Save</button>
+            </form>
           </div>
         </div>
+
       </div>
     </div>
       <br>
-    {% endfor %}
   </div>
   
 

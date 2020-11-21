@@ -9,7 +9,7 @@
   <meta name="description" content="">
   <meta name="author" content="">
 
-  <title>All Students</title>
+  <title>All Courses</title>
 
   <!-- Bootstrap core CSS -->
   <link href="{% static 'administrator/vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
@@ -33,16 +33,16 @@
           <li class="nav-item">
             <a class="nav-link" href="{% url 'adminhome' %}">Home</a>
           </li>
-          <li class="nav-item">
-            <a class="nav-link" href="{% url 'admincourses' %}">Courses</a>
+          <li class="nav-item active">
+            <a class="nav-link" href="{% url 'admincourses' %}">Courses
+              <span class="sr-only">(current)</span>
+            </a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="{% url 'admininstructors' %}">Instructors</a>
           </li>
-          <li class="nav-item active">
-            <a class="nav-link" href="{% url 'adminstudents' %}">Students 
-              <span class="sr-only">(current)</span>
-            </a>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'adminstudents' %}">Students</a>
           </li>
         </ul>
       </div>
@@ -51,26 +51,25 @@
 
   <br>
   <br>
-  <h2 class='text-center text-info'>All Students</h2>
+  <h2 class='text-center text-info'>All Courses</h2>
 
   <!-- Page Content -->
   <div class="container bg-info rounded shadow-lg">
       <br>
-    {% for student in students %}
+    {% for course in courses %}
     <div class="row">
       <div class="col">
         <div class="card h-80">
           <div class="card-body">
-            <h4 class="card-title">{{ student.user_userid.first_name }} {{ student.user_userid.last_name }}</h4>
+            <h4 class="card-title">{{ course.course_code }} {{ course.title }}</h4>
             <hr>
-            <img class="rounded float-left" src="/media/nu_logo.jpg" alt="...">
-            <p class="card-text">Student ID: {{ student.studentid }}</p>
-            <p class="card-text">{{ student.user_userid.department_name.name }} Department</p>
-            <p class="card-text">{{ student.level }} - {{ student.year_of_study }} Year</p>
-            <p class="card-text">Academic status: {{ student.academic_status }}</p>
+            <p class="card-text">{{ course.department_name.name }} Department</p>
+            <p class="card-text">Number of credits: {{ course.credits}}r</p>
+            <p class="card-text">Description: {{ course.description }}</p>
           </div>
           <div class="card-footer text-right">
           	<button type="button" class="btn btn-success">Edit</button>
+            <button type="button" class="btn btn-success">Add Module</button>
           	<button type="button" class="btn btn-danger">Delete</button>
           </div>
         </div>
