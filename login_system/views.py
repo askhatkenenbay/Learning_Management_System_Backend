@@ -217,8 +217,8 @@ def course(request, course_id, coursesection_id):
             # tempFile = request.FILES['filename']
             moduleId = request.POST.get('moduleID', None)
             module = Coursepagemodule.objects.filter(moduleid = moduleId).first()
-            qqq = File(description = desc, coursepagemodule_moduleid = module)
-            qqq.myFile = request.POST.get('filename', None)
+            filename = request.FILES['filename']
+            qqq = File(description = desc, coursepagemodule_moduleid = module, myFile=filename)
             qqq.save()
             # return HttpResponseRedirect(request.path_info)
         elif content == "content":
@@ -258,12 +258,3 @@ def course(request, course_id, coursesection_id):
         temp = ModuleInfo(module,ass,quiz,myFile)
         moduleList.append(temp)
     return render(request,'login_system/coursepage.html', {'session':request.session, 'course':course, 'course_section':course_section, 'modules':modules, 'list':moduleList})
-
-def download(request, file_id):
-    print(file_id)
-    temp = File.objects.filter(fileid = file_id).first()
-    data = temp.myFile.read()
-    return data
-    # response = HttpResponse(temp.myFile.read())
-    # print("HERE")
-    # return response

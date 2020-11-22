@@ -88,7 +88,7 @@
           </button>
         </div>
         <div class="modal-body">
-          <form method="POST">
+          <form method="POST" enctype="multipart/form-data">
             {% csrf_token %}
             <input type="hidden" name="new-content" value="myFile">
             <input type="hidden" id="moduleID_F" name="moduleID" value="">
@@ -234,28 +234,22 @@
    </div>
 
 
-  <div class="container bg-secondary rounded shadow-lg">
+  <div class="container">
     
 
     {% for temp in list %}
       <br>
       <div class="row">
         <div class="col">
-          <div class="card h-80">
+          <div class="card h-80 rounded shadow">
             <div class="card-body">
-              <h4 class="card-title">{{ temp.cModule.title }}</h4>
-              {% if session.role == "instructor" %}
-                <form method="POST">
-                  {% csrf_token %}
-                  <input type="hidden" name="moduleID" value="{{temp.cModule.moduleid}}">
-                  <input type="hidden" name="delete" value="module">
-                  <input type="submit" style="background-color: red;" value="Delete Module">
-                </form>
-              {% endif%}
+              <h2 class="card-title text-center">{{ temp.cModule.title }}</h2>
+              <hr>
               <input type="hidden" id = "mod_{{ forloop.counter }}" name="moduleID" value={{temp.cModule.moduleid}}>
               {% if temp.ass %}
               <hr/>
               <h3>Assignments</h3>
+              <hr>
               {% endif%}
               {% for ass in temp.ass %}
                 <h5>{{ass.name}}</h5>
@@ -280,10 +274,12 @@
                     <input type="submit" style="background-color: red;" value="Delete Assignment">
                   </form>
                 {% endif%}
+                <hr>
               {% endfor %}
               {% if temp.quiz %}
-              <br>
+              <hr/>
               <h3>Quiz</h3>
+              <hr>
               {% endif%}
               {% for quiz in temp.quiz %}
                 <h5>{{quiz.name}}</h5>
@@ -300,15 +296,16 @@
                     <input type="submit" style="background-color: red;" value="Delete Quiz">
                   </form>
                 {% endif%}
+                <hr>
               {% endfor %}
               {% if temp.myFile %}
-              <br>
+              <hr>
               <h3>Files</h3>
+              <hr>
               {% endif%}
               {% for file in temp.myFile %}
-                <h5>{{file.description}}</h5>
-                <h5>{{file.fileid}}</h5>
-                <a target="_blank" href="/download/{{file.fileid}}">Download</a>
+                <a target="_blank" href="{{ file.myFile.url }}"><svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-file-medical-fill" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M12 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2zM8.5 4.5a.5.5 0 0 0-1 0v.634l-.549-.317a.5.5 0 1 0-.5.866L7 6l-.549.317a.5.5 0 1 0 .5.866l.549-.317V7.5a.5.5 0 1 0 1 0v-.634l.549.317a.5.5 0 1 0 .5-.866L9 6l.549-.317a.5.5 0 1 0-.5-.866l-.549.317V4.5zM5.5 9a.5.5 0 0 0 0 1h5a.5.5 0 0 0 0-1h-5zm0 2a.5.5 0 0 0 0 1h5a.5.5 0 0 0 0-1h-5z"/></svg>{{ file.myFile }}</a>
+                <p>{{file.description}}</p>
                 {% if session.role == "instructor" %}
                   <form method="POST">
                     {% csrf_token %}
@@ -317,15 +314,22 @@
                     <input type="submit" style="background-color: red;" value="Delete File">
                   </form>
                 {% endif%}
+                <hr>
               {% endfor %}
             </div>
             
             {% if session.role == "instructor" %}
-            <div class="card-footer text-center">
+            <div class="card-footer text-right">
               <a href="#addContent" 
                 onclick="document.getElementById('moduleID').value = document.getElementById('mod_{{ forloop.counter }}').value;document.getElementById('moduleID_A').value = document.getElementById('mod_{{ forloop.counter }}').value;document.getElementById('moduleID_F').value = document.getElementById('mod_{{ forloop.counter }}').value;" 
                 data-toggle="modal" class='text-success'>Add Content
               </a>
+              <form method="POST">
+                  {% csrf_token %}
+                  <input type="hidden" name="moduleID" value="{{temp.cModule.moduleid}}">
+                  <input type="hidden" name="delete" value="module">
+                  <input type="submit" style="background-color: red;" value="Delete Module">
+                </form>
             </div>
             {% endif %}
 
