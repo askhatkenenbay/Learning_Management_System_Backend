@@ -69,6 +69,30 @@ def adviseeList(request):
         list.append(advid)
     return render(request,'login_system/adviseeList.html', {'session':request.session, "list" : list})
 
+def advisee(request, student_id):
+    schedule = request.POST.get('schedule', None)
+    student = Student.objects.filter(studentid=student_id).first()
+    if schedule == "lock":
+        cur = student.schedule_lock
+        student.schedule_lock = not cur
+        student.save()
+    elif schedule == "approve":
+        cur = student.schedule_approve
+        student.schedule_approve = not cur
+        student.save()
+    courses = StudentEnrollment.objects.filter(student_studentid=student_id,
+                                               coursesection_sectionid__year=year,
+                                               coursesection_sectionid__semester=semester)
+    les = [[None for x in range(6)] for y in range(12)]
+    for course in courses:
+        sid = course.coursesection_sectionid
+        i = sid.start_time.hour - 8
+        days = Sectionday.objects.filter(coursesection_sectionid=sid)
+        for day in days:
+            j = int(day.day) - 1
+            les[i][j] = sid
+    return render(request, 'login_system/advisee.html',{'session': request.session, 'user' : student, "les" : les })
+
 def schedule(request):
     if request.session['role'] == 'student':
         courses = StudentEnrollment.objects.filter(student_studentid=request.session['id'], coursesection_sectionid__year=year, coursesection_sectionid__semester=semester)
