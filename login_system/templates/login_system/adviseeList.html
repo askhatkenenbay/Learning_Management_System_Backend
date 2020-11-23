@@ -170,7 +170,7 @@ small, time, .small {
 <div class="container">
 <div class="col-md-12">
      {% for adv in list %}
-         <a href="#">
+         <a href="advisee/{{ adv.studentid }}">
     <div class="card b-1 hover-shadow mb-20">
         <div class="media card-body">
             <div class="media-left pr-12">
@@ -185,7 +185,7 @@ small, time, .small {
             <div class="media-right text-right d-none d-md-block">
                 <p class="fs-14 text-fade mb-12"><i class="fa fa-map-marker pr-1"></i>Schedule Locked : {{adv.schedule_lock}}</p>
                 <p class="fs-14 text-fade mb-12"><i class="fa fa-map-marker pr-1"></i>Schedule Approved : {{adv.schedule_approve}}</p>
-                <span class="text-fade"><i class="fa fa-money pr-1"></i>Academic Status : {{adv.academic_status}}</span>
+
             </div>
         </div>
     </div>

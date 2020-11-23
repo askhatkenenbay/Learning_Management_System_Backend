@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <!--  This file has been downloaded from bootdey.com    @bootdey on twitter -->
+    <!--  All snippets are MIT license http://bootdey.com/license -->
+    <title>Your Profile</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <style type="text/css">
+    	body{
+    margin-top:20px;
+    background: #f5f5f5;
+}
+
+.ui-w-100 {
+    width: 100px !important;
+    height: auto;
+}
+
+.card {
+    background-clip: padding-box;
+    box-shadow: 0 1px 4px rgba(24,28,33,0.012);
+}
+
+.user-view-table td:first-child {
+    width: 9rem;
+}
+.user-view-table td {
+    padding-right: 0;
+    padding-left: 0;
+    border: 0;
+}
+
+.card .row-bordered>[class*=" col-"]::after {
+    border-color: rgba(24,28,33,0.075);
+}
+.bg-light-gray {
+    background-color: #f7f7f7;
+}
+.table-bordered thead td, .table-bordered thead th {
+    border-bottom-width: 2px;
+}
+.table thead th {
+    vertical-align: bottom;
+    border-bottom: 2px solid #dee2e6;
+}
+.table-bordered td, .table-bordered th {
+    border: 1px solid #dee2e6;
+}
+
+.padding-15px-lr {
+    padding-left: 15px;
+    padding-right: 15px;
+}
+.padding-5px-tb {
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+.margin-10px-bottom {
+    margin-bottom: 10px;
+}
+.border-radius-5 {
+    border-radius: 5px;
+}
+
+.margin-10px-top {
+    margin-top: 10px;
+}
+.font-size14 {
+    font-size: 14px;
+}
+
+.font-size13 {
+    font-size: 13px;
+}
+
+.table-bordered td, .table-bordered th {
+    border: 1px solid #dee2e6;
+}
+.table td, .table th {
+    padding: .75rem;
+    vertical-align: top;
+    border-top: 1px solid #dee2e6;
+}
+.bg-light-gray {
+    background-color: #f7f7f7;
+}
+
+    </style>
+</head>
+<body>
+ {% include 'login_system/nav.html' %}
+ <br><br>
+<div class="container bootdey flex-grow-1 container-p-y">
+
+            <div class="media align-items-center py-3 mb-3">
+              <img src="/media/nu_logo.jpg" alt="" class="d-block ui-w-100 rounded-circle">
+              <div class="media-body ml-4">
+                <h4 class="font-weight-bold mb-0">{{user.user_userid.first_name}} {{user.user_userid.last_name}}</h4>
+                  <br>
+                  <div class="text-muted mb-2">{{user.level}} {{user.user_userid.department_name.name}} {{user.year_of_study}}-year student</div>
+                <div class="text-muted mb-2">E-mail: {{user.user_userid.email}}</div>
+                  <div class="text-muted mb-2">Student ID: {{user.studentid}}</div>
+              </div>
+            </div>
+
+            <div class="card mb-4">
+              <div class="card-body">
+                <table class="table user-view-table m-0">
+                  <tbody>
+                  <tr>
+                      <td>Academic Status:</td>
+                      <td>{{user.academic_status}}</td>
+                    </tr>
+                    <tr>
+                      <td>Schedule Locked:</td>
+                      <td>{{user.schedule_lock}}</td>
+                        <td>
+                                <form method="POST">
+                                     {% csrf_token %}
+                    <input type="hidden" name="student" value="{{user.studentid}}">
+                    <input type="hidden" name="schedule" value="lock">
+                    <input type="submit" style="background-color: Yellow;" value="Lock / Unlock">
+                                </form></td>
+                    </tr>
+                     <tr>
+                      <td>Schedule Approved:</td>
+                      <td>{{user.schedule_approve}}</td>
+                         <td>
+                          <form method="POST">
+                               {% csrf_token %}
+                    <input type="hidden" name="student" value="{{user.studentid}}">
+                    <input type="hidden" name="schedule" value="approve">
+                    <input type="submit" style="background-color: Yellow;" value="Reject / Approve">
+                          </form></td>
+                    </tr>
+
+                  </tbody>
+                </table>
+              </div>
+              <hr class="border-light m-0">
+
+            </div>
+
+</div>
+<div class="container">
+                <div class="table-responsive">
+                    <table class="table table-bordered text-center">
+                        <thead>
+                            <tr class="bg-light-gray">
+                                <th class="text-uppercase">Monday</th>
+                                <th class="text-uppercase">Tuesday</th>
+                                <th class="text-uppercase">Wednesday</th>
+                                <th class="text-uppercase">Thursday</th>
+                                <th class="text-uppercase">Friday</th>
+                                <th class="text-uppercase">Saturday</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                            {% for ll in les %}
+                                <tr>
+                                {% for l in ll %}
+                                    {% if l %}
+                                        <td>
+
+                                    <span  style="color:Navy" class="padding-5px-tb padding-15px-lr border-radius-5 margin-10px-bottom text-black font-size16  xs-font-size13">
+                                        {{l.course_courseid.title}}</span>
+                                    <div class="margin-10px-top font-size14">Room: {{l.room}}</div>
+                                    <div class="font-size13">Start: {{l.start_time}}</div>
+                                    <div class="font-size13">End: {{l.end_time}}</div>
+
+                                        </td>
+                                     {% else %}
+                                          <td class="bg-light-gray"></td>
+                                     {% endif %}
+                                {% endfor %}
+                                </tr>
+                            {% endfor %}
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+</body>
+</html>
