@@ -192,7 +192,7 @@ def course(request, course_id, coursesection_id):
         if sua is not None:
             submission = Assignmentsubmission()
             submission.date = datetime.datetime.now()
-            submission.myFile = request.POST.get('filename', None)
+            submission.myFile = request.FILES['filename']
             ass = Assignment.objects.filter(assignmentid = request.POST.get('assID', None)).first()
             submission.assignment_assignmentid = ass
             student = Student.objects.filter(studentid = request.session['id']).first()

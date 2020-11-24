@@ -258,7 +258,7 @@
                 <h5>End Date: {{ass.due_date}}</h5>
                 <h5>Max Points: {{ass.max_point}}</h5>
                 {% if session.role == "student" %}
-                  <form method="POST" >
+                  <form method="POST" enctype="multipart/form-data">
                     {% csrf_token %}
                     <input type="hidden" name="student-upload-ass" value="yes">
                     <input type="hidden" name="assID" value={{ass.assignmentid}}>
