@@ -263,7 +263,7 @@
                     <input type="hidden" name="student-upload-ass" value="yes">
                     <input type="hidden" name="assID" value={{ass.assignmentid}}>
                     <input type="file"  name="filename">
-                    <input type="submit">
+                    <input type="submit" value="Submit">
                   </form>
                 {% endif%}
                 {% if session.role == "instructor" %}
@@ -271,7 +271,7 @@
                     {% csrf_token %}
                     <input type="hidden" name="assID" value="{{ass.assignmentid}}">
                     <input type="hidden" name="delete" value="ass">
-                    <input type="submit" class="bg-danger text-white" value="Delete Assignment">
+                    <input type="submit" value="Delete Assignment">
                   </form>
                 {% endif%}
                 <hr>
@@ -293,7 +293,7 @@
                     {% csrf_token %}
                     <input type="hidden" name="quizID" value="{{quiz.quizid}}">
                     <input type="hidden" name="delete" value="quiz">
-                    <input type="submit" class="bg-danger text-white" value="Delete Quiz">
+                    <input type="submit" value="Delete Quiz">
                   </form>
                 {% endif%}
                 <hr>
@@ -312,7 +312,7 @@
                     {% csrf_token %}
                     <input type="hidden" name="fileID" value="{{file.fileid}}">
                     <input type="hidden" name="delete" value="file">
-                    <input type="submit" class="bg-danger text-white" value="Delete File">
+                    <input type="submit" value="Delete File">
                   </form>
                 {% endif%}
                 <hr>
@@ -322,7 +322,8 @@
 	            <div class="text-right">
 	              <a href="#addContent" 
 	                onclick="document.getElementById('moduleID').value = document.getElementById('mod_{{ forloop.counter }}').value;document.getElementById('moduleID_A').value = document.getElementById('mod_{{ forloop.counter }}').value;document.getElementById('moduleID_F').value = document.getElementById('mod_{{ forloop.counter }}').value;" 
-	                data-toggle="modal" class='text-success'><button type="button" class="bg-success text-white">Add Content</button>
+                  data-toggle="modal" class='text-success'>
+                  <button type="button" >Add Content</button>
 	              </a>              
 	            </div>
 	            {% endif %}
@@ -334,7 +335,7 @@
                   {% csrf_token %}
                   <input type="hidden" name="moduleID" value="{{temp.cModule.moduleid}}">
                   <input type="hidden" name="delete" value="module">
-                  <input type="submit" class="bg-danger text-white" value="Delete Module">
+                  <input type="submit" value="Delete Module">
                 </form>            
             </div>
             {% endif %}
@@ -348,7 +349,8 @@
     {% if session.role == "instructor" %}
     <div class="text-right">
       
-      <a href="#addModule" data-toggle="modal" class='text-white'><button class="bg-success text-white">Add Module</button></a>
+      <a href="#addModule" data-toggle="modal" class='text-white'>
+        <button >Add Module</button></a>
     </div>
     {% endif %}  
   </div>
