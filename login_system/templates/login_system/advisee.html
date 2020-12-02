@@ -91,7 +91,7 @@
 </head>
 <body>
  {% include 'login_system/nav.html' %}
- <br><br>
+ <br>
 <div class="container bootdey flex-grow-1 container-p-y">
 
             <div class="media align-items-center py-3 mb-3">
@@ -113,27 +113,35 @@
                       <td>Academic Status:</td>
                       <td>{{user.academic_status}}</td>
                     </tr>
-                    <tr>
-                      <td>Schedule Locked:</td>
-                      <td>{{user.schedule_lock}}</td>
-                        <td>
-                                <form method="POST">
-                                     {% csrf_token %}
-                    <input type="hidden" name="student" value="{{user.studentid}}">
-                    <input type="hidden" name="schedule" value="lock">
-                    <input type="submit" style="background-color: Yellow;" value="Lock / Unlock">
-                                </form></td>
-                    </tr>
-                     <tr>
-                      <td>Schedule Approved:</td>
-                      <td>{{user.schedule_approve}}</td>
+                  <tr>
+                      <td> <form method="POST">
+                               {% csrf_token %}
+                    <input type="hidden" name="schedule" value="unlock">
+                    <input type="submit" style="background-color: greenyellow;" value=" Unlock ">
+                          </form></td>
                          <td>
                           <form method="POST">
                                {% csrf_token %}
-                    <input type="hidden" name="student" value="{{user.studentid}}">
-                    <input type="hidden" name="schedule" value="approve">
-                    <input type="submit" style="background-color: Yellow;" value="Reject / Approve">
+                    <input type="hidden" name="schedule" value="lock">
+                    <input type="submit" style="background-color: red;" value="  Lock  ">
                           </form></td>
+                          <td>{% if user.schedule_lock %}Shedule: Locked
+                          {% else %}Schedule: Not Locked{% endif %}</td>
+                    </tr>
+                     <tr>
+                      <td> <form method="POST">
+                               {% csrf_token %}
+                    <input type="hidden" name="schedule" value="approve">
+                    <input type="submit" style="background-color: greenyellow;" value=" Approve ">
+                          </form></td>
+                         <td>
+                          <form method="POST">
+                               {% csrf_token %}
+                    <input type="hidden" name="schedule" value="unapprove">
+                    <input type="submit" style="background-color: red;" value="  Reject  ">
+                          </form></td>
+                          <td>{% if user.schedule_approve %}Shedule: Approved
+                          {% else %}Schedule: Not Approved{% endif %}</td>
                     </tr>
 
                   </tbody>

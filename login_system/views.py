@@ -47,12 +47,15 @@ def login(request):
 
 def home(request):
     if request.session['role'] == 'student':
-        courses = StudentEnrollment.objects.filter(student_studentid=request.session['id'],  coursesection_sectionid__year=year, coursesection_sectionid__semester=semester)
+        courses = StudentEnrollment.objects.filter(student_studentid=request.session['id'],
+                                                   coursesection_sectionid__year=year,
+                                                   coursesection_sectionid__semester=semester)
     elif request.session['role'] == 'instructor':
-        courses = CourseInstructor.objects.filter(instructor_instructorid=request.session['id'],  coursesection_sectionid__year=year, coursesection_sectionid__semester=semester)
+        courses = CourseInstructor.objects.filter(instructor_instructorid=request.session['id'],
+                                                  coursesection_sectionid__year=year,
+                                                  coursesection_sectionid__semester=semester)
     mylist = []
     for course in courses:
-        #sid = (course.coursesection_sectionid.course_courseid.title, course.coursesection_sectionid.course_courseid.courseid, course.coursesection_sectionid.sectionid)
         sid = course.coursesection_sectionid
         mylist.append(sid)
     return render(request,'login_system/main.html', {'session':request.session, "list" : mylist})
@@ -73,12 +76,16 @@ def advisee(request, student_id):
     schedule = request.POST.get('schedule', None)
     student = Student.objects.filter(studentid=student_id).first()
     if schedule == "lock":
-        cur = student.schedule_lock
-        student.schedule_lock = not cur
+        student.schedule_lock = True
+        student.save()
+    elif schedule == "unlock":
+        student.schedule_lock = False
         student.save()
     elif schedule == "approve":
-        cur = student.schedule_approve
-        student.schedule_approve = not cur
+        student.schedule_approve = True
+        student.save()
+    elif schedule == "unapprove":
+        student.schedule_approve = False
         student.save()
     courses = StudentEnrollment.objects.filter(student_studentid=student_id,
                                                coursesection_sectionid__year=year,
@@ -95,9 +102,13 @@ def advisee(request, student_id):
 
 def schedule(request):
     if request.session['role'] == 'student':
-        courses = StudentEnrollment.objects.filter(student_studentid=request.session['id'], coursesection_sectionid__year=year, coursesection_sectionid__semester=semester)
+        courses = StudentEnrollment.objects.filter(student_studentid=request.session['id'],
+                                                   coursesection_sectionid__year=year,
+                                                   coursesection_sectionid__semester=semester)
     elif request.session['role'] == 'instructor':
-        courses = CourseInstructor.objects.filter(instructor_instructorid=request.session['id'],  coursesection_sectionid__year=year, coursesection_sectionid__semester=semester)
+        courses = CourseInstructor.objects.filter(instructor_instructorid=request.session['id'],
+                                                  coursesection_sectionid__year=year,
+                                                  coursesection_sectionid__semester=semester)
     les = [[None for x in range(6)] for y in range(12)]
     for course in courses:
         sid = course.coursesection_sectionid

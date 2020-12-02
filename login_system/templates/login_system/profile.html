@@ -77,6 +77,13 @@
                       <td>{{user.user_userid.gender}}</td>
                     </tr>
                      {% if session.role  == "student" %}
+                     <tr>
+                      <td>Schedule:</td>
+                      <td>{% if user.schedule_lock %}Locked &
+                          {% else %}Not Locked& {% endif %}
+                          {% if user.schedule_approve %} Approved
+                          {% else %} Not Approved{% endif %}</td>
+                    </tr>
                     <tr>
                       <td>Student ID:</td>
                       <td>{{user.studentid}}</td>

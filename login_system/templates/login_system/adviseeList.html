@@ -183,8 +183,10 @@ small, time, .small {
                 <small class="fs-16 fw-300 ls-1">{{adv.user_userid.department_name.name}} {{adv.level}} {{adv.year_of_study}}-year</small>
             </div>
             <div class="media-right text-right d-none d-md-block">
-                <p class="fs-14 text-fade mb-12"><i class="fa fa-map-marker pr-1"></i>Schedule Locked : {{adv.schedule_lock}}</p>
-                <p class="fs-14 text-fade mb-12"><i class="fa fa-map-marker pr-1"></i>Schedule Approved : {{adv.schedule_approve}}</p>
+                <p class="fs-14 text-fade mb-12"><i class="fa fa-map-marker pr-1"></i>
+                    {% if adv.schedule_lock %}Schedule Locked{% else %}Schedule Unlocked{% endif %}</p>
+                <p class="fs-14 text-fade mb-12"><i class="fa fa-map-marker pr-1"></i>
+                    {% if adv.schedule_approve %}Approved{% else %}Not Approved{% endif %}</p>
 
             </div>
         </div>
