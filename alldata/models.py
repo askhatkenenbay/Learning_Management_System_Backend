@@ -76,8 +76,8 @@ class Course(models.Model):
 
 class Priority(models.Model):
     course_courseid = models.ForeignKey(Course, on_delete=models.CASCADE, db_column='course_courseID')  # Field name made lowercase.
-    type = models.IntegerField(choices=[('1','1'),('2','2'),('3','3')])
-    year = models.IntegerField(choices=[('0', '0'),('1','1'),('2','2'),('3','3'), ('4','4')])
+    type = models.IntegerField(choices=[(1,1),(2,2),(3,3)])
+    year = models.IntegerField(choices=[(0,0),(1,1),(2,2),(3,3),(4,4)])
 
     class Meta:
         db_table = 'priority'
@@ -98,8 +98,8 @@ class Requisite(models.Model):
 
 class Registrationdate(models.Model):
     registrationid = models.AutoField(db_column='registrationID', primary_key=True)  # Field name made lowercase.
-    priority = models.IntegerField(choices=[('1','1'),('2','2'),('3','3')])
-    year = models.IntegerField(choices=[('0', '0'),('1','1'),('2','2'),('3','3'), ('4','4')])
+    priority = models.IntegerField(choices=[(1,1),(2,2),(3,3)])
+    year = models.IntegerField(choices=[(0,0),(1,1),(2,2),(3,3),(4,4)])
     open_time = models.DateTimeField()
     close_time = models.DateTimeField()
 

@@ -86,3 +86,17 @@ def create_course(request):
     departments = Department.objects.all()
     return render(request,'createcourse.html', {"departments":departments})
 
+def manage_registration(request):
+    if request.method == 'POST':
+        registrationid = request.POST.get('regId', None)
+        open_time = request.POST.get('openAt', None)
+        close_time = request.POST.get('closeAt', None)
+
+        registration = Registrationdate.objects.get(registrationid=registrationid)
+        registration.open_time = open_time
+        registration.close_time = close_time
+        registration.save()
+
+    registrations = Registrationdate.objects.all()
+    return render(request, 'adminregistration.html', {"registrations":registrations})
+
