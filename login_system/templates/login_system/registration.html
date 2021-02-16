@@ -18,49 +18,108 @@
   <meta name="description" content="">
   <meta name="author" content="">
 
-  <title>{{ course.course_code}}</title>
+  <title>Registration Page</title>
 
   <!-- Bootstrap core CSS -->
   <link href="{% static 'coursepage/vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
   <link href="{% static 'coursepage/css/bootstrap.css' %}" rel="stylesheet">
 
   <!-- Custom styles for this template -->
-  <link href="{% static 'coursepage/css/admin.css' %}" rel="stylesheet">
-  <script>
-
-  </script>
+  <link href="{% static 'coursepage/css/registration.css' %}" rel="stylesheet">
 </head>
+
 
 <body>
 	{% include 'login_system/nav.html' %}
   <br>
-  <h2 class="text-center">Registration</h2>
+  <h3 class="text-center">Registration Page</h3>
 
-
+  <!-- Search Panel -->
   <div class="container">
     <br>
     <div class="row">
       <div class="col">
-        <div class="card h-80 rounded shadow">
+        <div class="card h-80 rounded">
           <div class="card-body">
+            <input type="text" placeholder="Search..">
+            <input type="text" placeholder="Search..">
+            <input type="text" placeholder="Search..">
+          </div>
+          <div class="card-footer text-right">
+            <button type="button" class="btn btn-info">Search</button>
+          </div>
+        </div>
+      </div>
+  </div> 
+
+  <!-- Courses -->
+  <div class="container">
+    <br>
+    <div class="row">
+      <div class="col col-lg-8">
+        <div class="card h-80 rounded">
+          <div class="card-body">
+            <h5 class="card-title">Courses</h5>
           </div>
           
           <div class="card-footer">
           </div>
         </div>
       </div>
+
+      <div class="col col-lg-4">
+        <div class="card h-80 rounded">
+          <div class="card-body">
+            <h5 class="card-title">Course Info</h5>
+          </div>
+          
+          <div class="card-footer text-right">
+            <button type="button" class="btn btn-info">Register Course</button>
+          </div>
+        </div>
+      </div>
     </div>
+  </div> 
+
+  <!-- Schedule -->
+  <div class="container">
     <br>
-  <!-- /.container -->
-  <br>
-  <br>
-  <!-- Footer -->
-  <footer class="py-5 bg-info">
-    <div class="container text-center">
-      <a href="https://nu.edu.kz/" target="_blank" class="text-white">2020 Nazarbayev University</a>
+    <div class="table-responsive">
+      <table class="table table-bordered text-center">
+        <thead>
+          <tr class="bg-light-gray">
+              <th class="text-uppercase">Monday</th>
+              <th class="text-uppercase">Tuesday</th>
+              <th class="text-uppercase">Wednesday</th>
+              <th class="text-uppercase">Thursday</th>
+              <th class="text-uppercase">Friday</th>
+              <th class="text-uppercase">Saturday</th>
+          </tr>
+        </thead>
+        <tbody>
+            {% for ll in les %}
+                <tr>
+                {% for l in ll %}
+                    {% if l %}
+                        <td>
+                        <a href="/course/{{ l.course_courseid.courseid }}/{{ l.sectionid }}">
+                    <span  style="color:Navy" class="padding-5px-tb padding-15px-lr border-radius-5 margin-10px-bottom text-black font-size16  xs-font-size13">
+                        {{l.course_courseid.title}}</span>
+                    <div class="margin-10px-top font-size14">Room: {{l.room}}</div>
+                    <div class="font-size13">Start: {{l.start_time}}</div>
+                    <div class="font-size13">End: {{l.end_time}}</div>
+                     </a>
+                        </td>
+                     {% else %}
+                          <td class="bg-light-gray"></td>
+                     {% endif %}
+                {% endfor %}
+                </tr>
+            {% endfor %}
+        </tbody>
+      </table>
     </div>
-    <!-- /.container -->
-  </footer>
+  </div>
 
   <!-- Bootstrap core JavaScript -->
   <script src="{% static 'coursepage/vendor/jquery/jquery.min.js' %}"></script>
