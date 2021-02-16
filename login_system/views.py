@@ -293,3 +293,6 @@ def course(request, course_id, coursesection_id):
         temp = ModuleInfo(module,ass,quiz,myFile)
         moduleList.append(temp)
     return render(request,'login_system/coursepage.html', {'session':request.session, 'course':course, 'course_section':course_section, 'modules':modules, 'list':moduleList})
+
+def registration(request):
+    return render(request, 'login_system/registration.html')

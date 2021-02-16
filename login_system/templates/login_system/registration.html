@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+{% load static %}
+
+<head>
+ 	<!-- Global site tag (gtag.js) - Google Analytics -->
+	<script async src="https://www.googletagmanager.com/gtag/js?id=UA-155182390-3"></script>
+	<script>
+	  window.dataLayer = window.dataLayer || [];
+	  function gtag(){dataLayer.push(arguments);}
+	  gtag('js', new Date());
+
+	  gtag('config', 'UA-155182390-3');
+	</script>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+  <title>{{ course.course_code}}</title>
+
+  <!-- Bootstrap core CSS -->
+  <link href="{% static 'coursepage/vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+  <link href="{% static 'coursepage/css/bootstrap.css' %}" rel="stylesheet">
+
+  <!-- Custom styles for this template -->
+  <link href="{% static 'coursepage/css/admin.css' %}" rel="stylesheet">
+  <script>
+
+  </script>
+</head>
+
+<body>
+	{% include 'login_system/nav.html' %}
+  <br>
+  <h2 class="text-center">Registration</h2>
+
+
+  <div class="container">
+    <br>
+    <div class="row">
+      <div class="col">
+        <div class="card h-80 rounded shadow">
+          <div class="card-body">
+          </div>
+          
+          <div class="card-footer">
+          </div>
+        </div>
+      </div>
+    </div>
+    <br>
+  <!-- /.container -->
+  <br>
+  <br>
+  <!-- Footer -->
+  <footer class="py-5 bg-info">
+    <div class="container text-center">
+      <a href="https://nu.edu.kz/" target="_blank" class="text-white">2020 Nazarbayev University</a>
+    </div>
+    <!-- /.container -->
+  </footer>
+
+  <!-- Bootstrap core JavaScript -->
+  <script src="{% static 'coursepage/vendor/jquery/jquery.min.js' %}"></script>
+  <script src="{% static 'coursepage/vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+
+
+</body>
+
+</html>
