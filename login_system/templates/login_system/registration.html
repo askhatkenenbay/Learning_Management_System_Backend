@@ -39,13 +39,14 @@
     <br>
     <div class="row">
       <div class="col">
-        <div class="card h-80 rounded">
+        <div class="card rounded">
 
           <div class="card-body">
             <form method="POST">
+              {% csrf_token %}
               <input type="hidden" name="post_id" value="search">
-
               <div class="row"> 
+
                 <div class="col"> 
                   <div class="form-group">
                     <label>School</label>
@@ -71,7 +72,7 @@
                     <input type="text" class="form-control"  name="course_code" placeholder="e.g CSCI 409">
                   </div>
                   <div class="form-check">
-                    <input type="checkbox" class="form-check-input"  name="show_avilable">
+                    <input type="checkbox" class="form-check-input"  name="show_available">
                     <label class="form-check-label">
                       Show available seats only
                     </label>
@@ -83,17 +84,18 @@
                     </label>
                   </div>
                   <div class="form-check">
-                    <input type="checkbox" class="form-check-input"  name="show_avilable">
+                    <input type="checkbox" class="form-check-input"  name="show_all">
                     <label class="form-check-label">
                       Show all courses
                     </label>
                   </div>
                 </div>
+                
               </div>         
           </div>
 
           <div class="card-footer text-right">
-            <button type="button" class="btn btn-info">Search</button>
+            <button type="submit" class="btn btn-info">Search</button>
             </form>
           </div>
 
@@ -101,27 +103,41 @@
       </div>
     </div>
   </div> 
+  <!-- End of Search Panel -->
 
+  <!-- Courses List and Register Course -->
   <div class="container">
     <br>
-    <!-- Courses -->
     <div class="row">
+
+      <!-- Courses List -->
       <div class="col col-lg-8">
-        <div class="card h-80 rounded">
+        <div class="card rounded overflow-auto" style="height: 500px;">
           <div class="card-body">
             <h5 class="card-title">Courses</h5>
-          </div>
-          
-          <div class="card-footer">
+            <hr>
+            {% for course in courses %}
+            <div class="row">
+              <div class="col col-lg-8">
+                <p class="cart-text">{{ course.course_code }} {{ course.title }}</p>
+              </div>
+              <div class="col col-lg-4 text-right">
+                <button type="button" class="btn btn-info">Choose</button>
+              </div>  
+            </div>
+            <hr>
+            {% endfor %}
           </div>
         </div>
       </div>
+      <!-- End of Courses List -->
 
       <!-- Register Course -->
       <div class="col col-lg-4">
-        <div class="card h-80 rounded">
+        <div class="card rounded overflow-auto" style="height: 500px;">
           <div class="card-body">
             <h5 class="card-title">Course Info</h5>
+            <hr>
           </div>
           
           <div class="card-footer text-right">
@@ -129,8 +145,12 @@
           </div>
         </div>
       </div>
+      <!-- End of Register Course -->
+
     </div>
   </div> 
+  <!-- End of Courses List and Register Course -->
+
 
   <!-- Schedule -->
   <div class="container">
@@ -171,12 +191,12 @@
       </table>
     </div>
   </div>
+  <!-- End of Schedule -->
+
 
   <!-- Bootstrap core JavaScript -->
   <script src="{% static 'coursepage/vendor/jquery/jquery.min.js' %}"></script>
   <script src="{% static 'coursepage/vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
 
-
 </body>
-
 </html>

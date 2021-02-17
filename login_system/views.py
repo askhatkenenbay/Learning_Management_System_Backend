@@ -295,4 +295,22 @@ def course(request, course_id, coursesection_id):
     return render(request,'login_system/coursepage.html', {'session':request.session, 'course':course, 'course_section':course_section, 'modules':modules, 'list':moduleList})
 
 def registration(request):
-    return render(request, 'login_system/registration.html')
+    if request.method == 'POST':
+        post_id = request.POST.get('post_id', None)
+        if post_id == 'search':
+            school = request.POST.get('school', None)
+            department = request.POST.get('department', None)
+            instructor = request.POST.get('instructor', None)
+            course_title = request.POST.get('course_title', None)
+            course_code = request.POST.get('course_code', None)
+            show_available = request.POST.get('show_available', None)
+            show_priority = request.POST.get('show_priority', None)
+            show_all = request.POST.get('show_all', None)
+            courses = []
+
+            if show_all == 'on':
+                courses = Course.objects.all()
+            return render(request, 'login_system/registration.html', {'courses':courses})
+
+    courses = []
+    return render(request, 'login_system/registration.html', {'courses':courses})
