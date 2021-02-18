@@ -16,9 +16,11 @@ def noadmin_required(view_func):
 
 ms = {1: "Spring", 2: "Spring",3: "Spring",4: "Spring",5: "Spring",
       6: "Summer",7: "Summer",8: "Fall",9: "Fall",10: "Fall",11: "Fall",12: "Fall"}
-now = datetime.datetime.now()
-year = now.year
-semester = ms[now.month]
+#now = datetime.datetime.now()
+#year = now.year
+#semester = ms[now.month]
+year = 2020
+semester = "Fall"
 
 def login(request):
     if request.method == 'POST':
@@ -101,10 +103,15 @@ def advisee(request, student_id):
     return render(request, 'login_system/advisee.html',{'session': request.session, 'user' : student, "les" : les })
 
 def schedule(request):
+    locked = False
+    approved = False
     if request.session['role'] == 'student':
         courses = StudentEnrollment.objects.filter(student_studentid=request.session['id'],
                                                    coursesection_sectionid__year=year,
                                                    coursesection_sectionid__semester=semester)
+        student = Student.objects.filter(studentid=request.session['id']).first()
+        locked = student.schedule_lock
+        approved = student.schedule_approve
     elif request.session['role'] == 'instructor':
         courses = CourseInstructor.objects.filter(instructor_instructorid=request.session['id'],
                                                   coursesection_sectionid__year=year,
@@ -117,7 +124,8 @@ def schedule(request):
         for day in days:
             j = int(day.day)-1
             les[i][j] = sid
-    return render(request, 'login_system/schedule.html', {'session':request.session, "les" : les})
+    return render(request, 'login_system/schedule.html', {'session':request.session, "les" : les,
+                                                          "locked" : locked, "approved" : approved})
 
 def profile(request):
     if request.session['role']=='student':

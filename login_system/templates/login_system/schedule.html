@@ -88,6 +88,11 @@ a:active
  <br><br>
 
 <div class="container">
+    <div class="panel panel-default">
+	    <div class="panel-heading">
+	    <h3 class="panel-title">Your Schedule</h3>
+	    </div>
+    </div><br>
                 <div class="table-responsive">
                     <table class="table table-bordered text-center">
                         <thead>
@@ -125,6 +130,23 @@ a:active
                         </tbody>
                     </table>
                 </div>
+{% if session.role  == "student" %}
+            {% if locked %}
+                <div class="alert alert-info">
+                    <strong class="default">Locked</strong>
+                </div>
+            {% else %} <div class="alert alert-warning">
+                <strong class="default">Unlocked</strong>
             </div>
+        {% endif %}
+        {% if approved %}  <div class="alert alert-success">
+            <strong class="default">Approved</strong>
+            </div>
+        {% else %}  <div class="alert alert-danger">
+            <strong class="default">Not Approved</strong>
+            </div>{% endif %}
+        {% endif %}
+            </div>
+
 </body>
 </html>
