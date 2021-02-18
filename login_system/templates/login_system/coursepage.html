@@ -33,10 +33,13 @@
 
 <body>
 	{% include 'login_system/nav.html' %}
+    <br>
+  <button type="button" class="btn btn-warning btn-lg btn3d"><span class="glyphicon glyphicon-warning-sign"></span>
+       <a href="/announcements/{{ course_section.sectionid }}" style="color:black;"> Announcements  </a>
+  </button>
   <button type="button" class="btn btn-info"><a href="#courseMenu" data-toggle="modal" class='text-white'>Course Menu</a></button>
   <br>
   <h2 class='text-center'>{{ course.title }}</h2>
-
   <div class="modal fade" id="courseMenu" tabindex="-1" role="dialog" aria-labelledby="chooseUserCenterTitle" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
       <div class="modal-content">

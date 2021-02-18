@@ -134,6 +134,17 @@ def profile(request):
         user = Instructor.objects.filter(instructorid=request.session['id']).first()
     return render(request,'login_system/profile.html', {'session':request.session, 'user' : user})
 
+def announcements(request, coursesection_id):
+    course_section = Coursesection.objects.filter(sectionid=coursesection_id).first()
+    cid = course_section.course_courseid.courseid
+    if request.method == 'POST':
+        message = request.POST.get('message', None)
+        curtime = datetime.datetime.now()
+        m = Announcement(text=message, coursesection_sectionid = course_section, date = curtime)
+        m.save()
+    messages = Announcement.objects.filter(coursesection_sectionid=course_section)
+    return render(request,'login_system/announce.html', {'session':request.session, 'messages': messages, 'cid': cid, 'sid':coursesection_id})
+
 def logout(request):
     del request.session['role']
     del request.session['id']
