@@ -313,23 +313,69 @@ def course(request, course_id, coursesection_id):
         moduleList.append(temp)
     return render(request,'login_system/coursepage.html', {'session':request.session, 'course':course, 'course_section':course_section, 'modules':modules, 'list':moduleList})
 
+def search(req):
+    school = req.POST.get('school', None)
+    department = req.POST.get('department', None)
+    instructor = req.POST.get('instructor', None)
+    course_title = req.POST.get('course_title', None)
+    course_code = req.POST.get('course_code', None)
+    show_available = req.POST.get('show_available', None)
+    show_priority = req.POST.get('show_priority', None)
+    show_all = req.POST.get('show_all', None)
+    courses = []
+    filters = [school, department, instructor, course_title, course_code, show_available, show_priority, show_all]
+
+    if show_all == 'on':
+        courses = Course.objects.all()
+
+    elif course_title != '' and course_code != '':
+        courses = Course.objects.filter(title = course_title, course_code = course_code).all()
+
+    elif course_title != '':
+        courses = Course.objects.filter(title = course_title).all()
+
+    elif course_code != '':
+        courses = Course.objects.filter(course_code = course_code).all()
+
+    elif instructor != '':
+        first_name, last_name = instructor.split()
+        user = User.objects.filter(first_name = first_name, last_name = last_name).first()
+        if user == None:
+            courses = []
+        else:
+            instructor_id = Instructor.objects.filter(user_user = user.user_userid).first()
+            course_instrs = CourseInstructor.objects.filter(instructor_instructorid = instructor_id).all()
+            for course_instr in course_instrs:
+                course_section = Coursesection.objects.filter(course_courseid = course_instr.coursesection_sectionid).first()
+                courses.append(Course.objects.filter(courseid = course_section.course_courseid).first())
+            courses = list(set(courses))
+
+    elif department != '':
+        courses = Course.objects.filter(department_name = department).all()
+
+    elif school != '':
+        departments = Department.objects.filter(school_name = school).all()
+        courses = []
+        for dep in departments:
+            courses_of_dep = Course.objects.filter(department_name = dep.name).all()
+            for c in courses_of_dep:
+                courses.append(c)
+    return courses, filters
+
 def registration(request):
     if request.method == 'POST':
         post_id = request.POST.get('post_id', None)
         if post_id == 'search':
-            school = request.POST.get('school', None)
-            department = request.POST.get('department', None)
-            instructor = request.POST.get('instructor', None)
-            course_title = request.POST.get('course_title', None)
-            course_code = request.POST.get('course_code', None)
-            show_available = request.POST.get('show_available', None)
-            show_priority = request.POST.get('show_priority', None)
-            show_all = request.POST.get('show_all', None)
-            courses = []
+            courses, filters = search(request)
+            return render(request, 'login_system/registration.html', {'courses':courses, 'filters':filters, 'isChosen':False})
 
-            if show_all == 'on':
-                courses = Course.objects.all()
-            return render(request, 'login_system/registration.html', {'courses':courses})
+        elif post_id == 'choose':
+            courses, filters = search(request)
+            chosen_course = request.POST.get('chosen_course', None)
+            chosen_course = Course.objects.filter(courseid = chosen_course).first()
+            course_sections = Coursesection.objects.filter(course_courseid = chosen_course.courseid).all()
+            return render(request, 'login_system/registration.html', {'courses':courses, 'filters':filters, 'isChosen':True, 'chosen_course':chosen_course, 'course_sections':course_sections})
 
     courses = []
-    return render(request, 'login_system/registration.html', {'courses':courses})
+    filters = ['','','','','','off','off','off']
+    return render(request, 'login_system/registration.html', {'courses':courses, 'filters':filters, 'isChosen':False})

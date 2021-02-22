@@ -76,12 +76,13 @@ class Course(models.Model):
 
 class Priority(models.Model):
     course_courseid = models.ForeignKey(Course, on_delete=models.CASCADE, db_column='course_courseID')  # Field name made lowercase.
+    department_name = models.ForeignKey(Department, on_delete=models.CASCADE, db_column='department_name')
     type = models.IntegerField(choices=[(1,1),(2,2),(3,3)])
     year = models.IntegerField(choices=[(0,0),(1,1),(2,2),(3,3),(4,4)])
 
     class Meta:
         db_table = 'priority'
-        unique_together = (('course_courseid', 'type'),)
+        unique_together = (('course_courseid', 'department_name', 'type'),)
         verbose_name = 'Priority for Course'
 
 

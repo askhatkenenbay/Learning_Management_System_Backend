@@ -50,41 +50,53 @@
                 <div class="col"> 
                   <div class="form-group">
                     <label>School</label>
-                    <input type="text" class="form-control"  name="school" placeholder="e.g SEDS">
+                    <input type="text" class="form-control" name="school" value="{{filters.0}}" placeholder="e.g SEDS">
                   </div>
                   <div class="form-group">
                     <label>Department</label>
-                    <input type="text" class="form-control"  name="department" placeholder="e.g Computer Science">
+                    <input type="text" class="form-control"  name="department" value="{{filters.1}}" placeholder="e.g Computer Science">
                   </div>
                  <div class="form-group">
                     <label>Instructor</label>
-                    <input type="text" class="form-control"  name="instructor" placeholder="e.g Ben Tyler">
+                    <input type="text" class="form-control"  name="instructor" value="{{filters.2}}" placeholder="e.g Ben Tyler">
                   </div>
                 </div>
 
                 <div class="col"> 
                   <div class="form-group">
                     <label>Course Title</label>
-                    <input type="text" class="form-control"  name="course_title" placeholder="e.g Senior Project">
+                    <input type="text" class="form-control"  name="course_title" value="{{filters.3}}" placeholder="e.g Senior Project">
                   </div>
                   <div class="form-group">
                     <label>Course Code</label>
-                    <input type="text" class="form-control"  name="course_code" placeholder="e.g CSCI 409">
+                    <input type="text" class="form-control"  name="course_code" value="{{filters.4}}" placeholder="e.g CSCI 409">
                   </div>
                   <div class="form-check">
-                    <input type="checkbox" class="form-check-input"  name="show_available">
+                    {% if filters.5 == 'on' %}
+                      <input type="checkbox" class="form-check-input"  name="show_available" checked>
+                    {% else %}
+                      <input type="checkbox" class="form-check-input"  name="show_available">
+                    {% endif %}
                     <label class="form-check-label">
                       Show available seats only
                     </label>
                   </div>
                   <div class="form-check">
-                    <input type="checkbox" class="form-check-input"  name="show_priority">
+                    {% if filters.6 == 'on' %}
+                      <input type="checkbox" class="form-check-input"  name="show_priority" checked>
+                    {% else %}
+                      <input type="checkbox" class="form-check-input"  name="show_priority">
+                    {% endif %}
                     <label class="form-check-label">
                       Show my current priority only
                     </label>
                   </div>
                   <div class="form-check">
-                    <input type="checkbox" class="form-check-input"  name="show_all">
+                    {% if filters.7 == 'on' %}
+                      <input type="checkbox" class="form-check-input"  name="show_all" checked>
+                    {% else %}
+                      <input type="checkbox" class="form-check-input"  name="show_all">
+                    {% endif %}
                     <label class="form-check-label">
                       Show all courses
                     </label>
@@ -111,18 +123,31 @@
     <div class="row">
 
       <!-- Courses List -->
-      <div class="col col-lg-8">
+      <div class="col col-lg-7">
         <div class="card rounded overflow-auto" style="height: 500px;">
           <div class="card-body">
             <h5 class="card-title">Courses</h5>
             <hr>
             {% for course in courses %}
             <div class="row">
-              <div class="col col-lg-8">
-                <p class="cart-text">{{ course.course_code }} {{ course.title }}</p>
+              <div class="col col-lg-9">
+                <p class="cart-text"> <span class="badge badge-danger"> </span> {{ course.course_code }} {{ course.title }}</p>
               </div>
-              <div class="col col-lg-4 text-right">
-                <button type="button" class="btn btn-info">Choose</button>
+              <div class="col col-lg-3 text-right">
+                <form method="POST">
+                  {% csrf_token %}
+                  <input type="hidden" name="post_id" value="choose">
+                  <input type="hidden" name="school" value="{{filters.0}}">
+                  <input type="hidden" name="department" value="{{filters.1}}">
+                  <input type="hidden" name="instructor" value="{{filters.2}}" >
+                  <input type="hidden" name="course_title" value="{{filters.3}}">
+                  <input type="hidden" name="course_code" value="{{filters.4}}">
+                  <input type="hidden" name="show_available" value="{{filters.5}}">
+                  <input type="hidden" name="show_priority" value="{{filters.6}}">
+                  <input type="hidden" name="show_all" value="{{filters.7}}">
+                  <input type="hidden" name="chosen_course" value="{{course.courseid}}">
+                  <button type="submit" class="btn btn-info">Choose</button>
+                </form>
               </div>  
             </div>
             <hr>
@@ -133,11 +158,24 @@
       <!-- End of Courses List -->
 
       <!-- Register Course -->
-      <div class="col col-lg-4">
-        <div class="card rounded overflow-auto" style="height: 500px;">
-          <div class="card-body">
+      <div class="col col-lg-5">
+        <div class="card rounded" style="height: 500px;">
+          <div class="card-body overflow-auto">
             <h5 class="card-title">Course Info</h5>
             <hr>
+            {% if isChosen %}
+              <p class="card-title">{{ chosen_course.course_code }} {{ chosen_course.title }}</p>
+              <hr>
+              <p class="card-title">Description:<p>
+              <p class="card-text">{{ chosen_course.description }}</p>
+              <hr>
+              <p class="card-title">Number of Credits: {{ chosen_course.credits }}</p>
+              <hr>
+              <p class="card-title">Sections</p>
+              {% for section in course_sections %}
+                <label><input type="radio" name="option" value="{{ section }}"> {{ section.start_time }} - {{ section.end_time }}</label>
+              {% endfor %}
+            {% endif %}
           </div>
           
           <div class="card-footer text-right">
