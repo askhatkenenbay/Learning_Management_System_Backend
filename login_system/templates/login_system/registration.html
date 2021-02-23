@@ -131,7 +131,7 @@
             {% for course in courses %}
             <div class="row">
               <div class="col col-lg-9">
-                <p class="cart-text"> <span class="badge badge-danger"> </span> {{ course.course_code }} {{ course.title }}</p>
+                <p class="cart-text">{{ course.course_code }} {{ course.title }}</p>
               </div>
               <div class="col col-lg-3 text-right">
                 <form method="POST">
@@ -185,13 +185,21 @@
               <input type="hidden" name="show_all" value="{{filters.7}}">
               <input type="hidden" name="chosen_course" value="{{chosen_course.courseid}}">
               {% for section in course_sections %}
-                <label><input type="radio" name="chosen_section" value="{{ section.sectionid }}" required> {{ section.start_time }} - {{ section.end_time }}</label>
+                {% if isRegistered %}
+                <label><input type="radio" name="chosen_section" value="{{ section.0.sectionid }}" required disabled> {{ section.1 }}: {{ section.0.start_time }} - {{ section.0.end_time }}, ({{ section.4 }})</label>
+                {% elif section.2 %}
+                <label><input type="radio" name="chosen_section" value="{{ section.0.sectionid }}" required disabled> {{ section.1 }}: {{ section.0.start_time }} - {{ section.0.end_time }}, ({{ section.4 }}) overlapping</label>
+                {% elif section.3 %}
+                <label><input type="radio" name="chosen_section" value="{{ section.0.sectionid }}" required disabled> {{ section.1 }}: {{ section.0.start_time }} - {{ section.0.end_time }}, full</label>
+                {% else %}
+                <label><input type="radio" name="chosen_section" value="{{ section.0.sectionid }}" required> {{ section.1 }}: {{ section.0.start_time }} - {{ section.0.end_time }}, ({{ section.4 }})</label>
+                {% endif %}
               {% endfor %}
             {% endif %}
           </div>
           
           <div class="card-footer text-right">
-            {% if isChosen %}
+            {% if isChosen and not isRegistered %}
             <button type="submit" class="btn btn-info">Register Course</button>
             {% else %}
             <button type="submit" class="btn btn-info" disabled>Register Course</button>

@@ -354,38 +354,143 @@ def search(req):
             courses_of_dep = Course.objects.filter(department_name = dep.name).all()
             for c in courses_of_dep:
                 courses.append(c)
-    return courses, filters
+    return filter_course(courses), filters
+
+def filter_course(courses):
+    courses = list(courses)
+    res_courses = []
+    for course in courses:
+        sections = list(Coursesection.objects.filter(course_courseid = course.courseid,
+                                                semester = semester,
+                                                year = year))
+        if len(sections) != 0:
+            res_courses.append(course)
+    return res_courses
+
+def get_courses_of_proirity(student):
+    registrationdate = Registrationdate.objects.filter(year=student.year_of_study, open_time__lte = datetime.datetime.now()).order_by('-priority').first()
+    cur_priority = registrationdate.priority
+    user = User.objects.filter(userid = student.user_userid.userid).first()
+    dep = Department.objects.filter(name = user.department_name.name).first()
+    courses_of_proirity = Priority.objects.filter(type__lte=cur_priority, year=student.year_of_study, department_name = dep.name).all()
+    return list(courses_of_proirity)
+
+def get_busy_time(sections_enrolled):
+    busy_time = []
+    for pair in sections_enrolled:
+        sec = Coursesection.objects.filter(sectionid=pair.coursesection_sectionid.sectionid).first()
+        days = list(Sectionday.objects.filter(coursesection_sectionid = sec.sectionid).all())
+        for d in days:
+            busy_time.append((d.day, sec.start_time, sec.end_time))
+    return busy_time
+
 
 def registration(request):
     student = Student.objects.filter(studentid = request.session['id']).first()
+    sections_enrolled = list(StudentEnrollment.objects.filter(student_studentid=request.session['id'],
+                                                   coursesection_sectionid__year=year,
+                                                   coursesection_sectionid__semester=semester))
+    courses_registered = []
+    les = [[None for x in range(6)] for y in range(12)]
+    for course in sections_enrolled:
+        sec = Coursesection.objects.filter(sectionid=course.coursesection_sectionid.sectionid).first()
+        courses_registered.append(Course.objects.filter(courseid = sec.course_courseid.courseid).first())
+        sid = course.coursesection_sectionid
+        i = sid.start_time.hour - 8
+        days = Sectionday.objects.filter(coursesection_sectionid = sid)
+        for day in days:
+            j = int(day.day)-1
+            les[i][j] = sid
 
     if request.method == 'POST':
         post_id = request.POST.get('post_id', None)
         if post_id == 'search':
             courses, filters = search(request)
-            return render(request, 'login_system/registration.html', {'session':request.session, 'courses':courses, 'filters':filters, 'isChosen':False})
+            return render(request, 'login_system/registration.html', {'session':request.session, 'les':les, 'courses':courses, 'filters':filters, 'isChosen':False})
 
         elif post_id == 'choose':
+            # courses_of_proirity = get_courses_of_proirity(student)
+            busy_time = get_busy_time(sections_enrolled)
+            sections_time = []
             courses, filters = search(request)
             chosen_course = request.POST.get('chosen_course', None)
             chosen_course = Course.objects.filter(courseid = chosen_course).first()
-            course_sections = Coursesection.objects.filter(course_courseid = chosen_course.courseid).all()
-            return render(request, 'login_system/registration.html', {'session':request.session, 'courses':courses, 'filters':filters, 'isChosen':True, 'chosen_course':chosen_course, 'course_sections':course_sections})
+            course_sections = list(Coursesection.objects.filter(course_courseid = chosen_course.courseid).all())
+            sections_days = []
+            days_dic = {'1':'Mn', '2':'Tu', '3':'Wn', '4':'Th', '5':'Fr', '6':'St'}
+            for s in course_sections:
+                section_time = []
+                ds = list(Sectionday.objects.filter(coursesection_sectionid = s.sectionid).all())
+                for i, d in enumerate(ds):
+                    section_time.append((d.day, s.start_time, s.end_time))
+                    ds[i] = days_dic[d.day]
+                ds = ' '.join(ds)
+                sections_days.append(ds)
+                sections_time.append(section_time)
+
+            for i, s in enumerate(course_sections):
+                isFull = False
+                capacity = s.capacity
+                taken_places = StudentEnrollment.objects.filter(coursesection_sectionid = s.sectionid).count()
+                cap = str(taken_places)+'/'+str(capacity)
+                if taken_places >= capacity:
+                    isFull = True
+                isOverlap = False
+                for t in sections_time[i]:
+                    if isOverlap:
+                        break
+                    for j in busy_time:
+                        if j[0] == t[0]:
+                            if j[1] == t[1] or j[2] == t[2]:
+                                isOverlap = True
+                                course_sections[i] = [s, sections_days[i], isOverlap]
+                                break
+                            elif j[1] > t[1] and t[2] > j[2]:
+                                isOverlap = True
+                                course_sections[i] = [s, sections_days[i], isOverlap]
+                                break
+                            elif j[1] < t[1] and j[1] > t[2]:
+                                isOverlap = True
+                                course_sections[i] = [s, sections_days[i], isOverlap]
+                                break
+                            elif j[1] > t[1] and t[1] > j[2]:
+                                isOverlap = True
+                                course_sections[i] = [s, sections_days[i], isOverlap]
+                                break
+                course_sections[i] = [s, sections_days[i], isOverlap, isFull, cap]
+            
+            # isPriority = (chosen_course in courses_of_proirity)
+            isRegistered = (chosen_course in courses_registered)
+            return render(request, 'login_system/registration.html', {'session':request.session, 'les':les, 'courses':courses, 'filters':filters, 'isChosen':True, 
+                                                                    'chosen_course':chosen_course, 'course_sections':course_sections, 'isRegistered':isRegistered})
 
         elif post_id == 'register':
             courses, filters = search(request)
-            print('REGISTER')
             chosen_course = request.POST.get('chosen_course', None)
             chosen_course = Course.objects.filter(courseid = chosen_course).first()
+            
             chosen_section = request.POST.get('chosen_section', None)
             chosen_section = Coursesection.objects.filter(sectionid = chosen_section).first()
-            course_sections = Coursesection.objects.filter(course_courseid = chosen_course.courseid).all()
+            
+            course_sections = list(Coursesection.objects.filter(course_courseid = chosen_course.courseid).all())
+            sections_days = []
+            days_dic = {'1':'Mn', '2':'Tu', '3':'Wn', '4':'Th', '5':'Fr', '6':'St'}
+            for s in course_sections:
+                ds = list(Sectionday.objects.filter(coursesection_sectionid = s.sectionid).all())
+                for i, d in enumerate(ds):
+                    ds[i] = days_dic[d.day]
+                ds = ' '.join(ds)
+                sections_days.append(ds)
+            for i, s in enumerate(course_sections):
+                course_sections[i] = [s, sections_days[i]]
+            
             studentenrollment = StudentEnrollment()
             studentenrollment.student_studentid = student
             studentenrollment.coursesection_sectionid = chosen_section
             studentenrollment.save()
-            return render(request, 'login_system/registration.html', {'session':request.session, 'courses':courses, 'filters':filters, 'isChosen':True, 'chosen_course':chosen_course, 'course_sections':course_sections})
+            return render(request, 'login_system/registration.html', {'session':request.session, 'les':les, 'courses':courses, 'filters':filters, 'isChosen':True, 
+                                                                    'chosen_course':chosen_course, 'course_sections':course_sections})
 
     courses = []
     filters = ['','','','','','off','off','off']
-    return render(request, 'login_system/registration.html', {'session':request.session, 'courses':courses, 'filters':filters, 'isChosen':False})
+    return render(request, 'login_system/registration.html', {'session':request.session, 'les':les, 'courses':courses, 'filters':filters, 'isChosen':False})
