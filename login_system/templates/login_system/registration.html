@@ -172,14 +172,31 @@
               <p class="card-title">Number of Credits: {{ chosen_course.credits }}</p>
               <hr>
               <p class="card-title">Sections</p>
+              <form method="POST">
+              {% csrf_token %}
+              <input type="hidden" name="post_id" value="register">
+              <input type="hidden" name="school" value="{{filters.0}}">
+              <input type="hidden" name="department" value="{{filters.1}}">
+              <input type="hidden" name="instructor" value="{{filters.2}}" >
+              <input type="hidden" name="course_title" value="{{filters.3}}">
+              <input type="hidden" name="course_code" value="{{filters.4}}">
+              <input type="hidden" name="show_available" value="{{filters.5}}">
+              <input type="hidden" name="show_priority" value="{{filters.6}}">
+              <input type="hidden" name="show_all" value="{{filters.7}}">
+              <input type="hidden" name="chosen_course" value="{{chosen_course.courseid}}">
               {% for section in course_sections %}
-                <label><input type="radio" name="option" value="{{ section }}"> {{ section.start_time }} - {{ section.end_time }}</label>
+                <label><input type="radio" name="chosen_section" value="{{ section.sectionid }}" required> {{ section.start_time }} - {{ section.end_time }}</label>
               {% endfor %}
             {% endif %}
           </div>
           
           <div class="card-footer text-right">
-            <button type="button" class="btn btn-info" disabled>Register Course</button>
+            {% if isChosen %}
+            <button type="submit" class="btn btn-info">Register Course</button>
+            {% else %}
+            <button type="submit" class="btn btn-info" disabled>Register Course</button>
+            {% endif %}
+            </form>
           </div>
         </div>
       </div>

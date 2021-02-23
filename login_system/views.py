@@ -327,16 +327,12 @@ def search(req):
 
     if show_all == 'on':
         courses = Course.objects.all()
-
     elif course_title != '' and course_code != '':
         courses = Course.objects.filter(title = course_title, course_code = course_code).all()
-
     elif course_title != '':
         courses = Course.objects.filter(title = course_title).all()
-
     elif course_code != '':
         courses = Course.objects.filter(course_code = course_code).all()
-
     elif instructor != '':
         first_name, last_name = instructor.split()
         user = User.objects.filter(first_name = first_name, last_name = last_name).first()
@@ -349,10 +345,8 @@ def search(req):
                 course_section = Coursesection.objects.filter(course_courseid = course_instr.coursesection_sectionid).first()
                 courses.append(Course.objects.filter(courseid = course_section.course_courseid).first())
             courses = list(set(courses))
-
     elif department != '':
         courses = Course.objects.filter(department_name = department).all()
-
     elif school != '':
         departments = Department.objects.filter(school_name = school).all()
         courses = []
@@ -363,19 +357,35 @@ def search(req):
     return courses, filters
 
 def registration(request):
+    student = Student.objects.filter(studentid = request.session['id']).first()
+
     if request.method == 'POST':
         post_id = request.POST.get('post_id', None)
         if post_id == 'search':
             courses, filters = search(request)
-            return render(request, 'login_system/registration.html', {'courses':courses, 'filters':filters, 'isChosen':False})
+            return render(request, 'login_system/registration.html', {'session':request.session, 'courses':courses, 'filters':filters, 'isChosen':False})
 
         elif post_id == 'choose':
             courses, filters = search(request)
             chosen_course = request.POST.get('chosen_course', None)
             chosen_course = Course.objects.filter(courseid = chosen_course).first()
             course_sections = Coursesection.objects.filter(course_courseid = chosen_course.courseid).all()
-            return render(request, 'login_system/registration.html', {'courses':courses, 'filters':filters, 'isChosen':True, 'chosen_course':chosen_course, 'course_sections':course_sections})
+            return render(request, 'login_system/registration.html', {'session':request.session, 'courses':courses, 'filters':filters, 'isChosen':True, 'chosen_course':chosen_course, 'course_sections':course_sections})
+
+        elif post_id == 'register':
+            courses, filters = search(request)
+            print('REGISTER')
+            chosen_course = request.POST.get('chosen_course', None)
+            chosen_course = Course.objects.filter(courseid = chosen_course).first()
+            chosen_section = request.POST.get('chosen_section', None)
+            chosen_section = Coursesection.objects.filter(sectionid = chosen_section).first()
+            course_sections = Coursesection.objects.filter(course_courseid = chosen_course.courseid).all()
+            studentenrollment = StudentEnrollment()
+            studentenrollment.student_studentid = student
+            studentenrollment.coursesection_sectionid = chosen_section
+            studentenrollment.save()
+            return render(request, 'login_system/registration.html', {'session':request.session, 'courses':courses, 'filters':filters, 'isChosen':True, 'chosen_course':chosen_course, 'course_sections':course_sections})
 
     courses = []
     filters = ['','','','','','off','off','off']
-    return render(request, 'login_system/registration.html', {'courses':courses, 'filters':filters, 'isChosen':False})
+    return render(request, 'login_system/registration.html', {'session':request.session, 'courses':courses, 'filters':filters, 'isChosen':False})

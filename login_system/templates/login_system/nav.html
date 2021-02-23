@@ -59,7 +59,7 @@
           -->
             <li class="nav-item active">
           {% if session.role  == "student" %}
-            <a class="nav-link" href="#">Reg</a>
+            <a class="nav-link" href="{% url 'registration' %}">Registration</a>
           {% endif %}
           {% if session.role  == "instructor" %}
             <a class="nav-link" href="/adviseeList">Advisees</a>
