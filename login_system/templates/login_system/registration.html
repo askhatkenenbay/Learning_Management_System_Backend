@@ -201,8 +201,17 @@
           <div class="card-footer text-right">
             {% if isChosen and not isRegistered %}
             <button type="submit" class="btn btn-info">Register Course</button>
+            <button type="submit" class="btn btn-danger" disabled>Drop Course</button>
+            {% elif isChosen and isRegistered %}
+            <button type="submit" class="btn btn-info" disabled>Register Course</button>
+            <form method=POST>
+              <input type="hidden" name="post_id" value="drop">
+              <input type="hidden" name="chosen_course" value="{{chosen_course.courseid}}">
+              <button type="submit" class="btn btn-danger">Drop Course</button>
+            </form>
             {% else %}
             <button type="submit" class="btn btn-info" disabled>Register Course</button>
+            <button type="submit" class="btn btn-danger" disabled>Drop Course</button>
             {% endif %}
             </form>
           </div>
