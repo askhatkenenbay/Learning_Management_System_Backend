@@ -19,8 +19,69 @@ def instructors(request):
     return render(request,'admininstructors.html', {"instructors":instructors})
 
 def courses(request):
+    if request.method == 'POST':
+        post_id = request.POST.get('post_id', None)
+        if post_id == 'Edit':
+            course = request.POST.get('course', None)
+            return redirect('editcourse', courseid=course)
+        elif post_id == 'Add':
+            course = request.POST.get('course', None)
+            return redirect('createsection', courseid=course)
+        elif post_id == 'Delete':
+            course = request.POST.get('course', None)
+            course = Course.objects.filter(courseid=course).first()
+            course.delete()
+
     courses = Course.objects.all()
     return render(request,'admincourses.html', {"courses":courses})
+
+def create_section(request, courseid):
+    course = Course.objects.filter(courseid=courseid).first()
+    if request.method == 'POST':
+        courseid = course
+        num_type = request.POST.get('num_type', None)
+        start_time = request.POST.get('start_time', None)
+        end_time = request.POST.get('end_time', None)
+        semester = request.POST.get('semester', None)
+        year = request.POST.get('year', None)
+        capacity = request.POST.get('capacity', None)
+        room = request.POST.get('room', None)
+        total_points = request.POST.get('total_points', None)
+
+        section = Coursesection(course_courseid=course, num_type=num_type, start_time=start_time, end_time=end_time, semester=semester, year=year, capacity=capacity, room=room, total_points=total_points
+            )
+        section.save()
+
+        days = []
+        days.append(request.POST.get('mn', None) == 'on')
+        days.append(request.POST.get('tu', None) == 'on')
+        days.append(request.POST.get('wd', None) == 'on')
+        days.append(request.POST.get('th', None) == 'on')
+        days.append(request.POST.get('fr', None) == 'on')
+        days.append(request.POST.get('st', None) == 'on')
+        for i, day in enumerate(days):
+            if day:
+                sectionday = Sectionday(coursesection_sectionid=section, day=str(i+1))
+                sectionday.save()
+
+    return render(request, 'createsection.html', {'course':course})
+
+def edit_course(request, courseid):
+    course = Course.objects.filter(courseid=courseid).first()
+    department = Department.objects.filter(name=course.department_name.name).first()
+    departments = Department.objects.all()
+
+    if request.method == 'POST':
+        course.title = request.POST.get('title', None)
+        course.course_code = request.POST.get('course_code', None)
+        course.credits = request.POST.get('credits', None)
+        course.description = request.POST.get('description', None)
+        department_name = request.POST.get('department', None)
+        course.department_name = Department.objects.filter(name=department_name).first()
+        course.level = request.POST.get('level', None)
+        course.save()
+
+    return render(request, 'editcourse.html', {'course':course, 'department':department, 'departments':departments})
 
 def create_student(request):
     if request.method == 'POST':

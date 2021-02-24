@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+{% load static %}
+
+<head>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+  <title>Edit Course</title>
+
+  <!-- Bootstrap core CSS -->
+  <link href="{% static 'administrator/vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+  <link href="{% static 'administrator/css/bootstrap.css' %}" rel="stylesheet">
+
+  <!-- Custom styles for this template -->
+  <link href="{% static 'administrator/css/admin.css' %}" rel="stylesheet">
+</head>
+
+<body>
+
+  <!-- Navigation -->
+  <nav class="navbar navbar-expand-lg navbar-dark bg-info fixed-top">
+    <div class="container">
+      <a class="navbar-brand" href="{% url 'adminhome' %}">Learning Management System</a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarResponsive">
+        <ul class="navbar-nav ml-auto">
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'adminhome' %}">Home</a>
+          </li>
+          <li class="nav-item active">
+            <a class="nav-link" href="{% url 'admincourses' %}">Courses
+              <span class="sr-only">(current)</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'admininstructors' %}">Instructors</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'adminstudents' %}">Students</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <br>
+  <br>
+  <h2 class='text-center text-info'>Edit Course</h2>
+
+  <!-- Page Content -->
+  <div class="container bg-info rounded shadow-lg">
+      <br>
+    <div class="row">
+      <div class="col">
+
+        <div class="card h-80">
+          <div class="card-body">
+            <form method="POST">
+              {% csrf_token %}
+              <input type="hidden" name="new-content" value="student">
+
+              <div class="form-group">
+                <label for="formGroupExampleInput">Course Code</label>
+                <input type="text" class="form-control"  name="course_code" placeholder="Course Code" value="{{course.course_code}}" required>
+                <div class="invalid-feedback">
+                  Please fill out this field.
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="formGroupExampleInput">Course Title</label>
+                <input type="text" class="form-control" name="title" placeholder="Course Title" value="{{course.title}}" required>
+                <div class="invalid-feedback">
+                  Please fill out this field.
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="formGroupExampleInput">Number of Credits</label>
+                <input type="number" class="form-control" name="credits" placeholder="Number of Credits" value="{{course.credits}}" required>
+                <div class="invalid-feedback">
+                  Please fill out this field.
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="exampleFormControlSelect1">Department</label>
+                <select class="form-control" name="department" required>
+                  <option value="{{ department.name}}" selected>{{department.name}}</option>
+                  {% for dep in departments %}
+                  <option value="{{ dep.name }}">{{ dep.name }}</option>
+                  {% endfor %}
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label for="exampleFormControlSelect1">Level</label>
+                <select class="form-control" name="level" required>
+                  <option value="{{ course.level }}" selected>{{course.level}}</option>
+                  <option value="Foundation">Foundation</option>
+                  <option value="Undegraduate">Undergraduate</option>
+                  <option value="Graduate">Graduate</option>
+                  <option value="Phd">Phd</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label for="exampleFormControlTextarea1">Description of the Course</label>
+                <textarea class="form-control" name="description" rows="3" required>{{course.description}}</textarea>
+              </div>
+
+          </div>
+          <div class="card-footer text-right">
+            <button type="submit" class="btn btn-success">Save</button>
+            </form>
+          </div>
+        </div>
+
+      </div>
+    </div>
+      <br>
+  </div>
+  
+
+  <br>
+  <br>
+  <!-- Footer -->
+  <footer class="py-5 bg-info">
+    <div class="container text-center">
+      <a href="https://nu.edu.kz/" target="_blank" class="text-white">2020 Nazarbayev University</a>
+    </div>
+    <!-- /.container -->
+  </footer>
+
+  <!-- Bootstrap core JavaScript -->
+  <script src="{% static 'administrator/vendor/jquery/jquery.min.js' %}"></script>
+  <script src="{% static 'administrator/vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+
+
+</body>
+
+</html>
