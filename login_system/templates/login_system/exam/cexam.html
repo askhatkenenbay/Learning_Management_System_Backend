@@ -1,0 +1,30 @@
+<head>
+    <title>Create Exam</title>
+</head>
+<body>
+    {% load crispy_forms_tags %}
+    {% load static %}
+    <div>
+        <div>
+            <p>
+                '2006-10-25 14:30'
+            </p>
+            <form method="POST">
+                {% csrf_token %}
+                <legend>
+                    <span class="en-text">Create Exam</span>
+                </legend>
+                <input type="hidden" name="course_id" value='{{data.course_id}}'>
+                <input type="hidden" name="section_id" value="{{data.section_id}}">
+                {{ form|crispy }}
+                <div class="form-group">
+                    <button class="btn btn-outline-info" type="submit">
+                        <span class="en-text">Create</span>
+                    </button>
+                </div>
+                
+            </form>
+        </div>
+    
+    </div>
+</body>

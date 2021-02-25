@@ -16,7 +16,7 @@ from io import StringIO
 from django.http import HttpResponseRedirect
 from django.core.files.storage import default_storage
 import shutil
-
+from login_system.forms import *
 from shutil import make_archive
 from wsgiref.util import FileWrapper
 
@@ -75,7 +75,48 @@ def home(request):
 
 
 def grades(request):
-    return render(request,'login_system/grades.html', {'session':request.session})
+    student_id = request.session['id']
+    student = Student.objects.filter(studentid=student_id).first()
+    enrollments = StudentEnrollment.objects.filter(student_studentid=student_id)
+    grade_info = []
+    for enroll in enrollments:
+        # section = Coursesection.objects.filter(sectionid=enroll.coursesection_sectionid).first()
+        section = enroll.coursesection_sectionid
+        grade = getGrade(student_id, section.sectionid)
+        course_name = section.course_courseid.title 
+        course_grade = CourseGrades.objects.filter(student_studentid=student_id, coursesection_sectionid=section.sectionid).first()
+        temp = GradeInfo(section,grade, course_grade,course_name)
+        grade_info.append(temp)
+    return render(request,'login_system/grades.html', {'session':request.session,'list':grade_info})
+
+def getGrade(student_id, section_id):
+    res = 0
+    course_section = Coursesection.objects.filter(sectionid = section_id).first()
+    course = course_section.course_courseid
+    modules = Coursepagemodule.objects.filter(coursesection_sectionid = course_section.sectionid).order_by('order').all()
+    moduleList = []
+    for module in modules:
+        ass = Assignment.objects.filter(coursepagemodule_moduleid = module).all()
+        quiz = Quiz.objects.filter(coursepagemodule_moduleid = module).all()
+        for a in ass:
+            sub = Assignmentsubmission.objects.filter(assignment_assignmentid = a.assignmentid, student_studentid=student_id).first()
+            if(sub == None):
+                continue
+            res = res + sub.points
+        for q in quiz:
+            sub = Quizsubmission.objects.filter(quiz_quizid = q.quizid, student_studentid=student_id).first()
+            if(sub == None):
+                continue
+            res = res + sub.points
+    return res
+
+class GradeInfo:
+    def __init__(self, section, grade, course_grade,name):
+        self.section = section
+        self.grade = grade
+        self.course_grade = course_grade
+        self.name = name
+
 
 def adviseeList(request):
     advisees = Advice.objects.filter(instructor_instructorid=request.session['id'])
@@ -257,6 +298,17 @@ class ModuleInfo:
     self.quiz = quiz
     self.myFile = myFile
 
+def cexam(request):
+    if request.method=='POST':
+        print(request.POST.get('section_id', None))
+        form=QuizCreateForm(request.POST, request.POST.get('section_id', None))
+        if form.is_valid():
+            print("YEEEEE")
+            temp = Quiz(coursepagemodule_moduleid=form['module'],name=form['name'])
+            temp.save()
+            return HttpResponse('success')
+    return render(request, 'login_system/exam/cexam.html') 
+
 def course(request, course_id, coursesection_id):
     if request.method == 'POST':
         sua = request.POST.get('student-upload-ass', None)
@@ -274,21 +326,28 @@ def course(request, course_id, coursesection_id):
             # return HttpResponseRedirect(request.path_info)
         content = request.POST.get('new-content', None)
         if content == "quiz":
-            print("NEW QUIZ ADDED")
-            name = request.POST.get('title', None)
-            desc = request.POST.get('desc', None)
-            startDate = request.POST.get('startDate', None)
-            startTime = request.POST.get('startTime', None)
-            start = str(startDate) + " " +  str(startTime)
-            endDate = request.POST.get('endDate', None)
-            endTime = request.POST.get('endTime', None)
-            end = str(endDate) + " "+ str(endTime)
-            maxPoint = request.POST.get('maxPoint', None)
-            limit = request.POST.get('limit', None)
-            moduleId = request.POST.get('moduleID', None)
-            module = Coursepagemodule.objects.filter(moduleid = moduleId).first()
-            q = Quiz(name = name, description = desc, open_time = start, close_time = end, time_limit = limit, max_point = maxPoint,coursepagemodule_moduleid = module)
-            q.save()
+            form = QuizCreateForm(section_id=coursesection_id)
+            data = {
+                'section_id':coursesection_id,
+                'course_id':course_id,
+                'form':form
+            }
+            return render(request, 'login_system/exam/cexam.html',data)    
+            # print("NEW QUIZ ADDED")
+            # name = request.POST.get('title', None)
+            # desc = request.POST.get('desc', None)
+            # startDate = request.POST.get('startDate', None)
+            # startTime = request.POST.get('startTime', None)
+            # start = str(startDate) + " " +  str(startTime)
+            # endDate = request.POST.get('endDate', None)
+            # endTime = request.POST.get('endTime', None)
+            # end = str(endDate) + " "+ str(endTime)
+            # maxPoint = request.POST.get('maxPoint', None)
+            # limit = request.POST.get('limit', None)
+            # moduleId = request.POST.get('moduleID', None)
+            # module = Coursepagemodule.objects.filter(moduleid = moduleId).first()
+            # q = Quiz(name = name, description = desc, open_time = start, close_time = end, time_limit = limit, max_point = maxPoint,coursepagemodule_moduleid = module)
+            # q.save()
             # return HttpResponseRedirect(request.path_info)
         elif content == "ass":
             print("NEW ASS ADDED")

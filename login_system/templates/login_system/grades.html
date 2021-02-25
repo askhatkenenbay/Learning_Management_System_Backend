@@ -40,36 +40,13 @@
         <th>Grade</th>
         <th>Letter Grade</th>
       </tr>
-      <tr>
-        <td>Course name</td>
-        <td>Grade</td>
-        <td>Letter Grade</td>
-      </tr>
-      <tr>
-        <td>Course name</td>
-        <td>Grade</td>
-        <td>Letter Grade</td>
-      </tr>
-      <tr>
-        <td>Course name</td>
-        <td>Grade</td>
-        <td>Letter Grade</td>
-      </tr>
-      <tr>
-        <td>Course name</td>
-        <td>Grade</td>
-        <td>Letter Grade</td>
-      </tr>
-      <tr>
-        <td>Course name</td>
-        <td>Grade</td>
-        <td>Letter Grade</td>
-      </tr>
-      <tr>
-        <td>Course name</td>
-        <td>Grade</td>
-        <td>Letter Grade</td>
-      </tr>
+      {% for temp in list %}
+        <tr>
+          <td>{{temp.name}}</td>
+          <td>{{temp.grade}}</td>
+          <td>{{temp.course_grade.final_grade}}</td>
+        </tr>
+      {% endfor %}
     </table>
   <br>
   </div> 
