@@ -138,12 +138,42 @@ def announcements(request, coursesection_id):
     course_section = Coursesection.objects.filter(sectionid=coursesection_id).first()
     cid = course_section.course_courseid.courseid
     if request.method == 'POST':
-        message = request.POST.get('message', None)
-        curtime = datetime.datetime.now()
-        m = Announcement(text=message, coursesection_sectionid = course_section, date = curtime)
-        m.save()
-    messages = Announcement.objects.filter(coursesection_sectionid=course_section)
-    return render(request,'login_system/announce.html', {'session':request.session, 'messages': messages, 'cid': cid, 'sid':coursesection_id})
+        delete = request.POST.get('delete', None)
+        if delete is not None:
+            id = request.POST.get('annid',None)
+            Announcement.objects.filter(announcementid=id).delete()
+        else:
+            message = request.POST.get('message', None)
+            curtime = datetime.datetime.now()
+            m = Announcement(text=message, coursesection_sectionid = course_section, date = curtime)
+            m.save()
+    messages = Announcement.objects.filter(coursesection_sectionid=course_section).order_by('-date')
+    return render(request,'login_system/announce.html', {'session':request.session, 'messages': messages,
+                                                         'cid': cid, 'sid':coursesection_id})
+
+def assignments(request, coursesection_id):
+    course_section = Coursesection.objects.filter(sectionid=coursesection_id).first()
+    cid = course_section.course_courseid.courseid
+    asses = Assignment.objects.filter(coursepagemodule_moduleid__coursesection_sectionid=course_section)
+    return render(request, 'login_system/assignments.html', {'session': request.session, 'asses' : asses,
+                                                             'cid': cid, 'sid':coursesection_id })
+
+def assignment(request, coursesection_id, assignment_id):
+    if request.method == 'POST':
+        studid = request.POST.get('studid', None)
+        assid = request.POST.get('assid', None)
+        grade = request.POST.get('grade', None)
+        feedback = request.POST.get('feedback', None)
+        assignment = Assignment.objects.filter(assignmentid=assid).first()
+        student = Student.objects.filter(studentid=studid).first()
+        sub = Assignmentsubmission.objects.filter(assignment_assignmentid=assignment, student_studentid = student).first()
+        sub.points = grade
+        sub.feedback = feedback
+        sub.save()
+    ass = Assignment.objects.filter(assignmentid=assignment_id).first()
+    asses = Assignmentsubmission.objects.filter(assignment_assignmentid=ass)
+    return render(request, 'login_system/assignment.html', {'session': request.session, 'asses' : asses,
+                                                             'sid' : coursesection_id, 'assignment' : ass })
 
 def logout(request):
     del request.session['role']
