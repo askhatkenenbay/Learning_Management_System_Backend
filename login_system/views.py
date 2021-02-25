@@ -8,7 +8,18 @@ from .forms import MyUserCreateForm
 from alldata.models import *
 from django.contrib.auth.decorators import login_required, user_passes_test
 import datetime
+import os
+import zipfile
+import json
+from boto3.session import Session
+from io import StringIO
 from django.http import HttpResponseRedirect
+from django.core.files.storage import default_storage
+import shutil
+
+from shutil import make_archive
+from wsgiref.util import FileWrapper
+
 noadmin_required = user_passes_test(lambda user: user.role == 'student' or user.role == 'instructor', login_url='/')
 def noadmin_required(view_func):
     decorated_view_func = login_required(noadmin_required(view_func))
@@ -300,10 +311,20 @@ def course(request, course_id, coursesection_id):
             myID = request.POST.get('moduleID', None)
             Coursepagemodule.objects.filter(moduleid = myID).delete()
     
-
     course_section = Coursesection.objects.filter(sectionid = coursesection_id).first()
     course = course_section.course_courseid
     modules = Coursepagemodule.objects.filter(coursesection_sectionid = coursesection_id).order_by('order').all()
+    if request.GET.get('download') == "download":
+        download_files(modules,request.session['id'])
+        dirName = str(request.session['id'])+"-downloads"
+        listFiles = os.listdir('./'+dirName)
+        res = zipMe(listFiles,request.session['id'])
+        shutil.rmtree(dirName, ignore_errors=True)
+        os.remove(dirName+".zip")
+        return res
+
+
+        
     moduleList = []
     for module in modules:
         ass = Assignment.objects.filter(coursepagemodule_moduleid = module).all()
@@ -312,6 +333,30 @@ def course(request, course_id, coursesection_id):
         temp = ModuleInfo(module,ass,quiz,myFile)
         moduleList.append(temp)
     return render(request,'login_system/coursepage.html', {'session':request.session, 'course':course, 'course_section':course_section, 'modules':modules, 'list':moduleList})
+
+def zipMe(listFiles, mid):
+    files_path = './'+ str(mid)+"-downloads"
+    print(files_path)
+    path_to_zip = make_archive(files_path, "zip", files_path)
+    response = HttpResponse(FileWrapper(open(path_to_zip,'rb')), content_type='application/zip')
+    file_name = 'course_content'
+    response['Content-Disposition'] = 'attachment; filename="{filename}.zip"'.format(
+        filename = file_name.replace(" ", "_")
+    )
+    return response
+
+def download_files(modules,mid):
+    f = open('/etc/config.json',)
+    data = json.load(f)	
+    session = Session(aws_access_key_id=data["AWS_ACCESS_KEY_ID"],aws_secret_access_key=data["AWS_SECRET_ACCESS_KEY"])
+    s3 = session.resource('s3')
+    bucket = data["AWS_STORAGE_BUCKET_NAME"]
+    my_bucket = s3.Bucket(bucket)
+    os.mkdir(os.path.join('./', str(mid)+"-downloads"))
+    for module in modules:
+        files = File.objects.filter(coursepagemodule_moduleid = module).all()
+        for cfile in files:
+            my_bucket.download_file(str(cfile.myFile),'./'+str(mid)+'-downloads/'+str(cfile.myFile))
 
 def search(req):
     school = req.POST.get('school', None)
