@@ -447,20 +447,22 @@ def download_files(modules,mid):
         for cfile in files:
             my_bucket.download_file(str(cfile.myFile),'./'+str(mid)+'-downloads/'+str(cfile.myFile))
 
-def search(req):
+def search(req, reg_cors):
     school = req.POST.get('school', None)
     department = req.POST.get('department', None)
     instructor = req.POST.get('instructor', None)
     course_title = req.POST.get('course_title', None)
     course_code = req.POST.get('course_code', None)
-    show_available = req.POST.get('show_available', None)
+    show_registered = req.POST.get('show_registered', None)
     show_priority = req.POST.get('show_priority', None)
     show_all = req.POST.get('show_all', None)
     courses = []
-    filters = [school, department, instructor, course_title, course_code, show_available, show_priority, show_all]
+    filters = [school, department, instructor, course_title, course_code, show_registered, show_priority, show_all]
 
     if show_all == 'on':
         courses = Course.objects.all()
+    elif show_registered == 'on':
+        courses = reg_cors
     elif course_title != '' and course_code != '':
         courses = Course.objects.filter(title = course_title, course_code = course_code).all()
     elif course_title != '':
@@ -539,7 +541,7 @@ def registration(request):
     if request.method == 'POST':
         post_id = request.POST.get('post_id', None)
         if post_id == 'search':
-            courses, filters = search(request)
+            courses, filters = search(request, courses_registered)
             return render(request, 'login_system/registration.html', {'session':request.session, 'les':les, 'courses':courses, 'filters':filters, 'isChosen':False})
 
         elif post_id == 'choose':

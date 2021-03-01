@@ -73,12 +73,12 @@
                   </div>
                   <div class="form-check">
                     {% if filters.5 == 'on' %}
-                      <input type="checkbox" class="form-check-input"  name="show_available" checked>
+                      <input type="checkbox" class="form-check-input"  name="show_registered" checked>
                     {% else %}
-                      <input type="checkbox" class="form-check-input"  name="show_available">
+                      <input type="checkbox" class="form-check-input"  name="show_registered">
                     {% endif %}
                     <label class="form-check-label">
-                      Show available seats only
+                      Show registered courses only
                     </label>
                   </div>
                   <div class="form-check">
@@ -142,7 +142,7 @@
                   <input type="hidden" name="instructor" value="{{filters.2}}" >
                   <input type="hidden" name="course_title" value="{{filters.3}}">
                   <input type="hidden" name="course_code" value="{{filters.4}}">
-                  <input type="hidden" name="show_available" value="{{filters.5}}">
+                  <input type="hidden" name="show_registered" value="{{filters.5}}">
                   <input type="hidden" name="show_priority" value="{{filters.6}}">
                   <input type="hidden" name="show_all" value="{{filters.7}}">
                   <input type="hidden" name="chosen_course" value="{{course.courseid}}">
@@ -180,7 +180,7 @@
               <input type="hidden" name="instructor" value="{{filters.2}}" >
               <input type="hidden" name="course_title" value="{{filters.3}}">
               <input type="hidden" name="course_code" value="{{filters.4}}">
-              <input type="hidden" name="show_available" value="{{filters.5}}">
+              <input type="hidden" name="show_registered" value="{{filters.5}}">
               <input type="hidden" name="show_priority" value="{{filters.6}}">
               <input type="hidden" name="show_all" value="{{filters.7}}">
               <input type="hidden" name="chosen_course" value="{{chosen_course.courseid}}">
