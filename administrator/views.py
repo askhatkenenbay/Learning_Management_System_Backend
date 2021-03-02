@@ -26,6 +26,9 @@ def courses(request):
         if post_id == 'Edit':
             course = request.POST.get('course', None)
             return redirect('editcourse', courseid=course)
+        elif post_id == 'Sections':
+            course = request.POST.get('course', None)
+            return redirect('sections', courseid=course)
         elif post_id == 'Add':
             course = request.POST.get('course', None)
             return redirect('createsection', courseid=course)
@@ -36,6 +39,20 @@ def courses(request):
 
     courses = Course.objects.all()
     return render(request,'admincourses.html', {"courses":courses})
+
+def sections(request, courseid):
+    course = Course.objects.filter(courseid=courseid).first()
+    sections_days = []
+    days_dic = {'1':'Monday', '2':'Tuesday', '3':'Wednesday', '4':'Thursday', '5':'Friday', '6':'Saturday'}
+    sections = Coursesection.objects.filter(course_courseid=courseid).all()
+    for sec in sections:
+        days = list(Sectionday.objects.filter(coursesection_sectionid=sec.sectionid).all())
+        for i, day in enumerate(days):
+            days[i] = days_dic[day.day]
+        days = ' '.join(days)
+        sections_days.append([sec, days])
+
+    return render(request, 'sections.html', {'course':course, 'sections':sections_days})
 
 def create_section(request, courseid):
     course = Course.objects.filter(courseid=courseid).first()

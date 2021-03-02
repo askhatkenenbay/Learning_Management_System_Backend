@@ -9,7 +9,7 @@
   <meta name="description" content="">
   <meta name="author" content="">
 
-  <title>All Courses</title>
+  <title>{{ course.course_code }} sections</title>
 
   <!-- Bootstrap core CSS -->
   <link href="{% static 'administrator/vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
@@ -51,59 +51,38 @@
 
   <br>
   <br>
-  <h2 class='text-center text-info'>All Courses</h2>
+  <h2 class='text-center text-info'>{{ course.course_code }} {{ course.title }} Sections</h2>
 
   <!-- Page Content -->
   <div class="container bg-info rounded shadow-lg">
       <br>
-    {% for course in courses %}
+    {% for section in sections %}
     <div class="row">
       <div class="col">
         <div class="card h-80">
           <div class="card-body">
-            <h4 class="card-title">{{ course.course_code }} {{ course.title }}</h4>
+            <h4 class="card-title">{{ section.0.num_type }} {{ course.title }}</h4>
             <hr>
-            <p class="card-text">{{ course.department_name.name }} Department</p>
-            <p class="card-text">Number of credits: {{ course.credits }}</p>
-            <p class="card-text">Description: {{ course.description }}</p>
+            <p class="card-text">{{ section.0.semester }} {{ section.0.year }} Semester</p>
+            <p class="card-text">start time: {{ section.0.start_time }}</p>
+            <p class="card-text">end time: {{ section.0.end_time }}</p>
+            <p class="card-text">capacity: {{ section.0.capacity }}</p>
+            <p class="card-text">room: {{ section.0.room }}</p>
+            <p class="card-text">Days: {{ section.1 }}</p>
           </div>
           <div class="card-footer text-right">
           	<div class="row">
           	<form method="POST">
           		{% csrf_token %}
           		<input type="hidden" name="post_id" value="Edit">
-          		<input type="hidden" name="course" value="{{course.courseid}}">
-          		<button type="submit" class="btn btn-success">Edit Course</button>
+          		<input type="hidden" name="section" value="{{section.sectionid}}">
+          		<button type="submit" class="btn btn-success" disabled>Edit Section</button>
           	</form>
-            <form method="POST">
-              {% csrf_token %}
-              <input type="hidden" name="post_id" value="Sections">
-              <input type="hidden" name="course" value="{{course.courseid}}">
-              <button type="submit" class="btn btn-success">View Course Sections</button>
-            </form>
-          	<form method="POST">
-          		{% csrf_token %}
-          		<input type="hidden" name="post_id" value="Add">
-          		<input type="hidden" name="course" value="{{course.courseid}}">
-            	<button type="submit" class="btn btn-success">Add Section</button>
-          	</form>
-            <form method="POST">
-              {% csrf_token %}
-              <input type="hidden" name="post_id" value="Priorities">
-              <input type="hidden" name="course" value="{{course.courseid}}">
-              <button type="submit" class="btn btn-success" disabled>View Course Priorities</button>
-            </form>
-            <form method="POST">
-              {% csrf_token %}
-              <input type="hidden" name="post_id" value="Priority">
-              <input type="hidden" name="course" value="{{course.courseid}}">
-              <button type="submit" class="btn btn-success" disabled>Add Priority</button>
-            </form>
           	<form method="POST">
           		{% csrf_token %}
           		<input type="hidden" name="post_id" value="Delete">
-          		<input type="hidden" name="course" value="{{course.courseid}}">
-	          	<button type="submit" class="btn btn-danger">Delete Course</button>
+          		<input type="hidden" name="section" value="{{section.sectionid}}">
+	          	<button type="submit" class="btn btn-danger" disabled>Delete Section</button>
           	</form>
           	</div>
           </div>
@@ -113,7 +92,7 @@
       <br>
     {% endfor %}
     <div class="text-center">
-        <button type="button" onclick="location.href='/administrator/create-course/'" class="btn btn-success">Add Course</button>
+        <button type="button" onclick="location.href='/administrator/create-section/{{course.courseid}}/'" class="btn btn-success">Add Section</button>
     </div>
       <br>
   </div>
