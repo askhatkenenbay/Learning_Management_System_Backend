@@ -315,6 +315,8 @@ def cexam(request):
 
 def course(request, course_id, coursesection_id):
     if request.method == 'POST':
+        if request.POST.get('quizStart') == "quizStart":
+            print("QUIZ STARTEDs")
         sua = request.POST.get('student-upload-ass', None)
         if sua is not None:
             submission = Assignmentsubmission()
@@ -352,9 +354,9 @@ def course(request, course_id, coursesection_id):
             questions = request.POST.getlist('q')
             index = 0
             for ans in q_and:
-                Quizquestion(quiz_quizid=q, text = ans, points = 1, is_ans = True).save()
+                ans_question = Quizquestion(quiz_quizid=q, text = ans, points = 1, is_ans = True).save()
                 for x in range(3):
-                    Quizquestion(quiz_quizid=q, text = x, points = 1).save()
+                    Quizquestion(quiz_quizid=q, text = x, points = 1, friend = ans_question.questionid).save()
 
             # 
             return HttpResponseRedirect(request.path_info)

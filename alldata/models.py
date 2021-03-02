@@ -285,6 +285,7 @@ class Quizquestion(models.Model):
     is_open = models.BooleanField(default=False)
     points = models.IntegerField()
     is_ans = models.BooleanField(default=False)
+    friend = models.IntegerField(default=-1)
     class Meta:
         db_table = 'quizQuestion'
         unique_together = (('questionid', 'quiz_quizid'),)

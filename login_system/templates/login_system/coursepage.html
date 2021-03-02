@@ -215,7 +215,7 @@
               <input type="text" name="q" placeholder="wrong"><br>
             </div>
             <h5 style="display: none;" id="888"></h5>
-            <a style="btn btn-primary" id="demo" onclick="myFunction()">Add Question</a>
+            <a class="btn btn-primary" id="demo" onclick="myFunction()">Add Question</a>
 
             <script>
               function myFunction() {
@@ -327,6 +327,14 @@
                     <input type="hidden" name="quizID" value="{{quiz.quizid}}">
                     <input type="hidden" name="delete" value="quiz">
                     <input type="submit" value="Delete Quiz">
+                  </form>
+                {% endif%}
+                {% if session.role == "student" %}
+                  <form method="POST">
+                    {% csrf_token %}
+                    <input type="hidden" name="quizID" value="{{quiz.quizid}}">
+                    <input type="hidden" name="quizStart" value="quizStart">
+                    <input type="submit" value="Start Quiz">
                   </form>
                 {% endif%}
                 <hr>
