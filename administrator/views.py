@@ -6,6 +6,8 @@ from django.conf import settings
 from django.shortcuts import redirect
 from alldata.models import *
 
+year = 2020
+semester = "Fall"
 
 def home(request):
     return render(request,'adminhome.html')
@@ -160,4 +162,15 @@ def manage_registration(request):
 
     registrations = Registrationdate.objects.all()
     return render(request, 'adminregistration.html', {"registrations":registrations})
+
+def semester_courses(request):
+    courses = list(Course.objects.all())
+    res_courses = []
+    for course in courses:
+        sections = list(Coursesection.objects.filter(course_courseid = course.courseid,
+                                                     semester = semester,
+                                                     year = year))
+        if len(sections) != 0:
+            res_courses.append(course)
+    return render(request, 'semestercourses.html', {"courses":res_courses})
 

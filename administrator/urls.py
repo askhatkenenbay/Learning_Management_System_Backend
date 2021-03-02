@@ -12,4 +12,5 @@ urlpatterns = [
     path('manage-registration', views.manage_registration, name='manageregistration'),
     path('edit-course/<int:courseid>/', views.edit_course, name='editcourse'),
     path('create-section/<int:courseid>/', views.create_section, name='createsection'),
+    path('semester-courses', views.semester_courses, name='semestercourses'),
 ]
