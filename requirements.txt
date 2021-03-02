@@ -16,5 +16,4 @@ wadllib==1.3.3xkit==0.0.0
 django-storages==1.10.1
 boto3==1.15.16
 mysqlclient
-pdfkit
-
+botocore==1.20.5

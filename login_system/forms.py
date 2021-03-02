@@ -14,8 +14,8 @@ class MyUserCreateForm(ModelForm):
 class QuizCreateForm(forms.ModelForm):
     name = forms.CharField(required=True)
     description = forms.CharField(required=True)
-    open_time = forms.DateTimeField(required=True)
-    close_time = forms.DateTimeField(required=True)
+    open_time = forms.CharField(required=True)#forms.DateTimeField(required=True)
+    close_time = forms.CharField(required=True)#forms.DateTimeField(required=True)
     time_limit = forms.IntegerField(required=True)
     max_point = forms.IntegerField(required=True)
     # module = forms.ModelChoiceField(queryset=Coursepagemodule.objects.filter(owner=user))

@@ -26,9 +26,6 @@
 
   <!-- Custom styles for this template -->
   <link href="{% static 'coursepage/css/admin.css' %}" rel="stylesheet">
-  <script>
-
-  </script>
 </head>
 
 <body>
@@ -86,14 +83,8 @@
         <div class="modal-body text-center">
           <button type="button" class="btn btn-success"><a href="#addFile" data-toggle="modal" class='text-white'>File</a></button>
           <button type="button" class="btn btn-success"><a href="#addAssigment" data-toggle="modal" class='text-white'>Assignment</a></button>
-          <!-- <button type="button" class="btn btn-success"><a href="#addQuiz" data-toggle="modal" class='text-white'>Quiz</a></button> -->
-          <form method="POST">
-            {% csrf_token %}
-            <input type="hidden" value="quiz" name="new-content">
-            <input type="hidden" value="" name="course_section_id">
-            <input type="hidden" value="" name="module_id">
-            <button type="submit" class="btn btn-success">Add Quiz</button>
-          </form>
+          <button type="button" class="btn btn-success"><a href="#addQuiz" data-toggle="modal" class='text-white'>Quiz</a></button>   
+        
         </div>
         <div class="modal-footer">
           <a href="#" class='text-info' data-dismiss="modal" aria-label="Close">cancel</a>
@@ -215,6 +206,24 @@
               <span>Time Limit:</span><input type="number" name="limit"><br>
               <span>Max Points</span><input type="number" name="maxPoint">
             </div>
+
+            <div class="form-group">
+              <h5>Question</h5>
+              <input type="text" name="q-ans" placeholder="right choice"><br>
+              <input type="text" name="q" placeholder="wrong"><br>
+              <input type="text" name="q" placeholder="wrong"><br>
+              <input type="text" name="q" placeholder="wrong"><br>
+            </div>
+            <h5 style="display: none;" id="888"></h5>
+            <a style="btn btn-primary" id="demo" onclick="myFunction()">Add Question</a>
+
+            <script>
+              function myFunction() {
+                myDiv = "<div class='form-group'><h5>Question</h5><input type='text' name='q-ans' placeholder='right choice'><br><input type='text' name='q' placeholder='wrong'><br><input type='text' name='q' placeholder='wrong'><br><input type='text' name='q' placeholder='wrong'><br></div>";
+                var d1 = document.getElementById('888');
+                d1.insertAdjacentHTML('afterend', myDiv);
+              }
+            </script>
             <button type="submit" class="btn btn-primary">Save</button>
           </form>
         </div>
@@ -392,7 +401,6 @@
   <!-- Bootstrap core JavaScript -->
   <script src="{% static 'coursepage/vendor/jquery/jquery.min.js' %}"></script>
   <script src="{% static 'coursepage/vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
-
 
 </body>
 

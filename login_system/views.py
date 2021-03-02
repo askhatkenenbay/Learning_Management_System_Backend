@@ -307,6 +307,10 @@ def cexam(request):
             temp = Quiz(coursepagemodule_moduleid=form['module'],name=form['name'])
             temp.save()
             return HttpResponse('success')
+        else:
+            print("NOOOOOO")
+
+    print("#1")
     return render(request, 'login_system/exam/cexam.html') 
 
 def course(request, course_id, coursesection_id):
@@ -325,30 +329,35 @@ def course(request, course_id, coursesection_id):
             print("NEW SUBMISSION")
             # return HttpResponseRedirect(request.path_info)
         content = request.POST.get('new-content', None)
+        print(content)
+        print("<--")
         if content == "quiz":
-            form = QuizCreateForm(section_id=coursesection_id)
-            data = {
-                'section_id':coursesection_id,
-                'course_id':course_id,
-                'form':form
-            }
-            return render(request, 'login_system/exam/cexam.html',data)    
-            # print("NEW QUIZ ADDED")
-            # name = request.POST.get('title', None)
-            # desc = request.POST.get('desc', None)
-            # startDate = request.POST.get('startDate', None)
-            # startTime = request.POST.get('startTime', None)
-            # start = str(startDate) + " " +  str(startTime)
-            # endDate = request.POST.get('endDate', None)
-            # endTime = request.POST.get('endTime', None)
-            # end = str(endDate) + " "+ str(endTime)
-            # maxPoint = request.POST.get('maxPoint', None)
-            # limit = request.POST.get('limit', None)
-            # moduleId = request.POST.get('moduleID', None)
-            # module = Coursepagemodule.objects.filter(moduleid = moduleId).first()
-            # q = Quiz(name = name, description = desc, open_time = start, close_time = end, time_limit = limit, max_point = maxPoint,coursepagemodule_moduleid = module)
-            # q.save()
-            # return HttpResponseRedirect(request.path_info)
+            print("NEW QUIZ ADDED")
+            name = request.POST.get('title', None)
+            desc = request.POST.get('desc', None)
+            startDate = request.POST.get('startDate', None)
+            startTime = request.POST.get('startTime', None)
+            start = str(startDate) + " " +  str(startTime)
+            endDate = request.POST.get('endDate', None)
+            endTime = request.POST.get('endTime', None)
+            end = str(endDate) + " "+ str(endTime)
+            maxPoint = request.POST.get('maxPoint', None)
+            limit = request.POST.get('limit', None)
+            moduleId = request.POST.get('moduleID', None)
+            module = Coursepagemodule.objects.filter(moduleid = moduleId).first()
+            q = Quiz(name = name, description = desc, open_time = start, close_time = end, time_limit = limit, max_point = maxPoint,coursepagemodule_moduleid = module)
+            q.save()
+            #
+            q_and = request.POST.getlist('q-ans')
+            questions = request.POST.getlist('q')
+            index = 0
+            for ans in q_and:
+                Quizquestion(quiz_quizid=q, text = ans, points = 1, is_ans = True).save()
+                for x in range(3):
+                    Quizquestion(quiz_quizid=q, text = x, points = 1).save()
+
+            # 
+            return HttpResponseRedirect(request.path_info)
         elif content == "ass":
             print("NEW ASS ADDED")
             name = request.POST.get('name', None)
