@@ -17,5 +17,6 @@ urlpatterns = [
     path('announcements/<int:coursesection_id>/', views.announcements, name='announcements'),
     path('assignments/<int:coursesection_id>/', views.assignments, name='assignments'),
     path('assignment/<int:coursesection_id>/<int:assignment_id>/', views.assignment, name='assignment'),
-    path('cexam',views.cexam,name='cexam')
+    path('cexam',views.cexam,name='cexam'),
+    path('quiz', views.quiz, name='quiz')
 ]

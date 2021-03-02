@@ -313,10 +313,15 @@ def cexam(request):
     print("#1")
     return render(request, 'login_system/exam/cexam.html') 
 
+def quiz(request):
+    print("QUIZ STARTED")
+    return render(request, 'login_system/exam/quizMulti.html')
+
 def course(request, course_id, coursesection_id):
     if request.method == 'POST':
         if request.POST.get('quizStart') == "quizStart":
             print("QUIZ STARTEDs")
+            return redirect('/quiz')
         sua = request.POST.get('student-upload-ass', None)
         if sua is not None:
             submission = Assignmentsubmission()
