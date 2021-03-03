@@ -458,6 +458,10 @@ def download_files(modules,mid):
         for cfile in files:
             my_bucket.download_file(str(cfile.myFile),'./'+str(mid)+'-downloads/'+str(cfile.myFile))
 
+def documents(request):
+    documents = ['doc1', 'doc2']
+    return render(request, 'login_system/documents.html', {'session':request.session, 'documents':documents})
+
 def search(req, reg_cors):
     school = req.POST.get('school', None)
     department = req.POST.get('department', None)
