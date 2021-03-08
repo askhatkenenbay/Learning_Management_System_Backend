@@ -149,11 +149,30 @@ def courses(request):
         elif post_id == 'Add':
             course = request.POST.get('course', None)
             return redirect('createsection', courseid=course)
+        elif post_id == 'Priority':
+            course = request.POST.get('course', None)
+            return redirect('addpriority', courseid=course)
         elif post_id == 'Delete':
             course = request.POST.get('course', None)
             course = Course.objects.filter(courseid=course).first()
             course.delete()
     return render(request,'admincourses.html', {"courses":courses})
+
+def add_priority(request, courseid):
+    course = Course.objects.filter(courseid=courseid).first()
+    departments = Department.objects.all()
+    priorities = Priority.objects.filter(course_courseid=course).all()
+    if request.method == 'POST':
+        post_id = request.POST.get('post_id', None)
+        if  post_id == 'Save':
+            department = request.POST.get('department', None)
+            department = Department.objects.filter(name=department).first()
+            year = request.POST.get('year', None)
+            type = request.POST.get('type', None)
+            new_priority = Priority(course_courseid=course, department_name=department, year=year, type=type)
+            new_priority.save()
+
+    return render(request, 'addpriority.html', {'course':course, 'departments':departments, 'priorities':priorities})
 
 def sections(request, courseid):
     course = Course.objects.filter(courseid=courseid).first()

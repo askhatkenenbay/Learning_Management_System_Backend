@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+{% load static %}
+
+<head>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+  <title>Add Priority</title>
+
+  <!-- Bootstrap core CSS -->
+  <link href="{% static 'administrator/vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+  <link href="{% static 'administrator/css/bootstrap.css' %}" rel="stylesheet">
+
+  <!-- Custom styles for this template -->
+  <link href="{% static 'administrator/css/admin.css' %}" rel="stylesheet">
+</head>
+
+<body>
+
+  <!-- Navigation -->
+  <nav class="navbar navbar-expand-lg navbar-dark bg-info fixed-top">
+    <div class="container">
+      <a class="navbar-brand" href="{% url 'adminhome' %}">Learning Management System</a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarResponsive">
+        <ul class="navbar-nav ml-auto">
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'adminhome' %}">Home</a>
+          </li>
+          <li class="nav-item active">
+            <a class="nav-link" href="{% url 'admincourses' %}">Courses
+              <span class="sr-only">(current)</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'admininstructors' %}">Instructors</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'adminstudents' %}">Students</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <br>
+  <br>
+  <h2 class='text-center text-info'>Add Priority to {{course.course_code}} {{course.title}}</h2>
+
+  <!-- Page Content -->
+  <div class="container bg-info rounded shadow-lg">
+      <br>
+    <div class="row">
+      <div class="col">
+
+        <div class="card h-80">
+          <div class="card-body">
+            <form method="POST">
+              {% csrf_token %}
+              <div class="form-group">
+                <label for="exampleFormControlSelect1">Department</label>
+                <select class="form-control" name="department" required>
+                  {% for department in departments %}
+                  <option value="{{ department.name }}">{{ department.name }}</option>
+                  {% endfor %}
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label for="exampleFormControlSelect1">Year of Study</label>
+                <select class="form-control" name="year" required>
+                  <option value="0">0</option>
+                  <option value="1">1</option>
+                  <option value="2">2</option>
+                  <option value="3">3</option>
+                  <option value="4">4</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label for="exampleFormControlSelect1">Priority Number</label>
+                <select class="form-control" name="type" required>
+                  <option value="1">1</option>
+                  <option value="2">2</option>
+                  <option value="3">3</option>
+                </select>
+              </div>
+
+          </div>
+          <div class="card-footer text-right">
+            <input type="hidden" name="post_id" value="Save">
+            <button type="submit" class="btn btn-success">Save</button>
+            </form>
+          </div>
+        </div>
+        <br>
+        <div class="card h-80">
+          <div class="card-body">
+            <h5 class="card-title">List of Priorities</h5>
+            {% for priority in priorities %}
+            <div class="row">
+              <div class="col col-lg-9">
+                <p>Priority {{ priority.type }}: {{ priority.department_name }}, {{priority.year}} Year of Study</p>
+              </div>
+
+              <div class='col text-right'>
+                <form method="POST">
+                  {% csrf_token %}
+                  <input type="hidden" name="post_id" value="Delete">
+                  <input type="hidden" name="instructor" value="{{instructor.instructor_instructorid.instructorid}}">
+                  <button type="submit" class="btn btn-danger">Delete</button>
+                </form>
+              </div>
+            </div>
+            {% endfor %}
+          </div>
+        </div>
+
+      </div>
+    </div>
+      <br>
+  </div>
+  
+
+  <br>
+  <br>
+  <!-- Bootstrap core JavaScript -->
+  <script src="{% static 'administrator/vendor/jquery/jquery.min.js' %}"></script>
+  <script src="{% static 'administrator/vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+
+
+</body>
+
+</html>

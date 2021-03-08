@@ -89,15 +89,9 @@
           	</form>
             <form method="POST">
               {% csrf_token %}
-              <input type="hidden" name="post_id" value="Priorities">
-              <input type="hidden" name="course" value="{{course.courseid}}">
-              <button type="submit" class="btn btn-success" disabled>View Course Priorities</button>
-            </form>
-            <form method="POST">
-              {% csrf_token %}
               <input type="hidden" name="post_id" value="Priority">
               <input type="hidden" name="course" value="{{course.courseid}}">
-              <button type="submit" class="btn btn-success" disabled>Add Priority</button>
+              <button type="submit" class="btn btn-success">Add Priority</button>
             </form>
           	<form method="POST">
           		{% csrf_token %}
