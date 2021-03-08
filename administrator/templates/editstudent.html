@@ -9,7 +9,7 @@
   <meta name="description" content="">
   <meta name="author" content="">
 
-  <title>Create Instructor</title>
+  <title>Edit Student</title>
 
   <!-- Bootstrap core CSS -->
   <link href="{% static 'administrator/vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
@@ -36,13 +36,13 @@
           <li class="nav-item">
             <a class="nav-link" href="{% url 'admincourses' %}">Courses</a>
           </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'admininstructors' %}">Instructors</a>
+          </li>
           <li class="nav-item active">
-            <a class="nav-link" href="{% url 'admininstructors' %}">Instructors
+            <a class="nav-link" href="{% url 'adminstudents' %}">Students
               <span class="sr-only">(current)</span>
             </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="{% url 'adminstudents' %}">Students</a>
           </li>
         </ul>
       </div>
@@ -51,7 +51,7 @@
 
   <br>
   <br>
-  <h2 class='text-center text-info'>Create Instructor</h2>
+  <h2 class='text-center text-info'>Edit Student</h2>
 
   <!-- Page Content -->
   <div class="container bg-info rounded shadow-lg">
@@ -67,7 +67,7 @@
 
               <div class="form-group">
                 <label for="formGroupExampleInput">First Name</label>
-                <input type="text" class="form-control"  name="first_name" placeholder="First Name" required>
+                <input type="text" class="form-control"  name="first_name" placeholder="First Name" value="{{user.first_name}}" required>
                 <div class="invalid-feedback">
                   Please fill out this field.
                 </div>
@@ -75,7 +75,7 @@
 
               <div class="form-group">
                 <label for="formGroupExampleInput">Last Name</label>
-                <input type="text" class="form-control" name="last_name" placeholder="Last Name" required>
+                <input type="text" class="form-control" name="last_name" placeholder="Last Name" value="{{user.last_name}}" required>
                 <div class="invalid-feedback">
                   Please fill out this field.
                 </div>
@@ -83,7 +83,7 @@
 
               <div class="form-group">
                 <label for="formGroupExampleInput">Email</label>
-                <input type="text" class="form-control" name="email" placeholder="Email" required>
+                <input type="text" class="form-control" name="email" placeholder="Email" value="{{user.email}}" required>
                 <div class="invalid-feedback">
                   Please fill out this field.
                 </div>
@@ -91,7 +91,7 @@
 
               <div class="form-group">
                 <label for="formGroupExampleInput">Password</label>
-                <input type="text" class="form-control" name="password" placeholder="Password" required>
+                <input type="text" class="form-control" name="password" placeholder="Password" value="{{user.password}}" required>
                 <div class="invalid-feedback">
                   Please fill out this field.
                 </div>
@@ -100,6 +100,7 @@
               <div class="form-group">
                 <label for="exampleFormControlSelect1">Gender</label>
                 <select class="form-control" name="gender" required>
+                  <option value='{{user.gender}}' selected>{{user.gender}}</option>
                   <option value="male">male</option>
                   <option value="female">female</option>
                 </select>
@@ -108,6 +109,7 @@
               <div class="form-group">
                 <label for="exampleFormControlSelect1">Department</label>
                 <select class="form-control" name="department" required>
+                  <option value="{{ user.department_name.name }}" selected>{{user.department_name.name}}</option>
                   {% for dep in departments %}
                   <option value="{{ dep.name }}">{{ dep.name }}</option>
                   {% endfor %}
@@ -115,11 +117,34 @@
               </div>
 
               <div class="form-group">
-                <label for="exampleFormControlSelect1">Position</label>
-                <select class="form-control" name="position" required>
-                  <option value="Professor">Professor</option>
-                  <option value="Head of the Department">Head of the Department</option>
-                  <option value="Assistant">Assistant</option>
+                <label for="exampleFormControlSelect1">Level</label>
+                <select class="form-control" name="level" required>
+                  <option value="{{student.level}}" selected>{{student.level}}</option>
+                  <option value="Foundation">Foundation</option>
+                  <option value="Undegraduate">Undergraduate</option>
+                  <option value="Graduate">Graduate</option>
+                  <option value="Phd">Phd</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label for="exampleFormControlSelect1">Year of Study</label>
+                <select class="form-control" name="year_of_study" required>
+                  <option value="{{student.year_of_study}}" selected>{{student.year_of_study}}</option>
+                  <option value="0">0</option>
+                  <option value="1">1</option>
+                  <option value="2">2</option>
+                  <option value="3">3</option>
+                  <option value="4">4</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label for="exampleFormControlSelect1">Academic Status</label>
+                <select class="form-control" name="academic_status" required>
+                  <optgroup value="{{student.academic_status}}">{{student.academic_status}}</optgroup>
+                  <option value="Good">Good</option>
+                  <option value="Probation">Probation</option>
                 </select>
               </div>
 

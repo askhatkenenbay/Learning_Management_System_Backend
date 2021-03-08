@@ -14,4 +14,8 @@ urlpatterns = [
     path('create-section/<int:courseid>/', views.create_section, name='createsection'),
     path('semester-courses', views.semester_courses, name='semestercourses'),
     path('sections/<int:courseid>/', views.sections, name='sections'),
-]
+    path('edit-instructor/<int:instructorid>/', views.edit_instructor, name='editinstructor'),
+    path('assign-advisee/<int:instructorid>/', views.assign_advisee, name='assignadvisee'),
+    path('edit-student/<int:studentid>/', views.edit_student, name='editstudent'),
+    path('assign-advisor/<int:studentid>/', views.assign_advisor, name='assignadvisor'),
+    ]

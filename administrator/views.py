@@ -14,13 +14,130 @@ def home(request):
 
 def students(request):
     students = Student.objects.all()
+
+    if request.method == 'POST':
+        post_id = request.POST.get('post_id', None)
+        if post_id == 'Edit':
+            student = request.POST.get('student', None)
+            return redirect('editstudent', studentid=student)
+        elif post_id == 'Assign':
+            student = request.POST.get('student', None)
+            return redirect('assignadvisor', studentid=student)
+        elif post_id == 'Delete':
+            student = request.POST.get('student', None)
+            student = Student.objects.filter(studentid=student).first()
+            student.delete()
     return render(request,'adminstudents.html', {"students":students})
+
+def assign_advisor(request, studentid):
+    student = Student.objects.filter(studentid=studentid).first()
+    instructors = Instructor.objects.all()
+    advisors = Advice.objects.filter(student_studentid=student.studentid).all()
+
+    if request.method == 'POST':
+        post_id = request.POST.get('post_id')
+        if post_id == 'Save':
+            instructor = request.POST.get('instructor', None)
+            instructor = Instructor.objects.filter(instructorid=instructor).first()
+            try:
+                new_advice = Advice(instructor_instructorid=instructor, student_studentid=student)
+                new_advice.save()
+            except:
+                render(request, 'assignadvisor.html', {'student':student, 'instructors':instructors, 'advisors':advisors})
+        elif post_id == 'Delete':
+            instructor = request.POST.get('instructor', None)
+            instructor = Instructor.objects.filter(instructorid=instructor).first()
+            advice = Advice.objects.filter(instructor_instructorid=instructor, student_studentid=student)  
+            advice.delete()          
+
+    return render(request, 'assignadvisor.html', {'student':student, 'instructors':instructors, 'advisors':advisors})
+
+def edit_student(request, studentid):
+    student = Student.objects.filter(studentid=studentid).first()
+    user = student.user_userid
+    departments = Department.objects.all()
+
+    if request.method == 'POST':
+        user.role = request.POST.get('new-content', None)
+        user.first_name = request.POST.get('first_name', None)
+        user.last_name = request.POST.get('last_name', None)
+        user.email = request.POST.get('email', None)
+        user.password = request.POST.get('password', None)
+        user.gender = request.POST.get('gender', None)
+        department_name = request.POST.get('department', None)
+        user.school_name = Department.objects.filter(name=department_name).first().school_name
+        user.department_name = Department.objects.filter(name=department_name).first()
+        user.save()
+
+        student.level = request.POST.get('level', None)
+        student.year_of_study = request.POST.get('year_of_study', None)
+        student.academic_status = request.POST.get('academic_status', None)
+        student.save()
+    return render(request, 'editstudent.html', {'student':student, 'user':user, 'departments':departments})
 
 def instructors(request):
     instructors = Instructor.objects.all()
+
+    if request.method == 'POST':
+        post_id = request.POST.get('post_id', None)
+        if post_id == 'Edit':
+            instructor = request.POST.get('instructor', None)
+            return redirect('editinstructor', instructorid=instructor)
+        elif post_id == 'Assign':
+            instructor = request.POST.get('instructor', None)
+            return redirect('assignadvisee', instructorid=instructor)
+        elif post_id == 'Delete':
+            instructor = request.POST.get('instructor', None)
+            instructor = Instructor.objects.filter(instructorid=instructor).first()
+            instructor.delete()
     return render(request,'admininstructors.html', {"instructors":instructors})
 
+def assign_advisee(request, instructorid):
+    instructor = Instructor.objects.filter(instructorid=instructorid).first()
+    students = Student.objects.all()
+    advisees = Advice.objects.filter(instructor_instructorid=instructor.instructorid).all()
+
+    if request.method == 'POST':
+        post_id = request.POST.get('post_id')
+        if post_id == 'Save':
+            student = request.POST.get('student', None)
+            student = Student.objects.filter(studentid=student).first()
+            try:
+                new_advice = Advice(instructor_instructorid=instructor, student_studentid=student)
+                new_advice.save()
+            except:
+                render(request, 'assignadvisee.html', {'instructor':instructor, 'students':students, 'advisees':advisees})
+        elif post_id == 'Delete':
+            student = request.POST.get('student', None)
+            student = Student.objects.filter(studentid=student).first()
+            advice = Advice.objects.filter(instructor_instructorid=instructor, student_studentid=student)  
+            advice.delete() 
+    return render(request, 'assignadvisee.html', {'instructor':instructor, 'students':students, 'advisees':advisees})
+
+def edit_instructor(request, instructorid):
+    instructor = Instructor.objects.filter(instructorid=instructorid).first()
+    user = instructor.user_userid
+    departments = Department.objects.all()
+
+    if request.method == 'POST':
+        user.role = request.POST.get('new-content', None)
+        user.first_name = request.POST.get('first_name', None)
+        user.last_name = request.POST.get('last_name', None)
+        user.email = request.POST.get('email', None)
+        user.password = request.POST.get('password', None)
+        user.gender = request.POST.get('gender', None)
+        department_name = request.POST.get('department', None)
+        user.school_name = Department.objects.filter(name=department_name).first().school_name
+        user.department_name = Department.objects.filter(name=department_name).first()
+        user.save()
+
+        instructor.position = request.POST.get('position', None)
+        instructor.save()
+    return render(request, 'editinstructor.html', {'instructor':instructor, 'user':user, 'departments':departments})
+
 def courses(request):
+    courses = Course.objects.all()
+
     if request.method == 'POST':
         post_id = request.POST.get('post_id', None)
         if post_id == 'Edit':
@@ -36,8 +153,6 @@ def courses(request):
             course = request.POST.get('course', None)
             course = Course.objects.filter(courseid=course).first()
             course.delete()
-
-    courses = Course.objects.all()
     return render(request,'admincourses.html', {"courses":courses})
 
 def sections(request, courseid):
@@ -56,6 +171,7 @@ def sections(request, courseid):
 
 def create_section(request, courseid):
     course = Course.objects.filter(courseid=courseid).first()
+
     if request.method == 'POST':
         courseid = course
         num_type = request.POST.get('num_type', None)
@@ -82,7 +198,6 @@ def create_section(request, courseid):
             if day:
                 sectionday = Sectionday(coursesection_sectionid=section, day=str(i+1))
                 sectionday.save()
-
     return render(request, 'createsection.html', {'course':course})
 
 def edit_course(request, courseid):
@@ -99,10 +214,11 @@ def edit_course(request, courseid):
         course.department_name = Department.objects.filter(name=department_name).first()
         course.level = request.POST.get('level', None)
         course.save()
-
     return render(request, 'editcourse.html', {'course':course, 'department':department, 'departments':departments})
 
 def create_student(request):
+    departments = Department.objects.all()
+
     if request.method == 'POST':
         role = request.POST.get('new-content', None)
         first_name = request.POST.get('first_name', None)
@@ -123,11 +239,11 @@ def create_student(request):
 
         new_student = Student(user_userid=new_user, level=level, year_of_study=year_of_study, academic_status=academic_status)
         new_student.save()
-
-    departments = Department.objects.all()
     return render(request,'createstudent.html', {"departments":departments})
 
 def create_instructor(request):
+    departments = Department.objects.all()
+
     if request.method == 'POST':
         role = request.POST.get('new-content', None)
         first_name = request.POST.get('first_name', None)
@@ -146,11 +262,11 @@ def create_instructor(request):
 
         new_instructor = Instructor(user_userid=new_user, position=position)
         new_instructor.save()
-
-    departments = Department.objects.all()
     return render(request,'createinstructor.html', {"departments":departments})
 
 def create_course(request):
+    departments = Department.objects.all()
+
     if request.method == 'POST':
         title = request.POST.get('title', None)
         course_code = request.POST.get('course_code', None)
@@ -162,11 +278,11 @@ def create_course(request):
 
         new_course = Course(title=title, course_code=course_code, credits=credits, description=description, department_name=department_name, level=level)
         new_course.save()
-
-    departments = Department.objects.all()
     return render(request,'createcourse.html', {"departments":departments})
 
 def manage_registration(request):
+    registrations = Registrationdate.objects.all()
+
     if request.method == 'POST':
         registrationid = request.POST.get('regId', None)
         open_time = request.POST.get('openAt', None)
@@ -176,8 +292,6 @@ def manage_registration(request):
         registration.open_time = open_time
         registration.close_time = close_time
         registration.save()
-
-    registrations = Registrationdate.objects.all()
     return render(request, 'adminregistration.html', {"registrations":registrations})
 
 def semester_courses(request):
