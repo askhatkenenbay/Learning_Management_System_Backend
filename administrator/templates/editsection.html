@@ -9,7 +9,7 @@
   <meta name="description" content="">
   <meta name="author" content="">
 
-  <title>Create Section</title>
+  <title>Edit Section</title>
 
   <!-- Bootstrap core CSS -->
   <link href="{% static 'administrator/vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
@@ -51,7 +51,7 @@
 
   <br>
   <br>
-  <h2 class='text-center text-info'>Create Section for {{course.title}}</h2>
+  <h2 class='text-center text-info'>Edit Section</h2>
 
   <!-- Page Content -->
   <div class="container bg-info rounded shadow-lg">
@@ -67,7 +67,7 @@
 
               <div class="form-group">
                 <label for="formGroupExampleInput">Type</label>
-                <input type="text" class="form-control"  name="num_type" placeholder="Type" required>
+                <input type="text" class="form-control"  name="num_type" placeholder="Type" value='{{section.num_type}}' required>
                 <div class="invalid-feedback">
                   Please fill out this field.
                 </div>
@@ -75,7 +75,7 @@
 
               <div class="form-group">
                 <label for="formGroupExampleInput">Room</label>
-                <input type="text" class="form-control" name="room" placeholder="Room" required>
+                <input type="text" class="form-control" name="room" placeholder="Room" value='{{section.room}}' required>
                 <div class="invalid-feedback">
                   Please fill out this field.
                 </div>
@@ -84,6 +84,7 @@
               <div class="form-group">
                 <label for="exampleFormControlSelect1">Semester</label>
                 <select class="form-control" name="semester" required>
+                  <option value='{{section.semester}}' selected>{{section.semester}}</option>
                   <option value="Fall">Fall</option>
                   <option value="Spring">Spring</option>
                   <option value="Summer">Summer</option>
@@ -92,7 +93,7 @@
 
               <div class="form-group">
                 <label for="formGroupExampleInput">Year</label>
-                <input type="number" class="form-control" name="year" placeholder="Year" required>
+                <input type="number" class="form-control" name="year" placeholder="Year" value='{{section.year}}' required>
                 <div class="invalid-feedback">
                   Please fill out this field.
                 </div>
@@ -100,7 +101,7 @@
 
               <div class="form-group">
                 <label for="formGroupExampleInput">Capacity</label>
-                <input type="number" class="form-control" name="capacity" placeholder="Capacity" required>
+                <input type="number" class="form-control" name="capacity" placeholder="Capacity" value='{{section.capacity}}' required>
                 <div class="invalid-feedback">
                   Please fill out this field.
                 </div>
@@ -108,7 +109,7 @@
 
                <div class="form-group">
                 <label for="formGroupExampleInput">Total Points</label>
-                <input type="number" class="form-control" name="total_points" placeholder="Total Points" required>
+                <input type="number" class="form-control" name="total_points" placeholder="Total Points" value='{{section.total_points}}' required>
                 <div class="invalid-feedback">
                   Please fill out this field.
                 </div>
@@ -116,7 +117,7 @@
 
               <div class="form-group">
                 <label for="formGroupExampleInput">Start Time</label>
-                <input type="time" class="form-control" name="start_time" required>
+                <input type="time" class="form-control" name="start_time" value='{{start}}'required>
                 <div class="invalid-feedback">
                   Please fill out this field.
                 </div>
@@ -124,7 +125,7 @@
 
               <div class="form-group">
                 <label for="formGroupExampleInput">End Time</label>
-                <input type="time" class="form-control" name="end_time" required>
+                <input type="time" class="form-control" name="end_time" value='{{end}}' required>
                 <div class="invalid-feedback">
                   Please fill out this field.
                 </div>
@@ -132,12 +133,42 @@
 
               <div class="form-group">
                 <label for="formGroupExampleInput">Days</label><br>
-                <input type="checkbox" name="mn"> Monday 
+                {% if '1' in days%}
+                <input type="checkbox" name="mn" checked> Monday 
+                {% else %}
+                <input type="checkbox" name="mn"> Monday
+                {% endif %} 
+
+                {% if '2' in days%}
+                <input type="checkbox" name="tu" checked> Tuesday 
+                {% else %}
                 <input type="checkbox" name="tu"> Tuesday 
+                {% endif %} 
+
+                {% if '3' in days%}
+                <input type="checkbox" name="wd" checked> Wednesday 
+                {% else %}
                 <input type="checkbox" name="wd"> Wednesday 
+                {% endif %} 
+
+                {% if '4' in days%}
+                <input type="checkbox" name="th" checked> Thursday 
+                {% else %}
                 <input type="checkbox" name="th"> Thursday 
+                {% endif %} 
+
+                {% if '5' in days%}
+                <input type="checkbox" name="fr" checked> Friday 
+                {% else %}
                 <input type="checkbox" name="fr"> Friday 
+                {% endif %} 
+
+                {% if '6' in days%}
+                <input type="checkbox" name="st" checked> Saturday 
+                {% else %}
                 <input type="checkbox" name="st"> Saturday 
+                {% endif %} 
+
               </div>
 
           </div>

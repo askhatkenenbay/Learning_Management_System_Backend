@@ -43,7 +43,10 @@
                   <h4 class="card-title">{{ document }}</h4>
                 </div>
                 <div class='col col-lg-4 text-right'>
-                  <button type='button' class='btn btn-info'>Download</button>
+                  <form method='POST'>
+                    {% csrf_token %}
+                    <button type='submit' class='btn btn-info'>Download</button>
+                  </form>
                 </div>
               </div>
             </div>

@@ -63,6 +63,16 @@
           <div class="card-body">
             <form method="POST">
               {% csrf_token %}
+
+              <div class="form-group">
+                <label for="exampleFormControlSelect1">Priority Number</label>
+                <select class="form-control" name="type" required>
+                  <option value="1">1</option>
+                  <option value="2">2</option>
+                  <option value="3">3</option>
+                </select>
+              </div>
+
               <div class="form-group">
                 <label for="exampleFormControlSelect1">Department</label>
                 <select class="form-control" name="department" required>
@@ -83,15 +93,6 @@
                 </select>
               </div>
 
-              <div class="form-group">
-                <label for="exampleFormControlSelect1">Priority Number</label>
-                <select class="form-control" name="type" required>
-                  <option value="1">1</option>
-                  <option value="2">2</option>
-                  <option value="3">3</option>
-                </select>
-              </div>
-
           </div>
           <div class="card-footer text-right">
             <input type="hidden" name="post_id" value="Save">
@@ -103,17 +104,18 @@
         <div class="card h-80">
           <div class="card-body">
             <h5 class="card-title">List of Priorities</h5>
+            <hr>
             {% for priority in priorities %}
             <div class="row">
               <div class="col col-lg-9">
-                <p>Priority {{ priority.type }}: {{ priority.department_name }}, {{priority.year}} Year of Study</p>
+                <p>Priority {{ priority.type }}: {{ priority.department_name.name }}, {{priority.year}} Year of Study</p>
               </div>
 
               <div class='col text-right'>
                 <form method="POST">
                   {% csrf_token %}
                   <input type="hidden" name="post_id" value="Delete">
-                  <input type="hidden" name="instructor" value="{{instructor.instructor_instructorid.instructorid}}">
+                  <input type="hidden" name="priority" value="{{priority.id}}">
                   <button type="submit" class="btn btn-danger">Delete</button>
                 </form>
               </div>

@@ -161,7 +161,7 @@ def courses(request):
 def add_priority(request, courseid):
     course = Course.objects.filter(courseid=courseid).first()
     departments = Department.objects.all()
-    priorities = Priority.objects.filter(course_courseid=course).all()
+    priorities = Priority.objects.filter(course_courseid=course).order_by('type').all()
     if request.method == 'POST':
         post_id = request.POST.get('post_id', None)
         if  post_id == 'Save':
@@ -169,13 +169,32 @@ def add_priority(request, courseid):
             department = Department.objects.filter(name=department).first()
             year = request.POST.get('year', None)
             type = request.POST.get('type', None)
-            new_priority = Priority(course_courseid=course, department_name=department, year=year, type=type)
-            new_priority.save()
+            try:
+                new_priority = Priority(course_courseid=course, department_name=department, year=year, type=type)
+                new_priority.save()
+            except:
+                priority = Priority.objects.filter(course_courseid=course, department_name=department, year=year).first()
+                priority.type = type
+                priority.save()
+        elif post_id == 'Delete':
+            priority = request.POST.get('priority', None)
+            priority = Priority.objects.filter(id=priority).first()
+            priority.delete()
 
     return render(request, 'addpriority.html', {'course':course, 'departments':departments, 'priorities':priorities})
 
 def sections(request, courseid):
     course = Course.objects.filter(courseid=courseid).first()
+    if request.method == 'POST':
+        post_id = request.POST.get('post_id', None)
+        if post_id == 'Edit':
+            section = request.POST.get('section', None)
+            return redirect('editsection', sectionid=section)
+        elif post_id == 'Delete':
+            section = request.POST.get('section', None)
+            section = Coursesection.objects.filter(sectionid=section).first()
+            section.delete()
+
     sections_days = []
     days_dic = {'1':'Monday', '2':'Tuesday', '3':'Wednesday', '4':'Thursday', '5':'Friday', '6':'Saturday'}
     sections = Coursesection.objects.filter(course_courseid=courseid).all()
@@ -185,8 +204,46 @@ def sections(request, courseid):
             days[i] = days_dic[day.day]
         days = ' '.join(days)
         sections_days.append([sec, days])
-
     return render(request, 'sections.html', {'course':course, 'sections':sections_days})
+
+def edit_section(request, sectionid):
+    section = Coursesection.objects.filter(sectionid=sectionid).first()
+    days = list(Sectionday.objects.filter(coursesection_sectionid=section.sectionid).all())
+    start = str(section.start_time)
+    end = str(section.end_time)
+    for i, day in enumerate(days):
+        days[i] = day.day
+
+    if request.method == 'POST':
+        section.num_type = request.POST.get('num_type', None)
+        section.start_time = request.POST.get('start_time', None)
+        section.end_time = request.POST.get('end_time', None)
+        section.semester = request.POST.get('semester', None)
+        section.year = request.POST.get('year', None)
+        section.capacity = request.POST.get('capacity', None)
+        section.room = request.POST.get('room', None)
+        section.total_points = request.POST.get('total_points', None)
+        section.save()
+        days = list(Sectionday.objects.filter(coursesection_sectionid=section.sectionid).all())
+        for day in days:
+            day.delete()
+        days = []
+        days.append(request.POST.get('mn', None) == 'on')
+        days.append(request.POST.get('tu', None) == 'on')
+        days.append(request.POST.get('wd', None) == 'on')
+        days.append(request.POST.get('th', None) == 'on')
+        days.append(request.POST.get('fr', None) == 'on')
+        days.append(request.POST.get('st', None) == 'on')
+        for i, day in enumerate(days):
+            if day:
+                sectionday = Sectionday(coursesection_sectionid=section, day=str(i+1))
+                sectionday.save()
+        days = list(Sectionday.objects.filter(coursesection_sectionid=section.sectionid).all())
+        for i, day in enumerate(days):
+                days[i] = day.day
+        return redirect('sections', courseid=section.course_courseid.courseid)
+
+    return render(request, 'editsection.html', {'section':section, 'days':days, 'start':start, 'end':end})
 
 def create_section(request, courseid):
     course = Course.objects.filter(courseid=courseid).first()
@@ -217,6 +274,8 @@ def create_section(request, courseid):
             if day:
                 sectionday = Sectionday(coursesection_sectionid=section, day=str(i+1))
                 sectionday.save()
+        return redirect('sections', courseid=course.courseid)
+
     return render(request, 'createsection.html', {'course':course})
 
 def edit_course(request, courseid):
@@ -312,15 +371,4 @@ def manage_registration(request):
         registration.close_time = close_time
         registration.save()
     return render(request, 'adminregistration.html', {"registrations":registrations})
-
-def semester_courses(request):
-    courses = list(Course.objects.all())
-    res_courses = []
-    for course in courses:
-        sections = list(Coursesection.objects.filter(course_courseid = course.courseid,
-                                                     semester = semester,
-                                                     year = year))
-        if len(sections) != 0:
-            res_courses.append(course)
-    return render(request, 'semestercourses.html', {"courses":res_courses})
 

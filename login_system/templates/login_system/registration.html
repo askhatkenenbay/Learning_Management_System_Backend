@@ -199,7 +199,16 @@
           </div>
           
           <div class="card-footer text-right">
-            {% if isChosen and not isRegistered %}
+            {% if isChosen and not isPriority %}
+            <button type="submit" class="btn btn-info" disabled>Register Course</button>
+            <button type="submit" class="btn btn-danger" disabled>Drop Course</button>
+            {% elif isChosen and not isRegistered and isOverlap %}
+            <button type="submit" class="btn btn-info" disabled>Register Course</button>
+            <button type="submit" class="btn btn-danger" disabled>Drop Course</button>
+            {% elif isChosen and not isRegistered and isFull %}
+            <button type="submit" class="btn btn-info" disabled>Register Course</button>
+            <button type="submit" class="btn btn-danger" disabled>Drop Course</button>
+            {% elif isChosen and not isRegistered %}
             <button type="submit" class="btn btn-info">Register Course</button>
             <button type="submit" class="btn btn-danger" disabled>Drop Course</button>
             {% elif isChosen and isRegistered %}

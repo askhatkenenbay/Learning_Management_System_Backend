@@ -75,14 +75,14 @@
           	<form method="POST">
           		{% csrf_token %}
           		<input type="hidden" name="post_id" value="Edit">
-          		<input type="hidden" name="section" value="{{section.sectionid}}">
-          		<button type="submit" class="btn btn-success" disabled>Edit Section</button>
+          		<input type="hidden" name="section" value="{{section.0.sectionid}}">
+          		<button type="submit" class="btn btn-success">Edit Section</button>
           	</form>
           	<form method="POST">
           		{% csrf_token %}
           		<input type="hidden" name="post_id" value="Delete">
-          		<input type="hidden" name="section" value="{{section.sectionid}}">
-	          	<button type="submit" class="btn btn-danger" disabled>Delete Section</button>
+          		<input type="hidden" name="section" value="{{section.0.sectionid}}">
+	          	<button type="submit" class="btn btn-danger">Delete Section</button>
           	</form>
           	</div>
           </div>

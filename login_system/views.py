@@ -19,6 +19,7 @@ import shutil
 from login_system.forms import *
 from shutil import make_archive
 from wsgiref.util import FileWrapper
+import pdfkit 
 
 noadmin_required = user_passes_test(lambda user: user.role == 'student' or user.role == 'instructor', login_url='/')
 def noadmin_required(view_func):
@@ -459,10 +460,27 @@ def download_files(modules,mid):
             my_bucket.download_file(str(cfile.myFile),'./'+str(mid)+'-downloads/'+str(cfile.myFile))
 
 def documents(request):
-    documents = ['doc1', 'doc2']
+    documents = ['Courses of Current Semester']
+    if request.method == 'POST':
+        url = request.get_host() + '/semester-courses'
+        pdf = pdfkit.from_url(url, False)
+        response = HttpResponse(pdf,content_type='application/pdf')
+        response['Content-Disposition'] = 'attachment; filename="Courses of Current Semester.pdf"'
+        return response
     return render(request, 'login_system/documents.html', {'session':request.session, 'documents':documents})
 
-def search(req, reg_cors):
+def semester_courses(request):
+    courses = list(Course.objects.all())
+    res_courses = []
+    for course in courses:
+        sections = list(Coursesection.objects.filter(course_courseid = course.courseid,
+                                                     semester = semester,
+                                                     year = year))
+        if len(sections) != 0:
+            res_courses.append(course)
+    return render(request, 'login_system/semestercourses.html', {"courses":res_courses})
+
+def search(req, reg_cors, prior_cors):
     school = req.POST.get('school', None)
     department = req.POST.get('department', None)
     instructor = req.POST.get('instructor', None)
@@ -478,6 +496,8 @@ def search(req, reg_cors):
         courses = Course.objects.all()
     elif show_registered == 'on':
         courses = reg_cors
+    elif show_priority == 'on':
+        courses = prior_cors
     elif course_title != '' and course_code != '':
         courses = Course.objects.filter(title = course_title, course_code = course_code).all()
     elif course_title != '':
@@ -523,8 +543,10 @@ def get_courses_of_proirity(student):
     cur_priority = registrationdate.priority
     user = User.objects.filter(userid = student.user_userid.userid).first()
     dep = Department.objects.filter(name = user.department_name.name).first()
-    courses_of_proirity = Priority.objects.filter(type__lte=cur_priority, year=student.year_of_study, department_name = dep.name).all()
-    return list(courses_of_proirity)
+    courses_of_proirity = list(Priority.objects.filter(type__lte=cur_priority, year=student.year_of_study, department_name = dep.name).all())
+    for i, c in enumerate(courses_of_proirity):
+        courses_of_proirity[i] = c.course_courseid
+    return courses_of_proirity
 
 def get_busy_time(sections_enrolled):
     busy_time = []
@@ -552,18 +574,19 @@ def registration(request):
         for day in days:
             j = int(day.day)-1
             les[i][j] = sid
+    
+    courses_of_proirity = get_courses_of_proirity(student)
 
     if request.method == 'POST':
         post_id = request.POST.get('post_id', None)
         if post_id == 'search':
-            courses, filters = search(request, courses_registered)
+            courses, filters = search(request, courses_registered, courses_of_proirity)
             return render(request, 'login_system/registration.html', {'session':request.session, 'les':les, 'courses':courses, 'filters':filters, 'isChosen':False})
 
         elif post_id == 'choose':
-            # courses_of_proirity = get_courses_of_proirity(student)
             busy_time = get_busy_time(sections_enrolled)
             sections_time = []
-            courses, filters = search(request)
+            courses, filters = search(request, courses_registered, courses_of_proirity)
             chosen_course = request.POST.get('chosen_course', None)
             chosen_course = Course.objects.filter(courseid = chosen_course).first()
             course_sections = list(Coursesection.objects.filter(course_courseid = chosen_course.courseid).all())
@@ -609,14 +632,27 @@ def registration(request):
                                 course_sections[i] = [s, sections_days[i], isOverlap]
                                 break
                 course_sections[i] = [s, sections_days[i], isOverlap, isFull, cap]
-            
+
+            isOverlap = True
+            isFull = True
+            for course_section in course_sections:
+                if course_section[2] == False:
+                    isOverlap = False
+                    break
+
+            for course_section in course_sections:
+                if course_section[3] == False:
+                    isFull = False
+                    break
             # isPriority = (chosen_course in courses_of_proirity)
+            isPriority = True
             isRegistered = (chosen_course in courses_registered)
             return render(request, 'login_system/registration.html', {'session':request.session, 'les':les, 'courses':courses, 'filters':filters, 'isChosen':True, 
-                                                                    'chosen_course':chosen_course, 'course_sections':course_sections, 'isRegistered':isRegistered})
+                                                                    'chosen_course':chosen_course, 'course_sections':course_sections, 'isRegistered':isRegistered,
+                                                                    'isPriority':isPriority,'isOverlap':isOverlap, 'isFull':isFull})
 
         elif post_id == 'register':
-            courses, filters = search(request)            
+            courses, filters = search(request, courses_registered, courses_of_proirity)            
             chosen_section = request.POST.get('chosen_section', None)
             chosen_section = Coursesection.objects.filter(sectionid = chosen_section).first()
             
@@ -642,7 +678,7 @@ def registration(request):
             return render(request, 'login_system/registration.html', {'session':request.session, 'les':les, 'courses':courses, 'filters':filters, 'isChosen':False})
 
         elif post_id == 'drop':
-            courses, filters = search(request)
+            courses, filters = search(request, courses_registered, courses_of_proirity)
             chosen_course = request.POST.get('chosen_course', None)
             chosen_course = Course.objects.filter(courseid = chosen_course).first()
             sections = list(Coursesection.objects.filter(course_courseid = chosen_course.courseid).all())
@@ -668,3 +704,4 @@ def registration(request):
     courses = []
     filters = ['','','','','','off','off','off']
     return render(request, 'login_system/registration.html', {'session':request.session, 'les':les, 'courses':courses, 'filters':filters, 'isChosen':False})
+
