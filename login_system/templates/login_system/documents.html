@@ -17,7 +17,7 @@
   <meta name="description" content="">
   <meta name="author" content="">
 
-  <title>Dashboard</title>
+  <title>Download Documents</title>
 
   <!-- Bootstrap core CSS -->
   
@@ -30,30 +30,57 @@
 <body>
   
  {% include 'login_system/nav.html' %}
- 
+ <br>
   <!-- Page Content -->
   <div class="container">
     <br>
+      <h4>Course Schedule by Schools</h4>
+      <div class="card" style='width:1200px'>
+      <div class="card-body">
       {% for document in documents %}
-        <div class="row">
-          <div class="card" style='width:1200px'>
-            <div class="card-body">
-              <div class='row'>
-                <div class='col col-lg-8'>
-                  <h4 class="card-title">{{ document }}</h4>
-                </div>
-                <div class='col col-lg-4 text-right'>
-                  <form method='POST'>
-                    {% csrf_token %}
-                    <button type='submit' class='btn btn-info'>Download</button>
-                  </form>
-                </div>
-              </div>
+          <div class='row'>
+            <div class='col col-lg-8'>
+              <p>{{ document.full_name }}</p>
+            </div>
+            <div class='col col-lg-4 text-right'>
+              <form method='POST'>
+                {% csrf_token %}
+                <input type="hidden" name="school" value='{{document.name}}'>
+                <input type="hidden" name="post_id" value='schedule'>
+                <button type='submit' class='btn btn-info'>Download</button>
+              </form>
             </div>
           </div>
-        </div>
-      <br>
+          <hr>
       {% endfor %}
+      </div>
+      </div>
+  </div>
+  <!-- /.container -->
+
+  <div class="container">
+    <br>
+      <h4>Course List with Requirements</h4>
+      <div class="card" style='width:1200px'>
+      <div class="card-body">
+      {% for document in documents %}
+          <div class='row'>
+            <div class='col col-lg-8'>
+              <p>{{ document.full_name }}</p>
+            </div>
+            <div class='col col-lg-4 text-right'>
+              <form method='POST'>
+                {% csrf_token %}
+                <input type="hidden" name="school" value='{{document.name}}'>
+                <input type="hidden" name="post_id" value='requirements'>
+                <button type='submit' class='btn btn-info'>Download</button>
+              </form>
+            </div>
+          </div>
+          <hr>
+      {% endfor %}
+      </div>
+      </div>
   </div>
   <!-- /.container -->
 

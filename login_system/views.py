@@ -460,25 +460,70 @@ def download_files(modules,mid):
             my_bucket.download_file(str(cfile.myFile),'./'+str(mid)+'-downloads/'+str(cfile.myFile))
 
 def documents(request):
-    documents = ['Courses of Current Semester']
+    documents = School.objects.all()
     if request.method == 'POST':
-        url = request.get_host() + '/semester-courses'
-        pdf = pdfkit.from_url(url, False)
-        response = HttpResponse(pdf,content_type='application/pdf')
-        response['Content-Disposition'] = 'attachment; filename="Courses of Current Semester.pdf"'
-        return response
-    return render(request, 'login_system/documents.html', {'session':request.session, 'documents':documents})
+        post_id = request.POST.get('post_id', None)
+        if post_id == 'schedule':
+            school = request.POST.get('school', None)
+            url = request.get_host() + '/semester-courses/' + school + '/'
+            pdf = pdfkit.from_url(url, False)
+            response = HttpResponse(pdf,content_type='application/pdf')
+            response['Content-Disposition'] = 'attachment; filename="school_schedule_by_term.pdf"'
+            return response
+        elif post_id == 'requirements':
+            school = request.POST.get('school', None)
+            url = request.get_host() + '/requirements-courses/' + school + '/'
+            pdf = pdfkit.from_url(url, False)
+            response = HttpResponse(pdf,content_type='application/pdf')
+            response['Content-Disposition'] = 'attachment; filename="course_list_with_requirements.pdf"'
+            return response
+    return render(request, 'login_system/documents.html', {'session':request.session, 'documents':documents, 'semester':semester, 'year':year})
 
-def semester_courses(request):
+def semester_courses(request, school):
+    sections = list(Coursesection.objects.filter(semester=semester, year=year))
+    res_sections = []
+    days_dic = {'1':'Mn', '2':'Tu', '3':'Wn', '4':'Th', '5':'Fr', '6':'St'}
+    for sec in sections:
+        if sec.course_courseid.department_name.school_name.name == school:
+            enrolled = StudentEnrollment.objects.filter(coursesection_sectionid=sec.sectionid).count()
+            days = list(Sectionday.objects.filter(coursesection_sectionid=sec.sectionid).all())
+            for i, day in enumerate(days):
+                days[i] = days_dic[day.day]
+            days = ','.join(days)
+            instructors = list(CourseInstructor.objects.filter(coursesection_sectionid=sec.sectionid).all())
+            for i, ins in enumerate(instructors):
+                instructors[i] = ins.instructor_instructorid.user_userid.first_name + ' ' + ins.instructor_instructorid.user_userid.last_name
+            instructors = ', '.join(instructors)
+            res_sections.append([sec, enrolled, days, instructors])
+    date = str(datetime.datetime.now())[:19]
+    school = School.objects.filter(name=school).first()
+    return render(request, 'login_system/semestercourses.html', {"sections":res_sections, 'semester':semester, 'year':year, 'date':date, 'school':school})
+
+def requirements_courses(request, school):
     courses = list(Course.objects.all())
     res_courses = []
     for course in courses:
-        sections = list(Coursesection.objects.filter(course_courseid = course.courseid,
-                                                     semester = semester,
-                                                     year = year))
-        if len(sections) != 0:
-            res_courses.append(course)
-    return render(request, 'login_system/semestercourses.html', {"courses":res_courses})
+        sections = list(Coursesection.objects.filter(course_courseid = course.courseid, semester = semester, year = year))
+        if len(sections) != 0 and course.department_name.school_name.name == school:
+            priotity_1, priotity_2, priotity_3 = [], [], []
+            priorities = list(Priority.objects.filter(course_courseid=course.courseid).all())
+            for i, p in enumerate(priorities):
+                if p.type == 1:
+                    priotity_1.append(p.department_name.name + ', ' + str(p.year) + ' Year Students')
+                elif p.type == 2:
+                    priotity_2.append(p.department_name.name + ', ' + str(p.year) + ' Year Students')
+                else:
+                    priotity_3.append(p.department_name.name + ', ' + str(p.year) + ' Year Students')
+            requisites = list(Requisite.objects.filter(course_courseid=course.courseid).all())
+            for i, req in enumerate(requisites):
+                if req.is_optional:
+                    requisites[i] = req.type + ': ' + req.req_course_courseid.course_code + ' ' + req.req_course_courseid.title + ', optional'
+                else:
+                    requisites[i] = req.type + ': ' + req.req_course_courseid.course_code + ' ' + req.req_course_courseid.title + ', required'
+            res_courses.append([course, priotity_1, priotity_2, priotity_3, requisites])
+
+    school = School.objects.filter(name=school).first()
+    return render(request, 'login_system/requirementscourses.html', {"courses":res_courses, 'semester':semester, 'year':year, 'school':school})
 
 def search(req, reg_cors, prior_cors):
     school = req.POST.get('school', None)
