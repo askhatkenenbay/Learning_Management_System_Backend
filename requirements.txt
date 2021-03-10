@@ -17,3 +17,4 @@ django-storages==1.10.1
 boto3==1.15.16
 mysqlclient
 botocore==1.20.5
+pdfkit
