@@ -9,7 +9,7 @@
   <meta name="description" content="">
   <meta name="author" content="">
 
-  <title>All Courses</title>
+  <title>Registered Students</title>
 
   <!-- Bootstrap core CSS -->
   <link href="{% static 'administrator/vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
@@ -51,66 +51,69 @@
 
   <br>
   <br>
-  <h2 class='text-center text-info'>All Courses</h2>
+  <h2 class='text-center text-info'>{{section.course_courseid.course_code}} ({{section.num_type}}), Registered Students</h2>
 
   <!-- Page Content -->
   <div class="container bg-info rounded shadow-lg">
       <br>
-    {% for course in courses %}
+    {% for student in students %}
     <div class="row">
       <div class="col">
         <div class="card h-80">
           <div class="card-body">
-            <h4 class="card-title">{{ course.course_code }} {{ course.title }}</h4>
+            <h4 class="card-title">{{ student.user_userid.first_name }} {{ student.user_userid.last_name }}</h4>
             <hr>
-            <p class="card-text">{{ course.department_name.name }} Department</p>
-            <p class="card-text">Number of credits: {{ course.credits }}</p>
-            <p class="card-text">Description: {{ course.description }}</p>
+            <p class="card-text">Student ID: {{ student.studentid }}</p>
+            <p class="card-text">Level: {{student.level}}</p>
+            <p class="card-text">Year of Study: {{ student.year_of_study }}</p>
+            <p class="card-text">Academic Status: {{student.academic_status}}</p>
           </div>
           <div class="card-footer text-right">
-          	<div class="row">
-          	<form method="POST">
-          		{% csrf_token %}
-          		<input type="hidden" name="post_id" value="Edit">
-          		<input type="hidden" name="course" value="{{course.courseid}}">
-          		<button type="submit" class="btn btn-success">Edit Course</button>
-          	</form>
-            <form method="POST">
-              {% csrf_token %}
-              <input type="hidden" name="post_id" value="Sections">
-              <input type="hidden" name="course" value="{{course.courseid}}">
-              <button type="submit" class="btn btn-success">Course Sections</button>
-            </form>
-            <form method="POST">
-              {% csrf_token %}
-              <input type="hidden" name="post_id" value="Priority">
-              <input type="hidden" name="course" value="{{course.courseid}}">
-              <button type="submit" class="btn btn-success">Add Priority</button>
-            </form>
-           <form method="POST">
-              {% csrf_token %}
-              <input type="hidden" name="post_id" value="Requisite">
-              <input type="hidden" name="course" value="{{course.courseid}}">
-              <button type="submit" class="btn btn-success">Add Requisite</button>
-            </form>
-          	<form method="POST">
-          		{% csrf_token %}
-          		<input type="hidden" name="post_id" value="Delete">
-          		<input type="hidden" name="course" value="{{course.courseid}}">
-	          	<button type="submit" class="btn btn-danger">Delete Course</button>
-          	</form>
-          	</div>
+            <div class="row">
+              <form method='POST'>
+                {% csrf_token %}
+                <input type="hidden" name="post_id" value="Delete">
+                <input type="hidden" name="student" value="{{student.studentid}}">
+                <button type="submit" class="btn btn-danger">Drop from Course</button>
+              </form>
+            </div>
           </div>
         </div>
       </div>
     </div>
       <br>
     {% endfor %}
-    <div class="text-center">
-        <button type="button" onclick="location.href='/administrator/create-course/'" class="btn btn-success">Add Course</button>
+
+    <div class="row">
+      <div class="col">
+
+        <div class="card h-80">
+
+          <div class="card-body">
+            <h4 class="card-title">Register New Student</h4>
+            <form method="POST">
+              {% csrf_token %}
+              <div class="form-group">
+                <label for="exampleFormControlSelect1">Student</label>
+                <select class="form-control" name="student" required>
+                  {% for student in all_students %}
+                  <option value="{{ student.studentid }}">{{ student.user_userid.first_name }} {{ student.user_userid.last_name }}</option>
+                  {% endfor %}
+                </select>
+              </div>
+          </div>
+
+          <div class="card-footer text-right">
+            <input type="hidden" name="post_id" value="Register">
+            <button type="submit" class="btn btn-success">Register</button>
+            </form>
+          </div>
+
+        </div>
+        <br>
+      </div>
     </div>
-      <br>
-  </div>
+</div>
   
 
   <br>

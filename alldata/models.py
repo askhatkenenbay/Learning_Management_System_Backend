@@ -94,7 +94,7 @@ class Requisite(models.Model):
 
     class Meta:
         db_table = 'requisite'
-        unique_together = (('course_courseid', 'req_course_courseid', 'type'),)
+        unique_together = (('course_courseid', 'req_course_courseid'),)
 
 
 class Registrationdate(models.Model):
@@ -113,6 +113,7 @@ class Coursesection(models.Model):
     sectionid = models.AutoField(db_column='sectionID', primary_key=True)  # Field name made lowercase.
     course_courseid = models.ForeignKey(Course, on_delete=models.CASCADE, db_column='course_courseID')  # Field name made lowercase.
     num_type = models.CharField(max_length=45)
+    section_type = models.CharField(max_length=45, choices=[('Lecture', 'Lecture'),('Seminar','Seminar'),('Recitation','Recitation'), ('Lab', 'Lab')], default='Lecture')
     start_time = models.TimeField()
     end_time = models.TimeField()
     semester = models.CharField(max_length=45, choices=[('Fall', 'Fall'),('Spring','Spring'),('Summer','Summer')])

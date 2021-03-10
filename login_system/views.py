@@ -637,6 +637,7 @@ def registration(request):
             course_sections = list(Coursesection.objects.filter(course_courseid = chosen_course.courseid).all())
             sections_days = []
             days_dic = {'1':'Mn', '2':'Tu', '3':'Wn', '4':'Th', '5':'Fr', '6':'St'}
+            sections_L, sections_S, sections_R, sections_Lab = [],[],[],[]
             for s in course_sections:
                 section_time = []
                 ds = list(Sectionday.objects.filter(coursesection_sectionid = s.sectionid).all())
@@ -676,35 +677,89 @@ def registration(request):
                                 isOverlap = True
                                 course_sections[i] = [s, sections_days[i], isOverlap]
                                 break
-                course_sections[i] = [s, sections_days[i], isOverlap, isFull, cap]
+                if s.section_type == 'Lecture':
+                    sections_L.append([s, sections_days[i], isOverlap, isFull, cap])
+                elif s.section_type == 'Seminar':
+                    sections_S.append([s, sections_days[i], isOverlap, isFull, cap])
+                elif s.section_type == 'Recitation':
+                    sections_R.append([s, sections_days[i], isOverlap, isFull, cap])
+                else:
+                    sections_Lab.append([s, sections_days[i], isOverlap, isFull, cap])
 
-            isOverlap = True
-            isFull = True
-            for course_section in course_sections:
-                if course_section[2] == False:
-                    isOverlap = False
-                    break
+            isOverlap_L, isOverlap_S, isOverlap_R, isOverlap_Lab = False, False, False, False
+            isFull_L, isFull_S, isFull_R, isFull_Lab = False, False, False, False
+            if sections_L:
+                isOverlap_L = True
+                isFull_L = True
+                for course_section in sections_L:
+                    if course_section[2] == False:
+                        isOverlap_L = False
+                        break
+                for course_section in sections_L:
+                    if course_section[3] == False:
+                        isFull_L = False
+                        break
 
-            for course_section in course_sections:
-                if course_section[3] == False:
-                    isFull = False
-                    break
+            if sections_S:
+                isOverlap_S = True
+                isFull_S = True
+                for course_section in sections_S:
+                    if course_section[2] == False:
+                        isOverlap_S = False
+                        break
+                for course_section in sections_S:
+                    if course_section[3] == False:
+                        isFull_S = False
+                        break
+
+            if sections_R:
+                isOverlap_R = True
+                isFull_R = True
+                for course_section in sections_R:
+                    if course_section[2] == False:
+                        isOverlap_R = False
+                        break
+                for course_section in sections_R:
+                    if course_section[3] == False:
+                        isFull_R = False
+                        break
+
+            if sections_Lab:
+                isOverlap_Lab = True
+                isFull_Lab = True
+                for course_section in sections_Lab:
+                    if course_section[2] == False:
+                        isOverlap_Lab = False
+                        break
+                for course_section in sections_Lab:
+                    if course_section[3] == False:
+                        isFull_Lab = False
+                        break
+
+            isOverlap = isOverlap_L or  isOverlap_S or isOverlap_R or isOverlap_Lab
+            isFull = isFull_L or  isFull_S or isFull_R or isFull_Lab
+
             # isPriority = (chosen_course in courses_of_proirity)
             isPriority = True
             isRegistered = (chosen_course in courses_registered)
             return render(request, 'login_system/registration.html', {'session':request.session, 'les':les, 'courses':courses, 'filters':filters, 'isChosen':True, 
-                                                                    'chosen_course':chosen_course, 'course_sections':course_sections, 'isRegistered':isRegistered,
-                                                                    'isPriority':isPriority,'isOverlap':isOverlap, 'isFull':isFull})
+                                                                    'chosen_course':chosen_course, 'sections_L':sections_L, 'sections_S':sections_S,'sections_R':sections_R,
+                                                                    'sections_Lab':sections_Lab,'isRegistered':isRegistered, 'isPriority':isPriority,'isOverlap':isOverlap, 'isFull':isFull})
 
         elif post_id == 'register':
-            courses, filters = search(request, courses_registered, courses_of_proirity)            
-            chosen_section = request.POST.get('chosen_section', None)
-            chosen_section = Coursesection.objects.filter(sectionid = chosen_section).first()
-            
-            studentenrollment = StudentEnrollment()
-            studentenrollment.student_studentid = student
-            studentenrollment.coursesection_sectionid = chosen_section
-            studentenrollment.save()
+            courses, filters = search(request, courses_registered, courses_of_proirity)
+            chosen_sections = []            
+            chosen_sections.append(request.POST.get('chosen_section_L', None))
+            chosen_sections.append(request.POST.get('chosen_section_R', None))
+            chosen_sections.append(request.POST.get('chosen_section_S', None))
+            chosen_sections.append(request.POST.get('chosen_section_Lab', None))
+            for sec in chosen_sections:
+                if sec != None:
+                    chosen_section = Coursesection.objects.filter(sectionid = sec).first()
+                    studentenrollment = StudentEnrollment()
+                    studentenrollment.student_studentid = student
+                    studentenrollment.coursesection_sectionid = chosen_section
+                    studentenrollment.save()
 
             sections_enrolled = list(StudentEnrollment.objects.filter(student_studentid=request.session['id'],
                                                    coursesection_sectionid__year=year,

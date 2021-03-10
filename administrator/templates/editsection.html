@@ -66,8 +66,19 @@
               <input type="hidden" name="new-content" value="student">
 
               <div class="form-group">
-                <label for="formGroupExampleInput">Type</label>
-                <input type="text" class="form-control"  name="num_type" placeholder="Type" value='{{section.num_type}}' required>
+                <label for="exampleFormControlSelect1">Type</label>
+                <select class="form-control" name="section_type" required>
+                  <option value='{{section.section_type}}' selected>{{section.section_type}}</option>
+                  <option value="Lecture">Lecture</option>
+                  <option value="Seminar">Seminar</option>
+                  <option value="Recitation">Recitation</option>
+                  <option value="Lab">Lab</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label for="formGroupExampleInput">Section Code</label>
+                <input type="text" class="form-control"  name="num_type" placeholder="e.g L1" value='{{section.num_type}}' required>
                 <div class="invalid-feedback">
                   Please fill out this field.
                 </div>

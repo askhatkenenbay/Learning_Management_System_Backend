@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+{% load static %}
+
+<head>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+  <title>Add Requisite</title>
+
+  <!-- Bootstrap core CSS -->
+  <link href="{% static 'administrator/vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+  <link href="{% static 'administrator/css/bootstrap.css' %}" rel="stylesheet">
+
+  <!-- Custom styles for this template -->
+  <link href="{% static 'administrator/css/admin.css' %}" rel="stylesheet">
+</head>
+
+<body>
+
+  <!-- Navigation -->
+  <nav class="navbar navbar-expand-lg navbar-dark bg-info fixed-top">
+    <div class="container">
+      <a class="navbar-brand" href="{% url 'adminhome' %}">Learning Management System</a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarResponsive">
+        <ul class="navbar-nav ml-auto">
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'adminhome' %}">Home</a>
+          </li>
+          <li class="nav-item active">
+            <a class="nav-link" href="{% url 'admincourses' %}">Courses
+              <span class="sr-only">(current)</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'admininstructors' %}">Instructors</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'adminstudents' %}">Students</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <br>
+  <br>
+  <h2 class='text-center text-info'>Add Requisite to {{course.course_code}} {{course.title}}</h2>
+
+  <!-- Page Content -->
+  <div class="container bg-info rounded shadow-lg">
+      <br>
+    <div class="row">
+      <div class="col">
+
+        <div class="card h-80">
+          <div class="card-body">
+            <form method="POST">
+              {% csrf_token %}
+
+              <div class="form-group">
+                <label for="exampleFormControlSelect1">Requisite Type</label>
+                <select class="form-control" name="type" required>
+                  <option value="pre-requisite">pre-requisite</option>
+                  <option value="co-requisite">co-requisite</option>
+                  <option value="anti-requisite">anti-requisite</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label for="exampleFormControlSelect1">Requisite Course</label>
+                <select class="form-control" name="course" required>
+                  {% for c in courses %}
+                  <option value="{{ c.courseid }}">{{ c.course_code }} {{ c.title }}</option>
+                  {% endfor %}
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label for="exampleFormControlSelect1">Required or Optional</label>
+                <select class="form-control" name="is_optional" required>
+                  <option value="0">Required</option>
+                  <option value="1">Optional</option>
+                </select>
+              </div>
+
+          </div>
+          <div class="card-footer text-right">
+            <input type="hidden" name="post_id" value="Save">
+            <button type="submit" class="btn btn-success">Save</button>
+            </form>
+          </div>
+        </div>
+        <br>
+        <div class="card h-80">
+          <div class="card-body">
+            <h5 class="card-title">List of Requisites</h5>
+            <hr>
+            {% for requisite in requisites %}
+            <div class="row">
+              <div class="col col-lg-9">
+                {% if requisite.is_optional %}
+                <p>{{ requisite.type }}: {{ requisite.req_course_courseid.course_code }} {{ requisite.req_course_courseid.title }}, optional</p>
+                {% else %}
+                <p>{{ requisite.type }}: {{ requisite.req_course_courseid.course_code }} {{ requisite.req_course_courseid.title }}, required</p>
+                {% endif %}
+              </div>
+
+              <div class='col text-right'>
+                <form method="POST">
+                  {% csrf_token %}
+                  <input type="hidden" name="post_id" value="Delete">
+                  <input type="hidden" name="requisite" value="{{requisite.id}}">
+                  <button type="submit" class="btn btn-danger">Delete</button>
+                </form>
+              </div>
+            </div>
+            {% endfor %}
+          </div>
+        </div>
+
+      </div>
+    </div>
+      <br>
+  </div>
+  
+
+  <br>
+  <br>
+  <!-- Bootstrap core JavaScript -->
+  <script src="{% static 'administrator/vendor/jquery/jquery.min.js' %}"></script>
+  <script src="{% static 'administrator/vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+
+
+</body>
+
+</html>

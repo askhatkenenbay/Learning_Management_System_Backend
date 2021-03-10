@@ -4,6 +4,7 @@ from django.contrib import messages
 from django.core.mail import send_mail
 from django.conf import settings
 from django.shortcuts import redirect
+from django.db.models import Q
 from alldata.models import *
 
 year = 2020
@@ -146,17 +147,44 @@ def courses(request):
         elif post_id == 'Sections':
             course = request.POST.get('course', None)
             return redirect('sections', courseid=course)
-        elif post_id == 'Add':
-            course = request.POST.get('course', None)
-            return redirect('createsection', courseid=course)
         elif post_id == 'Priority':
             course = request.POST.get('course', None)
             return redirect('addpriority', courseid=course)
+        elif post_id == 'Requisite':
+            course = request.POST.get('course', None)
+            return redirect('addrequisite', courseid=course)
         elif post_id == 'Delete':
             course = request.POST.get('course', None)
             course = Course.objects.filter(courseid=course).first()
             course.delete()
     return render(request,'admincourses.html', {"courses":courses})
+
+def add_requisite(request, courseid):
+    course = Course.objects.filter(courseid=courseid).first()
+    courses = Course.objects.filter(~Q(courseid=courseid)).all()
+    requisites = Requisite.objects.filter(course_courseid=courseid).all()
+    if request.method == 'POST':
+        post_id = request.POST.get('post_id', None)
+        if  post_id == 'Save':
+            type = request.POST.get('type', None)
+            req_course = request.POST.get('course', None)
+            req_course = Course.objects.filter(courseid=req_course).first()
+            is_optional = request.POST.get('is_optional', None)
+            is_optional = (False if int(is_optional) == 0 else True)
+            try:
+                new_requisite = Requisite(course_courseid=course, req_course_courseid=req_course, type=type, is_optional=is_optional)
+                new_requisite.save()
+            except:
+                requisite = Requisite.objects.filter(course_courseid=course, req_course_courseid=req_course).first()
+                requisite.type = type
+                requisite.is_optional = is_optional
+                requisite.save()
+        elif post_id == 'Delete':
+            requisite = request.POST.get('requisite', None)
+            requisite = Requisite.objects.filter(id=requisite).first()
+            requisite.delete()
+
+    return render(request, 'addrequisite.html', {'course':course, 'courses':courses, 'requisites':requisites})
 
 def add_priority(request, courseid):
     course = Course.objects.filter(courseid=courseid).first()
@@ -190,6 +218,12 @@ def sections(request, courseid):
         if post_id == 'Edit':
             section = request.POST.get('section', None)
             return redirect('editsection', sectionid=section)
+        elif post_id == 'Instructors':
+            section = request.POST.get('section', None)
+            return redirect('assignedinstructors', sectionid=section)
+        elif post_id == 'Students':
+            section = request.POST.get('section', None)
+            return redirect('registeredstudents', sectionid=section)
         elif post_id == 'Delete':
             section = request.POST.get('section', None)
             section = Coursesection.objects.filter(sectionid=section).first()
@@ -206,6 +240,58 @@ def sections(request, courseid):
         sections_days.append([sec, days])
     return render(request, 'sections.html', {'course':course, 'sections':sections_days})
 
+def assigned_instructors(request, sectionid):
+    section = Coursesection.objects.filter(sectionid=sectionid).first()
+    instructors = list(CourseInstructor.objects.filter(coursesection_sectionid=sectionid).all())
+    for i, ins in enumerate(instructors):
+        instructors[i] = ins.instructor_instructorid
+    all_instructors = list(Instructor.objects.all())
+
+    if request.method == "POST":
+        post_id = request.POST.get('post_id', None)
+        if post_id == 'Delete':
+            instructor = request.POST.get('instructor', None)
+            c_instr = CourseInstructor.objects.filter(coursesection_sectionid=sectionid, instructor_instructorid=instructor)
+            c_instr.delete()
+        elif post_id == 'Assign':
+            instructor = request.POST.get('instructor', None)
+            instructor = Instructor.objects.filter(instructorid=instructor).first()
+            try:
+                c_instr = CourseInstructor(coursesection_sectionid=section, instructor_instructorid=instructor)
+                c_instr.save()
+            except:
+                render(request, 'assignedinstructors.html', {'section':section, 'instructors':instructors, 'all_instructors':all_instructors})
+        instructors = list(CourseInstructor.objects.filter(coursesection_sectionid=sectionid).all())
+        for i, ins in enumerate(instructors):
+            instructors[i] = ins.instructor_instructorid
+    return render(request, 'assignedinstructors.html', {'section':section, 'instructors':instructors, 'all_instructors':all_instructors})
+
+def registered_students(request, sectionid):
+    section = Coursesection.objects.filter(sectionid=sectionid).first()
+    students = list(StudentEnrollment.objects.filter(coursesection_sectionid=sectionid).all())
+    for i, st in enumerate(students):
+        students[i] = st.student_studentid
+    all_students = list(Student.objects.all())
+
+    if request.method == "POST":
+        post_id = request.POST.get('post_id', None)
+        if post_id == 'Delete':
+            student = request.POST.get('student', None)
+            enr_st = StudentEnrollment.objects.filter(coursesection_sectionid=sectionid, student_studentid=student)
+            enr_st.delete()
+        elif post_id == 'Register':
+            student = request.POST.get('student', None)
+            student = Student.objects.filter(studentid=student).first()
+            try:
+                enr_st = StudentEnrollment(coursesection_sectionid=section, student_studentid=student)
+                enr_st.save()
+            except:
+                render(request, 'registeredstudents.html', {'section':section, 'students':students, 'all_students':all_students})
+        students = list(StudentEnrollment.objects.filter(coursesection_sectionid=sectionid).all())
+        for i, st in enumerate(students):
+            students[i] = st.student_studentid
+    return render(request, 'registeredstudents.html', {'section':section, 'students':students, 'all_students':all_students})
+
 def edit_section(request, sectionid):
     section = Coursesection.objects.filter(sectionid=sectionid).first()
     days = list(Sectionday.objects.filter(coursesection_sectionid=section.sectionid).all())
@@ -215,6 +301,7 @@ def edit_section(request, sectionid):
         days[i] = day.day
 
     if request.method == 'POST':
+        section.section_type = request.POST.get('section_type', None)
         section.num_type = request.POST.get('num_type', None)
         section.start_time = request.POST.get('start_time', None)
         section.end_time = request.POST.get('end_time', None)
@@ -250,6 +337,7 @@ def create_section(request, courseid):
 
     if request.method == 'POST':
         courseid = course
+        section_type = request.POST.get('section_type', None)
         num_type = request.POST.get('num_type', None)
         start_time = request.POST.get('start_time', None)
         end_time = request.POST.get('end_time', None)
@@ -259,7 +347,7 @@ def create_section(request, courseid):
         room = request.POST.get('room', None)
         total_points = request.POST.get('total_points', None)
 
-        section = Coursesection(course_courseid=course, num_type=num_type, start_time=start_time, end_time=end_time, semester=semester, year=year, capacity=capacity, room=room, total_points=total_points
+        section = Coursesection(course_courseid=course, section_type=section_type, num_type=num_type, start_time=start_time, end_time=end_time, semester=semester, year=year, capacity=capacity, room=room, total_points=total_points
             )
         section.save()
 

@@ -63,7 +63,8 @@
           <div class="card-body">
             <h4 class="card-title">{{ section.0.num_type }} {{ course.title }}</h4>
             <hr>
-            <p class="card-text">{{ section.0.semester }} {{ section.0.year }} Semester</p>
+            <p class="card-text">Semester: {{ section.0.semester }} {{ section.0.year }}</p>
+            <p class="card-text">Type: {{ section.0.section_type }} ({{section.0.num_type}})</p>
             <p class="card-text">start time: {{ section.0.start_time }}</p>
             <p class="card-text">end time: {{ section.0.end_time }}</p>
             <p class="card-text">capacity: {{ section.0.capacity }}</p>
@@ -78,6 +79,18 @@
           		<input type="hidden" name="section" value="{{section.0.sectionid}}">
           		<button type="submit" class="btn btn-success">Edit Section</button>
           	</form>
+            <form method="POST">
+              {% csrf_token %}
+              <input type="hidden" name="post_id" value="Instructors">
+              <input type="hidden" name="section" value="{{section.0.sectionid}}">
+              <button type="submit" class="btn btn-success">Assigned Instructors</button>
+            </form>
+            <form method="POST">
+              {% csrf_token %}
+              <input type="hidden" name="post_id" value="Students">
+              <input type="hidden" name="section" value="{{section.0.sectionid}}">
+              <button type="submit" class="btn btn-success">Registered Students</button>
+            </form>
           	<form method="POST">
           		{% csrf_token %}
           		<input type="hidden" name="post_id" value="Delete">

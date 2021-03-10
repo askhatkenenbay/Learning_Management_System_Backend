@@ -171,7 +171,6 @@
               <hr>
               <p class="card-title">Number of Credits: {{ chosen_course.credits }}</p>
               <hr>
-              <p class="card-title">Sections</p>
               <form method="POST">
               {% csrf_token %}
               <input type="hidden" name="post_id" value="register">
@@ -184,15 +183,63 @@
               <input type="hidden" name="show_priority" value="{{filters.6}}">
               <input type="hidden" name="show_all" value="{{filters.7}}">
               <input type="hidden" name="chosen_course" value="{{chosen_course.courseid}}">
-              {% for section in course_sections %}
+              {% if sections_L %}
+              <p class="card-title"> Lecture Sections</p>
+              {% endif %}
+              {% for section in sections_L %}
                 {% if isRegistered %}
-                <label><input type="radio" name="chosen_section" value="{{ section.0.sectionid }}" required disabled> {{ section.1 }}: {{ section.0.start_time }} - {{ section.0.end_time }}, ({{ section.4 }})</label>
+                <label><input type="radio" name="chosen_section_L" value="{{ section.0.sectionid }}" required disabled>({{ section.0.num_type }}) {{ section.1 }}: {{ section.0.start_time }} - {{ section.0.end_time }}, ({{ section.4 }})</label>
                 {% elif section.2 %}
-                <label><input type="radio" name="chosen_section" value="{{ section.0.sectionid }}" required disabled> {{ section.1 }}: {{ section.0.start_time }} - {{ section.0.end_time }}, ({{ section.4 }}) overlapping</label>
+                <label><input type="radio" name="chosen_section_L" value="{{ section.0.sectionid }}" required disabled>({{ section.0.num_type }}) {{ section.1 }}: {{ section.0.start_time }} - {{ section.0.end_time }}, ({{ section.4 }}) overlapping</label>
                 {% elif section.3 %}
-                <label><input type="radio" name="chosen_section" value="{{ section.0.sectionid }}" required disabled> {{ section.1 }}: {{ section.0.start_time }} - {{ section.0.end_time }}, full</label>
+                <label><input type="radio" name="chosen_section_L" value="{{ section.0.sectionid }}" required disabled>({{ section.0.num_type }}) {{ section.1 }}: {{ section.0.start_time }} - {{ section.0.end_time }}, full</label>
                 {% else %}
-                <label><input type="radio" name="chosen_section" value="{{ section.0.sectionid }}" required> {{ section.1 }}: {{ section.0.start_time }} - {{ section.0.end_time }}, ({{ section.4 }})</label>
+                <label><input type="radio" name="chosen_section_L" value="{{ section.0.sectionid }}" required>({{ section.0.num_type }}) {{ section.1 }}: {{ section.0.start_time }} - {{ section.0.end_time }}, ({{ section.4 }})</label>
+                {% endif %}
+              {% endfor %}
+
+              {% if sections_R %}
+              <p class="card-title"> Recitation Sections</p>
+              {% endif %}
+              {% for section in sections_R %}
+                {% if isRegistered %}
+                <label><input type="radio" name="chosen_section_R" value="{{ section.0.sectionid }}" required disabled>({{ section.0.num_type }}) {{ section.1 }}: {{ section.0.start_time }} - {{ section.0.end_time }}, ({{ section.4 }})</label>
+                {% elif section.2 %}
+                <label><input type="radio" name="chosen_section_R" value="{{ section.0.sectionid }}" required disabled>({{ section.0.num_type }}) {{ section.1 }}: {{ section.0.start_time }} - {{ section.0.end_time }}, ({{ section.4 }}) overlapping</label>
+                {% elif section.3 %}
+                <label><input type="radio" name="chosen_section_R" value="{{ section.0.sectionid }}" required disabled>({{ section.0.num_type }}) {{ section.1 }}: {{ section.0.start_time }} - {{ section.0.end_time }}, full</label>
+                {% else %}
+                <label><input type="radio" name="chosen_section_R" value="{{ section.0.sectionid }}" required>({{ section.0.num_type }}) {{ section.1 }}: {{ section.0.start_time }} - {{ section.0.end_time }}, ({{ section.4 }})</label>
+                {% endif %}
+              {% endfor %}
+
+              {% if sections_S %}
+              <p class="card-title"> Seminar Sections</p>
+              {% endif %}
+              {% for section in sections_S %}
+                {% if isRegistered %}
+                <label><input type="radio" name="chosen_section_S" value="{{ section.0.sectionid }}" required disabled>({{ section.0.num_type }}) {{ section.1 }}: {{ section.0.start_time }} - {{ section.0.end_time }}, ({{ section.4 }})</label>
+                {% elif section.2 %}
+                <label><input type="radio" name="chosen_section_S" value="{{ section.0.sectionid }}" required disabled>({{ section.0.num_type }}) {{ section.1 }}: {{ section.0.start_time }} - {{ section.0.end_time }}, ({{ section.4 }}) overlapping</label>
+                {% elif section.3 %}
+                <label><input type="radio" name="chosen_section_S" value="{{ section.0.sectionid }}" required disabled>({{ section.0.num_type }}) {{ section.1 }}: {{ section.0.start_time }} - {{ section.0.end_time }}, full</label>
+                {% else %}
+                <label><input type="radio" name="chosen_section_S" value="{{ section.0.sectionid }}" required>({{ section.0.num_type }}) {{ section.1 }}: {{ section.0.start_time }} - {{ section.0.end_time }}, ({{ section.4 }})</label>
+                {% endif %}
+              {% endfor %}
+
+              {% if sections_Lab %}
+              <p class="card-title"> Lab Sections</p>
+              {% endif %}
+              {% for section in sections_Lab %}
+                {% if isRegistered %}
+                <label><input type="radio" name="chosen_section_Lab" value="{{ section.0.sectionid }}" required disabled>({{ section.0.num_type }}) {{ section.1 }}: {{ section.0.start_time }} - {{ section.0.end_time }}, ({{ section.4 }})</label>
+                {% elif section.2 %}
+                <label><input type="radio" name="chosen_section_Lab" value="{{ section.0.sectionid }}" required disabled>({{ section.0.num_type }}) {{ section.1 }}: {{ section.0.start_time }} - {{ section.0.end_time }}, ({{ section.4 }}) overlapping</label>
+                {% elif section.3 %}
+                <label><input type="radio" name="chosen_section_Lab" value="{{ section.0.sectionid }}" required disabled>({{ section.0.num_type }}) {{ section.1 }}: {{ section.0.start_time }} - {{ section.0.end_time }}, full</label>
+                {% else %}
+                <label><input type="radio" name="chosen_section_Lab" value="{{ section.0.sectionid }}" required>({{ section.0.num_type }}) {{ section.1 }}: {{ section.0.start_time }} - {{ section.0.end_time }}, ({{ section.4 }})</label>
                 {% endif %}
               {% endfor %}
             {% endif %}
