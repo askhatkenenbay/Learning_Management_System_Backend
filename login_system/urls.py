@@ -16,6 +16,7 @@ urlpatterns = [
     path('registration', views.registration, name='registration'),
     path('announcements/<int:coursesection_id>/', views.announcements, name='announcements'),
     path('assignments/<int:coursesection_id>/', views.assignments, name='assignments'),
+    path('mysubmissions/', views.mysubmissions, name='mysubmissions'),
     path('assignment/<int:coursesection_id>/<int:assignment_id>/', views.assignment, name='assignment'),
     path('cexam',views.cexam,name='cexam'),
     path('documents', views.documents, name='documents'),

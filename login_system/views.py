@@ -187,6 +187,11 @@ def profile(request):
         user = Instructor.objects.filter(instructorid=request.session['id']).first()
     return render(request,'login_system/profile.html', {'session':request.session, 'user' : user})
 
+def mysubmissions(request):
+    student = Student.objects.filter(studentid=request.session['id']).first()
+    submissions = Assignmentsubmission.objects.filter(student_studentid = student)
+    return render(request, 'login_system/mysubmissions.html', {'session': request.session, 'submissions': submissions})
+
 def announcements(request, coursesection_id):
     course_section = Coursesection.objects.filter(sectionid=coursesection_id).first()
     cid = course_section.course_courseid.courseid
