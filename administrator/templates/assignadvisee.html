@@ -9,7 +9,7 @@
   <meta name="description" content="">
   <meta name="author" content="">
 
-  <title>All Instructors</title>
+  <title>Assign Advisee</title>
 
   <!-- Bootstrap core CSS -->
   <link href="{% static 'administrator/vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
@@ -51,52 +51,57 @@
 
   <br>
   <br>
-  <h2 class='text-center text-info'>All Instructors</h2>
+  <h2 class='text-center text-info'>Assign Advisee for {{instructor.user_userid.first_name}} {{instructor.user_userid.last_name}}</h2>
 
   <!-- Page Content -->
   <div class="container bg-info rounded shadow-lg">
       <br>
-    {% for instructor in instructors %}
     <div class="row">
       <div class="col">
+
         <div class="card h-80">
           <div class="card-body">
-            <h4 class="card-title">{{ instructor.user_userid.first_name }} {{ instructor.user_userid.last_name }}</h4>
-            <hr>
-            <img class="rounded float-left" src="/media/nu_logo.jpg" alt="...">
-            <p class="card-text">Instructor ID: {{ instructor.instructorid }}</p>
-            <p class="card-text">{{ instructor.user_userid.department_name.name }} Department</p>
-            <p class="card-text">Position: {{ instructor.position }}</p>
+            <form method="POST">
+              {% csrf_token %}
+              <div class="form-group">
+                <label for="exampleFormControlSelect1">Choose a Studnent</label>
+                <select class="form-control" name="student" required>
+                  {% for student in students %}
+                  <option value="{{ student.studentid }}">{{ student.user_userid.first_name }} {{ student.user_userid.last_name }}</option>
+                  {% endfor %}
+                </select>
+              </div>
           </div>
           <div class="card-footer text-right">
-            <div class="row">
-              <form method="POST">
-                {% csrf_token %}
-                <input type="hidden" name="post_id" value="Edit">
-                <input type="hidden" name="instructor" value="{{instructor.instructorid}}">
-                <button type="submit" class="btn btn-success">Edit</button>
-              </form>
-              <form method="POST">
-                {% csrf_token %}
-                <input type="hidden" name="post_id" value="Assign">
-                <input type="hidden" name="instructor" value="{{instructor.instructorid}}">
-                <button type="submit" class="btn btn-success">Assign Advisee</button>
-              </form>
-            	<form method="POST">
-                {% csrf_token %}
-                <input type="hidden" name="post_id" value="Delete">
-                <input type="hidden" name="instructor" value="{{instructor.instructorid}}">
-                <button type="submit" class="btn btn-danger">Delete</button>
-              </form>
-            </div>
+            <input type="hidden" name="post_id" value="Save">
+            <button type="submit" class="btn btn-success">Save</button>
+            </form>
           </div>
         </div>
+        <br>
+        <div class="card h-80">
+          <div class="card-body">
+            <h5 class="card-title">List of {{instructor.user_userid.first_name}}'s Advisees</h5>
+            {% for student in advisees %}
+            <div class="row">
+              <div class="col col-lg-3">
+                <p>{{ student.student_studentid.user_userid.first_name }} {{ student.student_studentid.user_userid.last_name }}</p>
+              </div>
+
+              <div class='col'>
+                <form method="POST">
+                  {% csrf_token %}
+                  <input type="hidden" name="post_id" value="Delete">
+                  <input type="hidden" name="student" value="{{student.student_studentid.studentid}}">
+                  <button type="submit" class="btn btn-danger">Delete</button>
+                </form>
+              </div>
+            </div>
+            {% endfor %}
+          </div>
+        </div>
+
       </div>
-    </div>
-      <br>
-    {% endfor %}
-    <div class="text-center">
-        <button type="button" onclick="location.href='/administrator/create-instructor/'" class="btn btn-success">Add Instructor</button>
     </div>
       <br>
   </div>
@@ -104,14 +109,6 @@
 
   <br>
   <br>
-  <!-- Footer -->
-  <footer class="py-5 bg-info">
-    <div class="container text-center">
-      <a href="https://nu.edu.kz/" target="_blank" class="text-white">2020 Nazarbayev University</a>
-    </div>
-    <!-- /.container -->
-  </footer>
-
   <!-- Bootstrap core JavaScript -->
   <script src="{% static 'administrator/vendor/jquery/jquery.min.js' %}"></script>
   <script src="{% static 'administrator/vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>

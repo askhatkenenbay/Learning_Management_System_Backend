@@ -9,7 +9,7 @@
   <meta name="description" content="">
   <meta name="author" content="">
 
-  <title>Create Instructor</title>
+  <title>Add Priority</title>
 
   <!-- Bootstrap core CSS -->
   <link href="{% static 'administrator/vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
@@ -33,13 +33,13 @@
           <li class="nav-item">
             <a class="nav-link" href="{% url 'adminhome' %}">Home</a>
           </li>
-          <li class="nav-item">
-            <a class="nav-link" href="{% url 'admincourses' %}">Courses</a>
-          </li>
           <li class="nav-item active">
-            <a class="nav-link" href="{% url 'admininstructors' %}">Instructors
+            <a class="nav-link" href="{% url 'admincourses' %}">Courses
               <span class="sr-only">(current)</span>
             </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'admininstructors' %}">Instructors</a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="{% url 'adminstudents' %}">Students</a>
@@ -51,7 +51,7 @@
 
   <br>
   <br>
-  <h2 class='text-center text-info'>Create Instructor</h2>
+  <h2 class='text-center text-info'>Add Priority to {{course.course_code}} {{course.title}}</h2>
 
   <!-- Page Content -->
   <div class="container bg-info rounded shadow-lg">
@@ -63,70 +63,64 @@
           <div class="card-body">
             <form method="POST">
               {% csrf_token %}
-              <input type="hidden" name="new-content" value="instructor">
 
               <div class="form-group">
-                <label for="formGroupExampleInput">First Name</label>
-                <input type="text" class="form-control"  name="first_name" placeholder="First Name" required>
-                <div class="invalid-feedback">
-                  Please fill out this field.
-                </div>
-              </div>
-
-              <div class="form-group">
-                <label for="formGroupExampleInput">Last Name</label>
-                <input type="text" class="form-control" name="last_name" placeholder="Last Name" required>
-                <div class="invalid-feedback">
-                  Please fill out this field.
-                </div>
-              </div>
-
-              <div class="form-group">
-                <label for="formGroupExampleInput">Email</label>
-                <input type="text" class="form-control" name="email" placeholder="Email" required>
-                <div class="invalid-feedback">
-                  Please fill out this field.
-                </div>
-              </div>
-
-              <div class="form-group">
-                <label for="formGroupExampleInput">Password</label>
-                <input type="text" class="form-control" name="password" placeholder="Password" required>
-                <div class="invalid-feedback">
-                  Please fill out this field.
-                </div>
-              </div>
-
-              <div class="form-group">
-                <label for="exampleFormControlSelect1">Gender</label>
-                <select class="form-control" name="gender" required>
-                  <option value="male">male</option>
-                  <option value="female">female</option>
+                <label for="exampleFormControlSelect1">Priority Number</label>
+                <select class="form-control" name="type" required>
+                  <option value="1">1</option>
+                  <option value="2">2</option>
+                  <option value="3">3</option>
                 </select>
               </div>
 
               <div class="form-group">
                 <label for="exampleFormControlSelect1">Department</label>
                 <select class="form-control" name="department" required>
-                  {% for dep in departments %}
-                  <option value="{{ dep.name }}">{{ dep.name }}</option>
+                  {% for department in departments %}
+                  <option value="{{ department.name }}">{{ department.name }}</option>
                   {% endfor %}
                 </select>
               </div>
 
               <div class="form-group">
-                <label for="exampleFormControlSelect1">Position</label>
-                <select class="form-control" name="position" required>
-                  <option value="Professor">Professor</option>
-                  <option value="Head of the Department">Head of the Department</option>
-                  <option value="Assistant">Assistant</option>
+                <label for="exampleFormControlSelect1">Year of Study</label>
+                <select class="form-control" name="year" required>
+                  <option value="0">0</option>
+                  <option value="1">1</option>
+                  <option value="2">2</option>
+                  <option value="3">3</option>
+                  <option value="4">4</option>
                 </select>
               </div>
 
           </div>
           <div class="card-footer text-right">
+            <input type="hidden" name="post_id" value="Save">
             <button type="submit" class="btn btn-success">Save</button>
             </form>
+          </div>
+        </div>
+        <br>
+        <div class="card h-80">
+          <div class="card-body">
+            <h5 class="card-title">List of Priorities</h5>
+            <hr>
+            {% for priority in priorities %}
+            <div class="row">
+              <div class="col col-lg-9">
+                <p>Priority {{ priority.type }}: {{ priority.department_name.name }}, {{priority.year}} Year of Study</p>
+              </div>
+
+              <div class='col text-right'>
+                <form method="POST">
+                  {% csrf_token %}
+                  <input type="hidden" name="post_id" value="Delete">
+                  <input type="hidden" name="priority" value="{{priority.id}}">
+                  <button type="submit" class="btn btn-danger">Delete</button>
+                </form>
+              </div>
+            </div>
+            {% endfor %}
           </div>
         </div>
 
@@ -138,14 +132,6 @@
 
   <br>
   <br>
-  <!-- Footer -->
-  <footer class="py-5 bg-info">
-    <div class="container text-center">
-      <a href="https://nu.edu.kz/" target="_blank" class="text-white">2020 Nazarbayev University</a>
-    </div>
-    <!-- /.container -->
-  </footer>
-
   <!-- Bootstrap core JavaScript -->
   <script src="{% static 'administrator/vendor/jquery/jquery.min.js' %}"></script>
   <script src="{% static 'administrator/vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>

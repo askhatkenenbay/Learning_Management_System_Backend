@@ -79,25 +79,19 @@
               {% csrf_token %}
               <input type="hidden" name="post_id" value="Sections">
               <input type="hidden" name="course" value="{{course.courseid}}">
-              <button type="submit" class="btn btn-success">View Course Sections</button>
-            </form>
-          	<form method="POST">
-          		{% csrf_token %}
-          		<input type="hidden" name="post_id" value="Add">
-          		<input type="hidden" name="course" value="{{course.courseid}}">
-            	<button type="submit" class="btn btn-success">Add Section</button>
-          	</form>
-            <form method="POST">
-              {% csrf_token %}
-              <input type="hidden" name="post_id" value="Priorities">
-              <input type="hidden" name="course" value="{{course.courseid}}">
-              <button type="submit" class="btn btn-success" disabled>View Course Priorities</button>
+              <button type="submit" class="btn btn-success">Course Sections</button>
             </form>
             <form method="POST">
               {% csrf_token %}
               <input type="hidden" name="post_id" value="Priority">
               <input type="hidden" name="course" value="{{course.courseid}}">
-              <button type="submit" class="btn btn-success" disabled>Add Priority</button>
+              <button type="submit" class="btn btn-success">Add Priority</button>
+            </form>
+           <form method="POST">
+              {% csrf_token %}
+              <input type="hidden" name="post_id" value="Requisite">
+              <input type="hidden" name="course" value="{{course.courseid}}">
+              <button type="submit" class="btn btn-success">Add Requisite</button>
             </form>
           	<form method="POST">
           		{% csrf_token %}

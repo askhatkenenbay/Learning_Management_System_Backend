@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+{% load static %}
+
+<head>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+  <title>{{school.full_name}} {{semester}} {{year}}</title>
+
+  <!-- Bootstrap core CSS -->
+  <link href="{% static 'administrator/vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+  <link href="{% static 'administrator/css/bootstrap.css' %}" rel="stylesheet">
+
+  <!-- Custom styles for this template -->
+  <link href="{% static 'administrator/css/admin.css' %}" rel="stylesheet">
+</head>
+
+<body>
+  <h3 class='text-center'>{{school.full_name}}, {{semester}} {{year}}</h3>
+  <h4 class='text-center'>{{date}}</h4>
+  <br>
+  <!-- Page Content -->
+  <div class="container rounded shadow-sm">
+    {% for section in sections %}
+    <div class="row">
+      <div class="col">
+        <div class="card h-80">
+          <div class="card-body">
+            <h5 class="card-title">{{ section.0.course_courseid.course_code }}: {{ section.0.course_courseid.title }}</h5>
+            <hr>
+            <div class='row'>
+              <div class='col'>
+                <p class="card-text">Section Type: {{section.0.num_type}}</p>
+                <p class="card-text">Number of credits: {{ section.0.course_courseid.credits }}</p>
+                <p class="card-text">Capacity: {{section.1}}/{{section.0.capacity}}</p>
+                <p class="card-text">Days: {{section.2}}</p>
+              </div>
+
+              <div class='col'>
+                <p class="card-text">Start Time: {{section.0.start_time}}</p>
+                <p class="card-text">End Time: {{section.0.end_time}}</p>
+                <p class="card-text">Instructors: {{ section.3 }}</p>
+                <p class="card-text">Room: {{section.0.room}}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+      <br>
+  </div>
+      <br>
+      <br>
+  
+
+  <!-- Bootstrap core JavaScript -->
+  <script src="{% static 'administrator/vendor/jquery/jquery.min.js' %}"></script>
+  <script src="{% static 'administrator/vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+
+
+</body>
+
+</html>

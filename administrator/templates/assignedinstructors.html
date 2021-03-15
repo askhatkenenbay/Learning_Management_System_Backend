@@ -9,7 +9,7 @@
   <meta name="description" content="">
   <meta name="author" content="">
 
-  <title>All Instructors</title>
+  <title>Assigned Instructors</title>
 
   <!-- Bootstrap core CSS -->
   <link href="{% static 'administrator/vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
@@ -33,13 +33,13 @@
           <li class="nav-item">
             <a class="nav-link" href="{% url 'adminhome' %}">Home</a>
           </li>
-          <li class="nav-item">
-            <a class="nav-link" href="{% url 'admincourses' %}">Courses</a>
-          </li>
           <li class="nav-item active">
-            <a class="nav-link" href="{% url 'admininstructors' %}">Instructors
+            <a class="nav-link" href="{% url 'admincourses' %}">Courses
               <span class="sr-only">(current)</span>
             </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'admininstructors' %}">Instructors</a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="{% url 'adminstudents' %}">Students</a>
@@ -51,7 +51,7 @@
 
   <br>
   <br>
-  <h2 class='text-center text-info'>All Instructors</h2>
+  <h2 class='text-center text-info'>{{section.course_courseid.course_code}} ({{section.num_type}}), Assigned Instructors</h2>
 
   <!-- Page Content -->
   <div class="container bg-info rounded shadow-lg">
@@ -63,30 +63,17 @@
           <div class="card-body">
             <h4 class="card-title">{{ instructor.user_userid.first_name }} {{ instructor.user_userid.last_name }}</h4>
             <hr>
-            <img class="rounded float-left" src="/media/nu_logo.jpg" alt="...">
             <p class="card-text">Instructor ID: {{ instructor.instructorid }}</p>
             <p class="card-text">{{ instructor.user_userid.department_name.name }} Department</p>
             <p class="card-text">Position: {{ instructor.position }}</p>
           </div>
           <div class="card-footer text-right">
             <div class="row">
-              <form method="POST">
-                {% csrf_token %}
-                <input type="hidden" name="post_id" value="Edit">
-                <input type="hidden" name="instructor" value="{{instructor.instructorid}}">
-                <button type="submit" class="btn btn-success">Edit</button>
-              </form>
-              <form method="POST">
-                {% csrf_token %}
-                <input type="hidden" name="post_id" value="Assign">
-                <input type="hidden" name="instructor" value="{{instructor.instructorid}}">
-                <button type="submit" class="btn btn-success">Assign Advisee</button>
-              </form>
-            	<form method="POST">
+              <form method='POST'>
                 {% csrf_token %}
                 <input type="hidden" name="post_id" value="Delete">
                 <input type="hidden" name="instructor" value="{{instructor.instructorid}}">
-                <button type="submit" class="btn btn-danger">Delete</button>
+                <button type="submit" class="btn btn-danger">Drop from Course</button>
               </form>
             </div>
           </div>
@@ -95,11 +82,37 @@
     </div>
       <br>
     {% endfor %}
-    <div class="text-center">
-        <button type="button" onclick="location.href='/administrator/create-instructor/'" class="btn btn-success">Add Instructor</button>
+
+    <div class="row">
+      <div class="col">
+
+        <div class="card h-80">
+
+          <div class="card-body">
+            <h4 class="card-title">Assign New Instructor</h4>
+            <form method="POST">
+              {% csrf_token %}
+              <div class="form-group">
+                <label for="exampleFormControlSelect1">Instructor</label>
+                <select class="form-control" name="instructor" required>
+                  {% for instructor in all_instructors %}
+                  <option value="{{ instructor.instructorid }}">{{ instructor.user_userid.first_name }} {{ instructor.user_userid.last_name }}</option>
+                  {% endfor %}
+                </select>
+              </div>
+          </div>
+
+          <div class="card-footer text-right">
+            <input type="hidden" name="post_id" value="Assign">
+            <button type="submit" class="btn btn-success">Assign</button>
+            </form>
+          </div>
+
+        </div>
+        <br>
+      </div>
     </div>
-      <br>
-  </div>
+</div>
   
 
   <br>

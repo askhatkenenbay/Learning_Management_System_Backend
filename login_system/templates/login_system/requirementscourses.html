@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+{% load static %}
+
+<head>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+  <title>{{school.full_name}} {{semester}} {{year}}</title>
+
+  <!-- Bootstrap core CSS -->
+  <link href="{% static 'administrator/vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+  <link href="{% static 'administrator/css/bootstrap.css' %}" rel="stylesheet">
+
+  <!-- Custom styles for this template -->
+  <link href="{% static 'administrator/css/admin.css' %}" rel="stylesheet">
+</head>
+
+<body>
+  <h3 class='text-center'>{{school.full_name}}, {{semester}} {{year}}</h3>
+  <h4 class='text-center'>Course List with Requirements</h4>
+  <br>
+  <!-- Page Content -->
+  <div class="container rounded shadow-sm">
+    {% for course in courses %}
+    <div class="row">
+      <div class="col">
+        <div class="card h-80">
+          <div class="card-body">
+            <h5 class="card-title">{{course.0.course_code }}: {{ course.0.title }}</h5>
+            <hr>
+            <div class='row'>
+              <div class='col'>
+                <p class="card-text"><strong>Priority 1:</strong></p>
+                {% for p in course.1 %}
+                  <p>{{p}}</p>
+                {% endfor %}
+                <p class="card-text"><strong>Priority 2:</strong></p>
+                {% for p in course.12 %}
+                  <p>{{p}}</p>
+                {% endfor %}
+              </div>
+
+              <div class='col'>
+                <p class="card-text"><strong>Priority 3:</strong></p>
+                {% for p in course.3 %}
+                  <p>{{p}}</p>
+                {% endfor %}
+                <p class="card-text"><strong>Requisites:</strong></p>
+                {% for r in course.4 %}
+                  <p>{{r}}</p>
+                {% endfor %}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+      <br>
+  </div>
+      <br>
+      <br>
+  
+
+  <!-- Bootstrap core JavaScript -->
+  <script src="{% static 'administrator/vendor/jquery/jquery.min.js' %}"></script>
+  <script src="{% static 'administrator/vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+
+
+</body>
+
+</html>

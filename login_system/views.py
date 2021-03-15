@@ -19,6 +19,7 @@ import shutil
 from login_system.forms import *
 from shutil import make_archive
 from wsgiref.util import FileWrapper
+import pdfkit 
 
 noadmin_required = user_passes_test(lambda user: user.role == 'student' or user.role == 'instructor', login_url='/')
 def noadmin_required(view_func):
@@ -185,6 +186,11 @@ def profile(request):
     else:
         user = Instructor.objects.filter(instructorid=request.session['id']).first()
     return render(request,'login_system/profile.html', {'session':request.session, 'user' : user})
+
+def mysubmissions(request):
+    student = Student.objects.filter(studentid=request.session['id']).first()
+    submissions = Assignmentsubmission.objects.filter(student_studentid = student)
+    return render(request, 'login_system/mysubmissions.html', {'session': request.session, 'submissions': submissions})
 
 def announcements(request, coursesection_id):
     course_section = Coursesection.objects.filter(sectionid=coursesection_id).first()
@@ -463,7 +469,73 @@ def download_files(modules,mid):
         for cfile in files:
             my_bucket.download_file(str(cfile.myFile),'./'+str(mid)+'-downloads/'+str(cfile.myFile))
 
-def search(req, reg_cors):
+def documents(request):
+    documents = School.objects.all()
+    if request.method == 'POST':
+        post_id = request.POST.get('post_id', None)
+        if post_id == 'schedule':
+            school = request.POST.get('school', None)
+            url = request.get_host() + '/semester-courses/' + school + '/'
+            pdf = pdfkit.from_url(url, False)
+            response = HttpResponse(pdf,content_type='application/pdf')
+            response['Content-Disposition'] = 'attachment; filename="school_schedule_by_term.pdf"'
+            return response
+        elif post_id == 'requirements':
+            school = request.POST.get('school', None)
+            url = request.get_host() + '/requirements-courses/' + school + '/'
+            pdf = pdfkit.from_url(url, False)
+            response = HttpResponse(pdf,content_type='application/pdf')
+            response['Content-Disposition'] = 'attachment; filename="course_list_with_requirements.pdf"'
+            return response
+    return render(request, 'login_system/documents.html', {'session':request.session, 'documents':documents, 'semester':semester, 'year':year})
+
+def semester_courses(request, school):
+    sections = list(Coursesection.objects.filter(semester=semester, year=year))
+    res_sections = []
+    days_dic = {'1':'Mn', '2':'Tu', '3':'Wn', '4':'Th', '5':'Fr', '6':'St'}
+    for sec in sections:
+        if sec.course_courseid.department_name.school_name.name == school:
+            enrolled = StudentEnrollment.objects.filter(coursesection_sectionid=sec.sectionid).count()
+            days = list(Sectionday.objects.filter(coursesection_sectionid=sec.sectionid).all())
+            for i, day in enumerate(days):
+                days[i] = days_dic[day.day]
+            days = ','.join(days)
+            instructors = list(CourseInstructor.objects.filter(coursesection_sectionid=sec.sectionid).all())
+            for i, ins in enumerate(instructors):
+                instructors[i] = ins.instructor_instructorid.user_userid.first_name + ' ' + ins.instructor_instructorid.user_userid.last_name
+            instructors = ', '.join(instructors)
+            res_sections.append([sec, enrolled, days, instructors])
+    date = str(datetime.datetime.now())[:19]
+    school = School.objects.filter(name=school).first()
+    return render(request, 'login_system/semestercourses.html', {"sections":res_sections, 'semester':semester, 'year':year, 'date':date, 'school':school})
+
+def requirements_courses(request, school):
+    courses = list(Course.objects.all())
+    res_courses = []
+    for course in courses:
+        sections = list(Coursesection.objects.filter(course_courseid = course.courseid, semester = semester, year = year))
+        if len(sections) != 0 and course.department_name.school_name.name == school:
+            priotity_1, priotity_2, priotity_3 = [], [], []
+            priorities = list(Priority.objects.filter(course_courseid=course.courseid).all())
+            for i, p in enumerate(priorities):
+                if p.type == 1:
+                    priotity_1.append(p.department_name.name + ', ' + str(p.year) + ' Year Students')
+                elif p.type == 2:
+                    priotity_2.append(p.department_name.name + ', ' + str(p.year) + ' Year Students')
+                else:
+                    priotity_3.append(p.department_name.name + ', ' + str(p.year) + ' Year Students')
+            requisites = list(Requisite.objects.filter(course_courseid=course.courseid).all())
+            for i, req in enumerate(requisites):
+                if req.is_optional:
+                    requisites[i] = req.type + ': ' + req.req_course_courseid.course_code + ' ' + req.req_course_courseid.title + ', optional'
+                else:
+                    requisites[i] = req.type + ': ' + req.req_course_courseid.course_code + ' ' + req.req_course_courseid.title + ', required'
+            res_courses.append([course, priotity_1, priotity_2, priotity_3, requisites])
+
+    school = School.objects.filter(name=school).first()
+    return render(request, 'login_system/requirementscourses.html', {"courses":res_courses, 'semester':semester, 'year':year, 'school':school})
+
+def search(req, reg_cors, prior_cors):
     school = req.POST.get('school', None)
     department = req.POST.get('department', None)
     instructor = req.POST.get('instructor', None)
@@ -479,6 +551,8 @@ def search(req, reg_cors):
         courses = Course.objects.all()
     elif show_registered == 'on':
         courses = reg_cors
+    elif show_priority == 'on':
+        courses = prior_cors
     elif course_title != '' and course_code != '':
         courses = Course.objects.filter(title = course_title, course_code = course_code).all()
     elif course_title != '':
@@ -524,8 +598,10 @@ def get_courses_of_proirity(student):
     cur_priority = registrationdate.priority
     user = User.objects.filter(userid = student.user_userid.userid).first()
     dep = Department.objects.filter(name = user.department_name.name).first()
-    courses_of_proirity = Priority.objects.filter(type__lte=cur_priority, year=student.year_of_study, department_name = dep.name).all()
-    return list(courses_of_proirity)
+    courses_of_proirity = list(Priority.objects.filter(type__lte=cur_priority, year=student.year_of_study, department_name = dep.name).all())
+    for i, c in enumerate(courses_of_proirity):
+        courses_of_proirity[i] = c.course_courseid
+    return courses_of_proirity
 
 def get_busy_time(sections_enrolled):
     busy_time = []
@@ -553,23 +629,25 @@ def registration(request):
         for day in days:
             j = int(day.day)-1
             les[i][j] = sid
+    
+    courses_of_proirity = get_courses_of_proirity(student)
 
     if request.method == 'POST':
         post_id = request.POST.get('post_id', None)
         if post_id == 'search':
-            courses, filters = search(request, courses_registered)
+            courses, filters = search(request, courses_registered, courses_of_proirity)
             return render(request, 'login_system/registration.html', {'session':request.session, 'les':les, 'courses':courses, 'filters':filters, 'isChosen':False})
 
         elif post_id == 'choose':
-            # courses_of_proirity = get_courses_of_proirity(student)
             busy_time = get_busy_time(sections_enrolled)
             sections_time = []
-            courses, filters = search(request)
+            courses, filters = search(request, courses_registered, courses_of_proirity)
             chosen_course = request.POST.get('chosen_course', None)
             chosen_course = Course.objects.filter(courseid = chosen_course).first()
             course_sections = list(Coursesection.objects.filter(course_courseid = chosen_course.courseid).all())
             sections_days = []
             days_dic = {'1':'Mn', '2':'Tu', '3':'Wn', '4':'Th', '5':'Fr', '6':'St'}
+            sections_L, sections_S, sections_R, sections_Lab = [],[],[],[]
             for s in course_sections:
                 section_time = []
                 ds = list(Sectionday.objects.filter(coursesection_sectionid = s.sectionid).all())
@@ -609,22 +687,89 @@ def registration(request):
                                 isOverlap = True
                                 course_sections[i] = [s, sections_days[i], isOverlap]
                                 break
-                course_sections[i] = [s, sections_days[i], isOverlap, isFull, cap]
-            
+                if s.section_type == 'Lecture':
+                    sections_L.append([s, sections_days[i], isOverlap, isFull, cap])
+                elif s.section_type == 'Seminar':
+                    sections_S.append([s, sections_days[i], isOverlap, isFull, cap])
+                elif s.section_type == 'Recitation':
+                    sections_R.append([s, sections_days[i], isOverlap, isFull, cap])
+                else:
+                    sections_Lab.append([s, sections_days[i], isOverlap, isFull, cap])
+
+            isOverlap_L, isOverlap_S, isOverlap_R, isOverlap_Lab = False, False, False, False
+            isFull_L, isFull_S, isFull_R, isFull_Lab = False, False, False, False
+            if sections_L:
+                isOverlap_L = True
+                isFull_L = True
+                for course_section in sections_L:
+                    if course_section[2] == False:
+                        isOverlap_L = False
+                        break
+                for course_section in sections_L:
+                    if course_section[3] == False:
+                        isFull_L = False
+                        break
+
+            if sections_S:
+                isOverlap_S = True
+                isFull_S = True
+                for course_section in sections_S:
+                    if course_section[2] == False:
+                        isOverlap_S = False
+                        break
+                for course_section in sections_S:
+                    if course_section[3] == False:
+                        isFull_S = False
+                        break
+
+            if sections_R:
+                isOverlap_R = True
+                isFull_R = True
+                for course_section in sections_R:
+                    if course_section[2] == False:
+                        isOverlap_R = False
+                        break
+                for course_section in sections_R:
+                    if course_section[3] == False:
+                        isFull_R = False
+                        break
+
+            if sections_Lab:
+                isOverlap_Lab = True
+                isFull_Lab = True
+                for course_section in sections_Lab:
+                    if course_section[2] == False:
+                        isOverlap_Lab = False
+                        break
+                for course_section in sections_Lab:
+                    if course_section[3] == False:
+                        isFull_Lab = False
+                        break
+
+            isOverlap = isOverlap_L or  isOverlap_S or isOverlap_R or isOverlap_Lab
+            isFull = isFull_L or  isFull_S or isFull_R or isFull_Lab
+
             # isPriority = (chosen_course in courses_of_proirity)
+            isPriority = True
             isRegistered = (chosen_course in courses_registered)
             return render(request, 'login_system/registration.html', {'session':request.session, 'les':les, 'courses':courses, 'filters':filters, 'isChosen':True, 
-                                                                    'chosen_course':chosen_course, 'course_sections':course_sections, 'isRegistered':isRegistered})
+                                                                    'chosen_course':chosen_course, 'sections_L':sections_L, 'sections_S':sections_S,'sections_R':sections_R,
+                                                                    'sections_Lab':sections_Lab,'isRegistered':isRegistered, 'isPriority':isPriority,'isOverlap':isOverlap, 'isFull':isFull})
 
         elif post_id == 'register':
-            courses, filters = search(request)            
-            chosen_section = request.POST.get('chosen_section', None)
-            chosen_section = Coursesection.objects.filter(sectionid = chosen_section).first()
-            
-            studentenrollment = StudentEnrollment()
-            studentenrollment.student_studentid = student
-            studentenrollment.coursesection_sectionid = chosen_section
-            studentenrollment.save()
+            courses, filters = search(request, courses_registered, courses_of_proirity)
+            chosen_sections = []            
+            chosen_sections.append(request.POST.get('chosen_section_L', None))
+            chosen_sections.append(request.POST.get('chosen_section_R', None))
+            chosen_sections.append(request.POST.get('chosen_section_S', None))
+            chosen_sections.append(request.POST.get('chosen_section_Lab', None))
+            for sec in chosen_sections:
+                if sec != None:
+                    chosen_section = Coursesection.objects.filter(sectionid = sec).first()
+                    studentenrollment = StudentEnrollment()
+                    studentenrollment.student_studentid = student
+                    studentenrollment.coursesection_sectionid = chosen_section
+                    studentenrollment.save()
 
             sections_enrolled = list(StudentEnrollment.objects.filter(student_studentid=request.session['id'],
                                                    coursesection_sectionid__year=year,
@@ -643,7 +788,7 @@ def registration(request):
             return render(request, 'login_system/registration.html', {'session':request.session, 'les':les, 'courses':courses, 'filters':filters, 'isChosen':False})
 
         elif post_id == 'drop':
-            courses, filters = search(request)
+            courses, filters = search(request, courses_registered, courses_of_proirity)
             chosen_course = request.POST.get('chosen_course', None)
             chosen_course = Course.objects.filter(courseid = chosen_course).first()
             sections = list(Coursesection.objects.filter(course_courseid = chosen_course.courseid).all())
@@ -669,3 +814,4 @@ def registration(request):
     courses = []
     filters = ['','','','','','off','off','off']
     return render(request, 'login_system/registration.html', {'session':request.session, 'les':les, 'courses':courses, 'filters':filters, 'isChosen':False})
+

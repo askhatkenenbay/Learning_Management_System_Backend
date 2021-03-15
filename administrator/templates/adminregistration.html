@@ -63,7 +63,7 @@
             <h5 class="card-title">Year {{ reg.year }}</h5>
             <hr>
             <p class="card-text">Open at: {{ reg.open_time }}</p>
-            <p class="card-text">Close at: {{ reg.close_time }}r</p>
+            <p class="card-text">Close at: {{ reg.close_time }}</p>
           </div>
           <div class="card-footer">
             <h4 class="card-title">Edit</h4>
@@ -72,11 +72,11 @@
 	            <input type="hidden" name="regId" value={{reg.registrationid}}>
 	            <div class="form-group">
 	              <label for="openAt">Open at:</label>
-	  			  <input type="datetime-local" class="form-control" id="openAt" name="openAt">
+	  			  <input type="datetime-local" class="form-control" id="openAt" name="openAt" required>
 	            </div>
 	            <div class="form-group">
 	              <label for="closeAt">Close at:</label>
-	  			  <input type="datetime-local" class="form-control" id="closeAt" name="closeAt">
+	  			  <input type="datetime-local" class="form-control" id="closeAt" name="closeAt" required>
 	            </div>
 	            <button type="submit" class="btn btn-success">Save Changes</button>
           	</form>
