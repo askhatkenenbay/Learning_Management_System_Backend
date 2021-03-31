@@ -23,4 +23,5 @@ urlpatterns = [
     path('documents', views.documents, name='documents'),
     path('semester-courses/<school>/', views.semester_courses, name='semestercourses'),
     path('requirements-courses/<school>/', views.requirements_courses, name='requirementscourses'),
+    path('instructions/<int:qid>', views.instructions, name='instructions')
 ]

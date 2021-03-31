@@ -20,7 +20,9 @@ from login_system.forms import *
 from shutil import make_archive
 from wsgiref.util import FileWrapper
 import pdfkit 
-
+import threading
+import numpy as np
+import cv2
 noadmin_required = user_passes_test(lambda user: user.role == 'student' or user.role == 'instructor', login_url='/')
 def noadmin_required(view_func):
     decorated_view_func = login_required(noadmin_required(view_func))
@@ -321,13 +323,21 @@ def cexam(request):
 
 def quiz(request):
     print("QUIZ STARTED")
+    if request.method == 'POST':
+        if request.POST.get('remove') == "remove":
+            return render(request, 'login_system/coursepage.html')
     return render(request, 'login_system/exam/quizMulti.html')
 
 def course(request, course_id, coursesection_id):
     if request.method == 'POST':
         if request.POST.get('quizStart') == "quizStart":
             print("QUIZ STARTEDs")
-            return redirect('/quiz')
+            qid = request.POST.get('quizID')
+            info = {
+                'qid' : qid
+            }
+            return redirect('instructions',qid)
+            # return render(request, 'login_system/exam/instruction.html', info)
         sua = request.POST.get('student-upload-ass', None)
         if sua is not None:
             submission = Assignmentsubmission()
@@ -344,6 +354,26 @@ def course(request, course_id, coursesection_id):
         content = request.POST.get('new-content', None)
         print(content)
         print("<--")
+        if content == "quizOpen":
+            print("NEW QUIZ OPEN ADD")
+            name = request.POST.get('title', None)
+            desc = request.POST.get('desc', None)
+            startDate = request.POST.get('startDate', None)
+            startTime = request.POST.get('startTime', None)
+            start = str(startDate) + " " +  str(startTime)
+            endDate = request.POST.get('endDate', None)
+            endTime = request.POST.get('endTime', None)
+            end = str(endDate) + " "+ str(endTime)
+            maxPoint = request.POST.get('maxPoint', None)
+            limit = request.POST.get('limit', None)
+            moduleId = request.POST.get('moduleID_QO', None)
+            print("ModuleID:"+str(moduleId))
+            module = Coursepagemodule.objects.filter(moduleid = moduleId).first()
+            q = Quiz(name = name, description = desc, open_time = start, close_time = end, time_limit = limit, max_point = maxPoint,coursepagemodule_moduleid = module)
+            q.save()
+            questions = request.POST.getlist('q-text')
+            for qwe in questions:
+                Quizquestion(quiz_quizid=q, text = qwe, points = 1, is_ans = False, is_open = True).save()
         if content == "quiz":
             print("NEW QUIZ ADDED")
             name = request.POST.get('title', None)
@@ -356,7 +386,7 @@ def course(request, course_id, coursesection_id):
             end = str(endDate) + " "+ str(endTime)
             maxPoint = request.POST.get('maxPoint', None)
             limit = request.POST.get('limit', None)
-            moduleId = request.POST.get('moduleID', None)
+            moduleId = request.POST.get('moduleID_QC', None)
             module = Coursepagemodule.objects.filter(moduleid = moduleId).first()
             q = Quiz(name = name, description = desc, open_time = start, close_time = end, time_limit = limit, max_point = maxPoint,coursepagemodule_moduleid = module)
             q.save()
@@ -365,9 +395,11 @@ def course(request, course_id, coursesection_id):
             questions = request.POST.getlist('q')
             index = 0
             for ans in q_and:
-                ans_question = Quizquestion(quiz_quizid=q, text = ans, points = 1, is_ans = True).save()
+                ans_question = Quizquestion(quiz_quizid=q, text = ans, points = 1, is_ans = True, is_open = False)
+                ans_question.save()
+                print(ans_question)
                 for x in range(3):
-                    Quizquestion(quiz_quizid=q, text = x, points = 1, friend = ans_question.questionid).save()
+                    Quizquestion(quiz_quizid=q, text = x, points = 1, friend = ans_question.questionid, is_ans=False, is_open=False).save()
 
             # 
             return HttpResponseRedirect(request.path_info)
@@ -815,3 +847,72 @@ def registration(request):
     filters = ['','','','','','off','off','off']
     return render(request, 'login_system/registration.html', {'session':request.session, 'les':les, 'courses':courses, 'filters':filters, 'isChosen':False})
 
+def instructions(request, qid):
+    if request.method == 'POST':
+        th = threading.Thread(target=detect)
+        th.start()
+        return render(request,'login_system/exam/quizMulti.html')
+    return render(request, 'login_system/exam/instruction.html')
+
+def detect():
+    cap = cv2.VideoCapture(0)
+    cap.set(3,480)
+    cap.set(4,270)
+    cap.set(10,70)
+
+    classNames= []
+    classFile = 'coco.names'
+    with open(classFile,'rt') as f:
+        classNames = f.read().rstrip('\n').split('\n')
+
+    configPath = 'ssd_mobilenet_v3_large_coco_2020_01_14.pbtxt'
+    weightsPath = 'frozen_inference_graph.pb'
+
+    net = cv2.dnn_DetectionModel(weightsPath,configPath)
+    net.setInputSize(320,320)
+    net.setInputScale(1.0/ 127.5)
+    net.setInputMean((127.5, 127.5, 127.5))
+    net.setInputSwapRB(True)
+    isHelped = False
+    isPhone = False
+    isGone = False
+
+    while True:
+        success,img = cap.read()
+        classIds, confs, bbox = net.detect(img,confThreshold=0.5)
+        print(classIds,bbox)
+
+        if len(classIds) != 0:
+            for classId, confidence,box in zip(classIds.flatten(),confs.flatten(),bbox):
+                if classId == 77:
+                    cv2.rectangle(img,box,color=(0,0,255),thickness=2)
+                    cv2.putText(img,classNames[classId-1].upper(),(box[0]+10,box[1]+30),
+                            cv2.FONT_HERSHEY_COMPLEX,0.5,(0,0,255),2)
+                else:
+                    cv2.rectangle(img,box,color=(0,255,0),thickness=2)
+                    cv2.putText(img,classNames[classId-1].upper(),(box[0]+10,box[1]+30),
+                                cv2.FONT_HERSHEY_COMPLEX,0.5,(0,255,0),2)
+
+        if np.count_nonzero(classIds == 1) > 1 and not isHelped:
+            print('Cheating Behavior is Detected (' + str(np.count_nonzero(classIds == 1)) + ' People are Detected)')
+            cv2.imwrite('people.jpg', img)
+            with open("people.jpg", "rb") as f:
+                telegram_send.send(images=[f], messages=[str(datetime.datetime.now())[:19] + ', ' + student + ': Cheating Behavior is Detected (' + str(np.count_nonzero(classIds == 1)) + ' People are Detected)'])
+            isHelped = True
+
+        if [77] in classIds and not isPhone:
+            print('Cheating Behavior is Detected (Cell Phone is Detected)')
+            cv2.imwrite('cell_phone.jpg', img)
+            with open("cell_phone.jpg", "rb") as f:
+                telegram_send.send(images=[f], messages=[str(datetime.datetime.now())[:19] + ', ' + student + ': Cheating Behavior is Detected (Cell Phone is Detected)'])
+            isPhone = True
+
+        if [1] not in classIds and not isGone:
+            print('Cheating Behavior is Detected (Cell Phone is Detected)')
+            cv2.imwrite('gone.jpg', img)
+            with open("gone.jpg", "rb") as f:
+                telegram_send.send(images=[f], messages=[str(datetime.datetime.now())[:19] + ', ' + student + ': Cheating Behavior is Detected (Student Gone)'])
+            isGone = True
+
+        # cv2.imshow("Output",img)
+        cv2.waitKey(1)
