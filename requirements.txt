@@ -12,9 +12,11 @@ chardet==3.0.4
 idna==2.7
 requests==2.19.1
 urllib3==1.23
-wadllib==1.3.3xkit==0.0.0
 django-storages==1.10.1
 boto3==1.15.16
 mysqlclient
 botocore==1.20.5
 pdfkit
+numpy==1.17.4
+opencv-python==4.5.1.48
+wadllib==1.3.3xkit==0.0.0

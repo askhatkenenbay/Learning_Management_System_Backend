@@ -16,9 +16,12 @@ urlpatterns = [
     path('registration', views.registration, name='registration'),
     path('announcements/<int:coursesection_id>/', views.announcements, name='announcements'),
     path('assignments/<int:coursesection_id>/', views.assignments, name='assignments'),
+    path('mysubmissions/', views.mysubmissions, name='mysubmissions'),
     path('assignment/<int:coursesection_id>/<int:assignment_id>/', views.assignment, name='assignment'),
     path('cexam',views.cexam,name='cexam'),
+    path('quiz', views.quiz, name='quiz'),
     path('documents', views.documents, name='documents'),
     path('semester-courses/<school>/', views.semester_courses, name='semestercourses'),
     path('requirements-courses/<school>/', views.requirements_courses, name='requirementscourses'),
+    path('instructions/<int:qid>', views.instructions, name='instructions')
 ]

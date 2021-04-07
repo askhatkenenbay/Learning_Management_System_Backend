@@ -83,8 +83,8 @@
         <div class="modal-body text-center">
           <button type="button" class="btn btn-success"><a href="#addFile" data-toggle="modal" class='text-white'>File</a></button>
           <button type="button" class="btn btn-success"><a href="#addAssigment" data-toggle="modal" class='text-white'>Assignment</a></button>
-          <button type="button" class="btn btn-success"><a href="#addQuiz" data-toggle="modal" class='text-white'>Quiz</a></button>   
-        
+          <button type="button" class="btn btn-success"><a href="#addQuiz" data-toggle="modal" class='text-white'>Quiz Multiple</a></button>   
+          <button type="button" class="btn btn-success"><a href="#addQuizOpen" data-toggle="modal" class='text-white'>Quiz Open</a></button> 
         </div>
         <div class="modal-footer">
           <a href="#" class='text-info' data-dismiss="modal" aria-label="Close">cancel</a>
@@ -183,7 +183,7 @@
           <form method="POST">
             {% csrf_token %}
             <input type="hidden" name="new-content" value="quiz">
-            <input type="hidden" id="moduleID" name="moduleID" value="">
+            <input type="hidden" id="moduleID_QC" name="moduleID_QC" value="">
             <div class="form-group">
               <label for="formGroupExampleInput">Title</label>
               <input type="text" class="form-control"  name="title" placeholder="Title">
@@ -208,19 +208,72 @@
             </div>
 
             <div class="form-group">
-              <h5>Question</h5>
+              <input type="text" name="q-text" placeholder="Question"><br><br>
               <input type="text" name="q-ans" placeholder="right choice"><br>
               <input type="text" name="q" placeholder="wrong"><br>
               <input type="text" name="q" placeholder="wrong"><br>
-              <input type="text" name="q" placeholder="wrong"><br>
+              <input type="text" name="q" placeholder="wrong"><br><br><br>
             </div>
             <h5 style="display: none;" id="888"></h5>
             <a class="btn btn-primary" id="demo" onclick="myFunction()">Add Question</a>
 
+            <button type="submit" class="btn btn-primary">Save</button>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <a href="#" class='text-info' data-dismiss="modal" aria-label="Close">cancel</a>
+        </div>
+      </div>
+    </div>
+   </div>
+
+   <div class="modal fade" id="addQuizOpen" tabindex="-1" role="dialog" aria-labelledby="chooseUserCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title text-info" id="chooseUserLongTitleOpen">Add New Quiz</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form method="POST">
+            {% csrf_token %}
+            <input type="hidden" name="new-content" value="quizOpen">
+            <input type="hidden" id="moduleID_QO" name="moduleID_QO" value="">
+            <div class="form-group">
+              <label for="formGroupExampleInput">Title</label>
+              <input type="text" class="form-control"  name="title" placeholder="Title">
+            </div>
+            <div class="form-group">
+              <label for="formGroupExampleInput">Description</label>
+              <input type="text" class="form-control" name="desc" placeholder="Description">
+            </div>
+            <div class="form-group">
+              <label for="formGroupExampleInput">Start Time</label>
+              <input type="date" name="startDate">
+              <input type="time" name="startTime">
+            </div>
+            <div class="form-group">
+              <label for="formGroupExampleInput">End Time</label>
+              <input type="date" name="endDate">
+              <input type="time" name="endTime">
+            </div>
+            <div class="form-group">
+              <span>Time Limit:</span><input type="number" name="limit"><br>
+              <span>Max Points</span><input type="number" name="maxPoint">
+            </div>
+
+            <div class="form-group">
+              <input type="text" name="q-text" placeholder="Question"><br><br>
+            </div>
+            <h5 style="display: none;" id="777"></h5>
+            <a class="btn btn-primary" id="demo" onclick="myFunction()">Add Question</a>
+
             <script>
               function myFunction() {
-                myDiv = "<div class='form-group'><h5>Question</h5><input type='text' name='q-ans' placeholder='right choice'><br><input type='text' name='q' placeholder='wrong'><br><input type='text' name='q' placeholder='wrong'><br><input type='text' name='q' placeholder='wrong'><br></div>";
-                var d1 = document.getElementById('888');
+                myDiv = "<div class='form-group'><input type='text' name='q-text' placeholder='Question'><br><br></div>";
+                var d1 = document.getElementById('777');
                 d1.insertAdjacentHTML('afterend', myDiv);
               }
             </script>
@@ -362,7 +415,7 @@
 	            {% if session.role == "instructor" %}
 	            <div class="text-right">
 	              <a href="#addContent" 
-	                onclick="document.getElementById('moduleID').value = document.getElementById('mod_{{ forloop.counter }}').value;document.getElementById('moduleID_A').value = document.getElementById('mod_{{ forloop.counter }}').value;document.getElementById('moduleID_F').value = document.getElementById('mod_{{ forloop.counter }}').value;" 
+	                onclick="document.getElementById('moduleID_A').value = document.getElementById('mod_{{ forloop.counter }}').value;document.getElementById('moduleID_F').value = document.getElementById('mod_{{ forloop.counter }}').value;document.getElementById('moduleID_QO').value = document.getElementById('mod_{{ forloop.counter }}').value;document.getElementById('moduleID_QC').value = document.getElementById('mod_{{ forloop.counter }}').value;" 
                   data-toggle="modal" class='text-success'>
                   <button type="button" >Add Content</button>
 	              </a>              
@@ -409,7 +462,14 @@
   <!-- Bootstrap core JavaScript -->
   <script src="{% static 'coursepage/vendor/jquery/jquery.min.js' %}"></script>
   <script src="{% static 'coursepage/vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
-
+  <script>
+    function myFunction() {
+      console.log("###")
+      myDiv = "<div class='form-group'><input type='text' name='q-text' placeholder='Question'><br><br><input type='text' name='q-ans' placeholder='right choice'><br><input type='text' name='q' placeholder='wrong'><br><input type='text' name='q' placeholder='wrong'><br><input type='text' name='q' placeholder='wrong'><br><br><br></div>";
+      var d1 = document.getElementById('888');
+      d1.insertAdjacentHTML('afterend', myDiv);
+    }
+  </script>
 </body>
 
 </html>
