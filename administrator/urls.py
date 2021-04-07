@@ -13,6 +13,7 @@ urlpatterns = [
     path('edit-course/<int:courseid>/', views.edit_course, name='editcourse'),
     path('create-section/<int:courseid>/', views.create_section, name='createsection'),
     path('sections/<int:courseid>/', views.sections, name='sections'),
+    path('edit-section/<int:sectionid>/', views.edit_section, name='editsection'),
     path('assigned-instructors/<int:sectionid>/', views.assigned_instructors, name='assignedinstructors'),
     path('registered-students/<int:sectionid>/', views.registered_students, name='registeredstudents'),
     path('add-priority/<int:courseid>/', views.add_priority, name='addpriority'),
