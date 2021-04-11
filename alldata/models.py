@@ -287,6 +287,7 @@ class Quizquestion(models.Model):
     points = models.IntegerField()
     is_ans = models.BooleanField(default=False)
     friend = models.IntegerField(default=-1)
+    textTwo = models.CharField(max_length=250, default='default value')
     class Meta:
         db_table = 'quizQuestion'
         unique_together = (('questionid', 'quiz_quizid'),)

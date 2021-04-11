@@ -74,12 +74,20 @@
   </style>
   </head>
 <body>
+  <h1>{{ data.qname }}</h1>
+  <h1>{{ data.qdesc }}</h1>
+  <h1>{{ data.qopen }}</h1>
+  <h1>{{ data.qclose }}</h1>
+  <h1>{{ data.qlimit }}</h1>
+  <!-- <h1>{{ data.questions }}</h1> -->
+  {% for question in data.questions %}
+  <h1>{{question.text}}</h1>
+  {% endfor %}
 <form method="POST">
     {% csrf_token %}
     <p>Question One</p>
     <input type="text" style="width: 150px;height:25px;">
     <br>  
-
     <p>Question Two</p>
     <input type="text" style="width: 150px;height:25px;">
     <br>

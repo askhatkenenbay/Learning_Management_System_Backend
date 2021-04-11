@@ -847,15 +847,59 @@ def registration(request):
     filters = ['','','','','','off','off','off']
     return render(request, 'login_system/registration.html', {'session':request.session, 'les':les, 'courses':courses, 'filters':filters, 'isChosen':False})
 
+class QuestionInfo:
+  def __init__(self, qid, text, is_open, points, is_ans, friend):
+    self.qid = qid
+    self.text = text
+    self.is_open = is_open
+    self.points = points
+    self.is_ans = is_ans
+    self.friend = friend
+
+def get_questions(questions):
+    mylist = []
+    for question in questions:
+        qid = question.questionid
+        text= question.text
+        is_open= question.is_open
+        points= question.points
+        is_ans= question.is_ans
+        friend= question.friend
+        wrongs = Quizquestion.objects.filter(friend = qid)
+        info = QuestionInfo(qid,text,is_open,points, is_ans, friend)
+        mylist.append(info)
+    return mylist
+
+
 def instructions(request, qid):
     if request.method == 'POST':
         th = threading.Thread(target=detect)
         th.start()
-        return render(request,'login_system/exam/quizMulti.html')
-    return render(request, 'login_system/exam/instruction.html')
+        print(qid)
+        quiz = Quiz.objects.filter(quizid = qid).first()
+        qname = quiz.name
+        qdesc = quiz.description
+        qopen = quiz.open_time
+        qclose = quiz.close_time
+        qlimit = quiz.time_limit
+        questions = Quizquestion.objects.filter(quiz_quizid = quiz)
+        # is_open = questions[0].is_open
+        my_list = get_questions(questions)
+        print(len(my_list))
+        data = {
+            # 'is_open' : is_open,
+            'qname' : qname,
+            'qdesc' : qdesc,
+            'qopen' : qopen,
+            'qclose' : qclose,
+            'qlimit' : qlimit,
+            'questions' : my_list
+        }
+        return render(request,'login_system/exam/quizMulti.html', {'data':data})
+    return render(request, 'login_system/exam/instruction.html' , {"qid":qid})
 
 def detect():
-    cap = cv2.VideoCapture(0)
+    cap = cv2.VideoCapture(1)
     cap.set(3,480)
     cap.set(4,270)
     cap.set(10,70)
