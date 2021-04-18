@@ -22,7 +22,7 @@ from wsgiref.util import FileWrapper
 import pdfkit 
 import threading
 import numpy as np
-import cv2
+# import cv2
 noadmin_required = user_passes_test(lambda user: user.role == 'student' or user.role == 'instructor', login_url='/')
 def noadmin_required(view_func):
     decorated_view_func = login_required(noadmin_required(view_func))
